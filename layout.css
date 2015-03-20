@@ -1,0 +1,11 @@
+#create-wf {
+}
+#wf-container {
+    background-color: #AFEEEE;
+    padding: 50px;
+    text-align: center;
+    display: none;
+}
+#status.error {
+    color: red;
+}
