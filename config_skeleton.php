@@ -1,7 +1,7 @@
 <?php
 // server url
-define("APP_URL","http://localhost/bt_wireframes/");
+define("APP_URL","");
 // home path
-define("APP_PATH","V:\\wamp\\www\\bt_wireframes\\");
+define("APP_PATH","");
 // phantomjs path
-define("PHANTOM_PATH","V:\\phantom\\phantomjs");
+define("PHANTOM_PATH","");
