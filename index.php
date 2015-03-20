@@ -9,7 +9,6 @@
 </head>
 <body>
 <h1>Tvorba wireframu</h1>
-<span>Jan Bareš, 2015</span>
 <h3>Příklady wireframů:</h3>
 <ul>
     <li><a href="?url=novinky.cz">novinky.cz</a></li>
