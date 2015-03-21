@@ -44,6 +44,9 @@ jQuery.expr[":"].visibleElement = function(elem) {
 jQuery.expr[":"].block = function(elem) {
     return $(elem).css("display") === "block";
 };
+jQuery.expr[":"].displayNone = function(elem) {
+    return $(elem).css("display") === "none";
+};
 
 function processImg(img, wireframeContainer){
     dump(img);
@@ -85,10 +88,12 @@ function processOneLineText(elm, wireframeContainer){
     copyCss(elm,spanWF,"line-height");
     copyCss(elm,spanWF,"text-align");
 
+    //spanWF.css("word-wrap","break-word");
     //console.log(elm.css("font-size"));
 
 
     //console.log(elm.text().length);
+    var trim = /*elm.text().length <= 10*/true;
     spanWF.lorem({type:"characters",amount:elm.text().length,trim:true});
 
 

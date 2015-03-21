@@ -16,7 +16,9 @@
 
             //console.log(jq.attr("id"));
 
-            if(jq.is("script")){
+            if(jq.is(":displayNone")){
+                walkChilds = false;
+            }else if(jq.is("script")){
                 walkChilds = false;
             }
             else if(jq.is("iframe")){
