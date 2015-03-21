@@ -8,6 +8,9 @@ var srvUrl = system.args[3];
 page.onConsoleMessage = function(msg) {
     console.log(msg);
 };
+page.onAlert  = function(msg) {
+    console.log(msg);
+};
 
 page.onResourceError = function(trace){
     console.log(JSON.stringify(trace));
