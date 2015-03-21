@@ -23,8 +23,15 @@
         lorem[8] ="Morbi leo mi, nonummy eget, tristique non, rhoncus non, leo. Nullam faucibus mi quis velit. Integer in sapien. Fusce tellus odio, dapibus id, fermentum quis, suscipit id, erat. Fusce aliquam vestibulum ipsum. Aliquam erat volutpat. Pellentesque sapien. Cras elementum. Nulla pulvinar eleifend sem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque porta. Vivamus porttitor turpis ac leo.";
         lorem[9] ="Maecenas ipsum velit, consectetuer eu, lobortis ut, dictum at, dui. In rutrum. Sed ac dolor sit amet purus malesuada congue. In laoreet, magna id viverra tincidunt, sem odio bibendum justo, vel imperdiet sapien wisi sed libero. Suspendisse sagittis ultrices augue. Mauris metus. Nunc dapibus tortor vel mi dapibus sollicitudin. Etiam posuere lacus quis dolor. Praesent id justo in neque elementum ultrices. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. In convallis. Fusce suscipit libero eget elit. Praesent vitae arcu tempor neque lacinia pretium. Morbi imperdiet, mauris ac auctor dictum, nisl ligula egestas nulla, et sollicitudin sem purus in lacus.";
         lorem[10] ="Aenean placerat. In vulputate urna eu arcu. Aliquam erat volutpat. Suspendisse potenti. Morbi mattis felis at nunc. Duis viverra diam non justo. In nisl. Nullam sit amet magna in magna gravida vehicula. Mauris tincidunt sem sed arcu. Nunc posuere. Nullam lectus justo, vulputate eget, mollis sed, tempor sed, magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam neque. Curabitur ligula sapien, pulvinar a, vestibulum quis, facilisis vel, sapien. Nullam eget nisl. Donec vitae arcu.";
+
         function makeipsum(){
             var ipsum_text = "";
+            if(options.trim){
+                for(var i = 1;i<=10;i++){
+                    lorem[i] = lorem[i].replace(/ /g,"");
+                    lorem[i] = lorem[i].replace(/\./g,"");
+                }
+            }
             for (var i = 0; i < howmany; i++){
                 rnd_number=Math.floor(Math.random()*diff + min_num);
                 if(options.ptags==true){
@@ -35,12 +42,6 @@
                     ipsum_text+="</p>";
                 }
                 ipsum_text+="\n\n";
-            }
-            if(options.trim){
-                for(var i = 1;i<=10;i++){
-                    lorem[i] = lorem[i].replace(/ /g,"");
-                    lorem[i] = lorem[i].replace(/\./g," ");
-                }
             }
             switch(opts.type) {
                 case "words":{
@@ -69,18 +70,13 @@
                 }
                 case 'characters':
                 {
-                    var outputString = '';
                     var numOfChars = opts.amount;
                     numOfChars = parseInt( numOfChars );
-                    var tempString = lorem.join( "\n\n" );
-                    while(outputString.length <= numOfChars ){
-                        outputString += tempString;
+                    var outputString = ipsum_text;
+                    while(outputString.length < numOfChars){
+                        outputString += ipsum_text;
                     }
-                    ipsum_text = outputString.substring(0, numOfChars+2 );
-                    break;
-                }
-                case 'paragraphs':{
-                    ///no action needed
+                    ipsum_text = outputString.substring(0, numOfChars);
                     break;
                 }
             }
@@ -92,7 +88,6 @@
             $this = $(this);
             var markup = makeipsum();
             $this.html(markup);
-
         });
     };
 
