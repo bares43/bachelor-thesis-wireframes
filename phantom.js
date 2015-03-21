@@ -18,7 +18,7 @@ page.onResourceError = function(trace){
 
 var includeJsUrls = ["https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js",srvUrl+"jquery.lorem.js",srvUrl+"wireframe.js"];
 
-page.viewportSize = {height:768,width:1366};
+page.viewportSize = {width:1280,height:720};
 
 page.settings.localToRemoteUrlAccessEnabled = true;
 page.open(url, function(status) {
