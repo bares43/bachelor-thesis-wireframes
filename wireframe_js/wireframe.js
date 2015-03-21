@@ -14,7 +14,7 @@ var Wireframe = {
             for(var i = 0;i<length;++i){
                 var type = Wireframe.elementTypes[i];
                 if(jq.is(":is"+type)){
-                    Wireframe["process"+type](jq);
+                    walkChilds = Wireframe["process"+type](jq);
                     break;
                 }
             }
