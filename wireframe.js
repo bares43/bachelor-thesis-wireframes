@@ -3,37 +3,21 @@ function copyCss(from, to, rule) {
 }
 
 var Wireframe = {
+    elementTypes: [ "FormSelect", "FormTextarea", "FormRadio", "FormCheckbox", "FormFile", "FormButton", "FormRange", "FormInput", "Slider", "Iframe", "Image", "OneLineText" ],
     walk: function(node) {
         var jq = $(node);
         var walkChilds = true;
-        if (jq.is(":displayNone")) {
+        if (jq.is(":displayNone") || jq.is("script")) {
             walkChilds = false;
-        } else if (jq.is("script")) {
-            walkChilds = false;
-        } else if (jq.is(":isIframe")) {
-            walkChilds = Wireframe.processIframe(jq);
-        } else if (jq.is("select:isFormSelect")) {
-            walkChilds = Wireframe.processFormSelect(jq);
-        } else if (jq.is("textarea:isFormTextarea")) {
-            walkChilds = Wireframe.processFormTextarea(jq);
-        } else if (jq.is("input:isFormRadio")) {
-            walkChilds = Wireframe.processFormRadio(jq);
-        } else if (jq.is("input:isFormCheckbox")) {
-            walkChilds = Wireframe.processFormCheckbox(jq);
-        } else if (jq.is("input:isFormFile")) {
-            walkChilds = Wireframe.processFormFile(jq);
-        } else if (jq.is(":isFormButton")) {
-            walkChilds = Wireframe.processFormButton(jq);
-        } else if (jq.is("input:isFormRange")) {
-            walkChilds = Wireframe.processFormRange(jq);
-        } else if (jq.is("input:isFormInput")) {
-            walkChilds = Wireframe.processFormInput(jq);
-        } else if (jq.is(":isSlider")) {
-            walkChilds = Wireframe.processSlider(jq);
-        } else if (jq.is(":isImage")) {
-            walkChilds = Wireframe.processImage(jq);
-        } else if (jq.is(":isOneLineText")) {
-            walkChilds = Wireframe.processOneLineText(jq);
+        } else {
+            var length = Wireframe.elementTypes.length;
+            for (var i = 0; i < length; ++i) {
+                var type = Wireframe.elementTypes[i];
+                if (jq.is(":is" + type)) {
+                    Wireframe["process" + type](jq);
+                    break;
+                }
+            }
         }
         if (walkChilds) {
             var childrens = jq.children();
@@ -42,7 +26,7 @@ var Wireframe = {
             });
         }
     },
-    wireframeContainer: $(""),
+    wireframeContainer: "",
     run: function(element, options) {
         var container = $(element);
         if (container.is(document)) {
