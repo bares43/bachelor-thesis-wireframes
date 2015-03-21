@@ -48,9 +48,12 @@ jQuery.expr[":"].displayNone = function(elem) {
     return $(elem).css("display") === "none";
 };
 
-function processImg(img, wireframeContainer){
-    dump(img);
+// one line text
+jQuery.expr[":"].isImage = function(elem) {
+    return $(elem).is("img:visibleElement");
+};
 
+Wireframe.processImage = function(img){
     var imgWF = $("<div />");
 
     //imgWF.css("display","block");
@@ -67,9 +70,15 @@ function processImg(img, wireframeContainer){
     imgWF.css("left",img.offset().left+"px");
 
     imgWF.appendTo(wireframeContainer);
-}
+    return false;
+};
 
-function processOneLineText(elm, wireframeContainer){
+// one line text
+jQuery.expr[":"].isOneLineText = function(elem) {
+    return $(elem).is("span:noChild") || $(elem).is("a:noChild");
+};
+
+Wireframe.processOneLineText = function(elm){
     //dump(elm);
 
     var spanWF = $("<div />");
@@ -88,16 +97,17 @@ function processOneLineText(elm, wireframeContainer){
     copyCss(elm,spanWF,"line-height");
     copyCss(elm,spanWF,"text-align");
 
-    //spanWF.css("word-wrap","break-word");
+    spanWF.css("word-wrap","break-word");
     //console.log(elm.css("font-size"));
 
 
     //console.log(elm.text().length);
-    var trim = /*elm.text().length <= 10*/true;
-    spanWF.lorem({type:"characters",amount:elm.text().length,trim:true});
+    var trim = elm.text().length <= 10;
+    spanWF.lorem({type:"characters",amount:elm.text().length,trim:trim});
 
+    //spanWF.text(elm.text().length);
 
-    //spanWF.text(elm.text());
+    //spanWF.text(/*elm.text()+" "+*/elm.css("font-size"));
 
     spanWF.css("height",elm.height()+"px");
     spanWF.css("width",elm.width()+"px");
@@ -106,8 +116,15 @@ function processOneLineText(elm, wireframeContainer){
     spanWF.css("left",elm.offset().left+"px");
 
     spanWF.appendTo(wireframeContainer);
-}
-function processIframe(iframe, wireframeContainer){
+    return false;
+};
+
+// iframe
+jQuery.expr[":"].isIframe = function(elem) {
+    return $(elem).is("iframe");
+};
+
+Wireframe.processIframe = function(iframe){
     var iframeWf = $("<div />");
 
     iframeWf.css("position","absolute");
@@ -123,4 +140,5 @@ function processIframe(iframe, wireframeContainer){
     //}
 
     iframeWf.appendTo(wireframeContainer);
+    return false;
 }

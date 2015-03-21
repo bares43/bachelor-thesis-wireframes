@@ -18,21 +18,19 @@ page.onResourceError = function(trace){
 
 var includeJsUrls = ["https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js",srvUrl+"jquery.lorem.js",srvUrl+"wireframe.js"];
 
-page.viewportSize = {height:300,width:900};
+page.viewportSize = {height:768,width:1366};
 
 page.settings.localToRemoteUrlAccessEnabled = true;
 page.open(url, function(status) {
     if ( status === "success" ) {
         includeJs(includeJsUrls, page, function() {
-            //window.setTimeout(function(){
-                page.evaluate(function() {
-                    $(document).wireframe({
-                        srvUrl: "http://localhost/bt_wireframes"
-                    });
+            page.evaluate(function() {
+                $(document).wireframe({
+                    srvUrl: "http://localhost/bt_wireframes"
                 });
-                page.render(filename);
-                phantom.exit();
-            //},30000);
+            });
+            page.render(filename);
+            phantom.exit();
         });
     }else{
         phantom.exit();

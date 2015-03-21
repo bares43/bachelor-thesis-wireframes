@@ -15,7 +15,7 @@ jQuery.expr[":"].isSlider = function(elem) {
     return isSlider;
 };
 
-function processSlider(slider, wireframeContainer){
+Wireframe.processSlider = function(slider){
     var sliderWf = $("<div />");
 
     sliderWf.css("position","absolute");
@@ -30,5 +30,5 @@ function processSlider(slider, wireframeContainer){
     sliderWf.css("left",slider.offset().left+"px");
 
     sliderWf.appendTo(wireframeContainer);
-
-}
+    return false;
+};
