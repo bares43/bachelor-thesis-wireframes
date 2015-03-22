@@ -1,22 +1,15 @@
-function copyCss(from, to, rule) {
-    to.css(rule, from.css(rule));
-}
-
 var Wireframe = {
-    elementTypes: [ "FormSelect", "FormTextarea", "FormRadio", "FormCheckbox", "FormFile", "FormButton", "FormRange", "FormInput", "Slider", "Iframe", "Image", "OneLineText" ],
+    elementTypes: [ "DoNothing", "FormSelect", "FormTextarea", "FormRadio", "FormCheckbox", "FormFile", "FormButton", "FormRange", "FormInput", "Slider", "Iframe", "Image", "OneLineText" ],
+    wireframeContainer: "",
     walk: function(node) {
         var jq = $(node);
         var walkChilds = true;
-        if (jq.is(":displayNone") || jq.is("script")) {
-            walkChilds = false;
-        } else {
-            var length = Wireframe.elementTypes.length;
-            for (var i = 0; i < length; ++i) {
-                var type = Wireframe.elementTypes[i];
-                if (jq.is(":is" + type)) {
-                    walkChilds = Wireframe["process" + type](jq);
-                    break;
-                }
+        var length = Wireframe.elementTypes.length;
+        for (var i = 0; i < length; ++i) {
+            var type = Wireframe.elementTypes[i];
+            if (jq.is(":is" + type)) {
+                walkChilds = Wireframe["process" + type](jq);
+                break;
             }
         }
         if (walkChilds) {
@@ -26,7 +19,19 @@ var Wireframe = {
             });
         }
     },
-    wireframeContainer: "",
+    copyCss: function(from, to, rule) {
+        to.css(rule, from.css(rule));
+    },
+    basePosition: function(el, original) {
+        el.css("position", "absolute");
+        el.css("top", original.offset().top + "px");
+        el.css("left", original.offset().left + "px");
+        el.css("width", original.width() + "px");
+        el.css("height", original.height() + "px");
+    },
+    append: function(element) {
+        wireframeContainer.append(element);
+    },
     run: function(element, options) {
         var container = $(element);
         if (container.is(document)) {
@@ -73,12 +78,12 @@ var Wireframe = {
     window.isVisible = isVisible;
 }).call(this);
 
-jQuery.expr[":"].noChild = function(elem) {
-    return jQuery(elem).children().length == 0 && isVisible(elem);
-};
-
 jQuery.expr[":"].visibleElement = function(elem) {
     return isVisible(elem);
+};
+
+jQuery.expr[":"].noChild = function(elem) {
+    return jQuery(elem).children().length == 0 && $(elem).is(":visibleElement");
 };
 
 jQuery.expr[":"].block = function(elem) {
@@ -89,6 +94,18 @@ jQuery.expr[":"].displayNone = function(elem) {
     return $(elem).css("display") === "none";
 };
 
+jQuery.expr[":"].toSmall = function(elem) {
+    return $(elem).width() < 2 && $(elem).height() < 2;
+};
+
+jQuery.expr[":"].isDoNothing = function(elem) {
+    return $(elem).is(":displayNone") || $(elem).is(":toSmall") || $(elem).is("script");
+};
+
+Wireframe.processDoNothing = function() {
+    return false;
+};
+
 jQuery.expr[":"].isImage = function(elem) {
     return $(elem).is("img:visibleElement");
 };
@@ -97,11 +114,8 @@ Wireframe.processImage = function(img) {
     var imgWF = $("<div />");
     imgWF.css("position", "absolute");
     imgWF.css("background-color", "#d7d7d7");
-    imgWF.css("height", img.height() + "px");
-    imgWF.css("width", img.width() + "px");
-    imgWF.css("top", img.offset().top + "px");
-    imgWF.css("left", img.offset().left + "px");
-    imgWF.appendTo(wireframeContainer);
+    Wireframe.basePosition(imgWF, img);
+    Wireframe.append(imgWF);
     return false;
 };
 
@@ -112,16 +126,15 @@ jQuery.expr[":"].isOneLineText = function(elem) {
 Wireframe.processOneLineText = function(elm) {
     var spanWF = $("<div />");
     spanWF.css("display", "block");
-    spanWF.css("position", "absolute");
     spanWF.css("font-size", elm.css("font-size"));
     spanWF.css("font-family", elm.css("font-family"));
     spanWF.css("font-weight", elm.css("font-weight"));
     spanWF.css("line-height", elm.css("line-height"));
-    copyCss(elm, spanWF, "font-size");
-    copyCss(elm, spanWF, "font-family");
-    copyCss(elm, spanWF, "font-weight");
-    copyCss(elm, spanWF, "line-height");
-    copyCss(elm, spanWF, "text-align");
+    Wireframe.copyCss(elm, spanWF, "font-size");
+    Wireframe.copyCss(elm, spanWF, "font-family");
+    Wireframe.copyCss(elm, spanWF, "font-weight");
+    Wireframe.copyCss(elm, spanWF, "line-height");
+    Wireframe.copyCss(elm, spanWF, "text-align");
     spanWF.css("word-wrap", "break-word");
     var trim = elm.text().length <= 10;
     spanWF.lorem({
@@ -129,11 +142,8 @@ Wireframe.processOneLineText = function(elm) {
         amount: elm.text().length,
         trim: trim
     });
-    spanWF.css("height", elm.height() + "px");
-    spanWF.css("width", elm.width() + "px");
-    spanWF.css("top", elm.offset().top + "px");
-    spanWF.css("left", elm.offset().left + "px");
-    spanWF.appendTo(wireframeContainer);
+    Wireframe.basePosition(spanWF, elm);
+    Wireframe.append(spanWF);
     return false;
 };
 
@@ -143,13 +153,9 @@ jQuery.expr[":"].isIframe = function(elem) {
 
 Wireframe.processIframe = function(iframe) {
     var iframeWf = $("<div />");
-    iframeWf.css("position", "absolute");
-    iframeWf.css("height", iframe.height() + "px");
-    iframeWf.css("width", iframe.width() + "px");
-    iframeWf.css("top", iframe.offset().top + "px");
-    iframeWf.css("left", iframe.offset().left + "px");
     iframeWf.css("background-color", "#d7d7d7");
-    iframeWf.appendTo(wireframeContainer);
+    Wireframe.basePosition(iframeWf, iframe);
+    Wireframe.append(iframeWf);
     return false;
 };
 
@@ -170,18 +176,16 @@ jQuery.expr[":"].isSlider = function(elem) {
 
 Wireframe.processSlider = function(slider) {
     var sliderWf = $("<div />");
-    sliderWf.css("position", "absolute");
     sliderWf.css("background-color", "#d7d7d7");
+    Wireframe.basePosition(sliderWf, slider);
     sliderWf.css("height", slider.find("li").height() + "px");
     sliderWf.css("width", slider.find("li").width() + "px");
-    sliderWf.css("top", slider.offset().top + "px");
-    sliderWf.css("left", slider.offset().left + "px");
-    sliderWf.appendTo(wireframeContainer);
+    Wireframe.append(sliderWf);
     return false;
 };
 
 jQuery.expr[":"].isFormRadio = function(elem) {
-    return isVisible(elem) && $(elem).is("[type=radio]");
+    return $(elem).is(":visibleElement") && $(elem).is("[type=radio]");
 };
 
 Wireframe.processFormRadio = function(radio) {
@@ -190,17 +194,13 @@ Wireframe.processFormRadio = function(radio) {
     if (radio.is(":checked")) {
         radioWf.attr("checked", "checked");
     }
-    radioWf.css("position", "absolute");
-    radioWf.css("top", radio.offset().top + "px");
-    radioWf.css("left", radio.offset().left + "px");
-    radioWf.css("width", radio.width() + "px");
-    radioWf.css("height", radio.height() + "px");
-    radioWf.appendTo(wireframeContainer);
+    Wireframe.basePosition(radioWf, radio);
+    Wireframe.append(radioWf);
     return false;
 };
 
 jQuery.expr[":"].isFormCheckbox = function(elem) {
-    return isVisible(elem) && $(elem).is("[type=checkbox]");
+    return $(elem).is(":visibleElement") && $(elem).is("[type=checkbox]");
 };
 
 Wireframe.processFormCheckbox = function(checkbox) {
@@ -209,82 +209,62 @@ Wireframe.processFormCheckbox = function(checkbox) {
     if (checkbox.is(":checked")) {
         checkboxWf.attr("checked", "checked");
     }
-    checkboxWf.css("position", "absolute");
-    checkboxWf.css("top", checkbox.offset().top + "px");
-    checkboxWf.css("left", checkbox.offset().left + "px");
-    checkboxWf.css("width", checkbox.width() + "px");
-    checkboxWf.css("height", checkbox.height() + "px");
-    checkboxWf.appendTo(wireframeContainer);
+    Wireframe.basePosition(checkboxWf, checkbox);
+    Wireframe.append(checkboxWf);
     return false;
 };
 
 jQuery.expr[":"].isFormFile = function(elem) {
-    return isVisible(elem) && $(elem).is("[type=file]");
+    return $(elem).is(":visibleElement") && $(elem).is("[type=file]");
 };
 
 Wireframe.processFormFile = function(file) {
     var fileWf = $("<input />");
     fileWf.attr("type", "file");
-    fileWf.css("position", "absolute");
-    fileWf.css("top", file.offset().top + "px");
-    fileWf.css("left", file.offset().left + "px");
-    fileWf.css("width", file.width() + "px");
-    fileWf.css("height", file.height() + "px");
-    fileWf.appendTo(wireframeContainer);
+    Wireframe.basePosition(fileWf, file);
+    Wireframe.append(fileWf);
     return false;
 };
 
 jQuery.expr[":"].isFormButton = function(elem) {
-    return isVisible(elem) && ($(elem).is("[type=submit]") || $(elem).is("[type=reset]") || $(elem).is("[type=image]") || $(elem).is("button"));
+    return $(elem).is(":visibleElement") && ($(elem).is("[type=submit]") || $(elem).is("[type=reset]") || $(elem).is("[type=image]") || $(elem).is("button"));
 };
 
 Wireframe.processFormButton = function(button) {
     var buttonWf = $("<input />");
     buttonWf.attr("type", "submit");
     buttonWf.attr("value", "");
-    buttonWf.css("position", "absolute");
-    buttonWf.css("top", button.offset().top + "px");
-    buttonWf.css("left", button.offset().left + "px");
-    buttonWf.css("width", button.width() + "px");
-    buttonWf.css("height", button.height() + "px");
-    buttonWf.appendTo(wireframeContainer);
+    Wireframe.basePosition(buttonWf, button);
+    Wireframe.append(buttonWf);
     return false;
 };
 
 jQuery.expr[":"].isFormRange = function(elem) {
-    return isVisible(elem) && $(elem).is("[type=range]");
+    return $(elem).is(":visibleElement") && $(elem).is("[type=range]");
 };
 
 Wireframe.processFormRange = function(input) {
     var inputWf = $("<input />");
     inputWf.attr("type", "range");
-    inputWf.css("position", "absolute");
-    inputWf.css("top", input.offset().top + "px");
-    inputWf.css("left", input.offset().left + "px");
-    inputWf.css("width", input.width() + "px");
-    inputWf.css("height", input.height() + "px");
-    inputWf.appendTo(wireframeContainer);
+    Wireframe.basePosition(inputWf, input);
+    Wireframe.append(inputWf);
     return false;
 };
 
 jQuery.expr[":"].isFormInput = function(elem) {
-    return isVisible(elem) && $(elem).is("input") && !$(elem).is("[type=hidden]") && !$(elem).is(":isFormRadio") && !$(elem).is(":isFormCheckbox") && !$(elem).is(":isFormFile") && !$(elem).is(":isFormButton") && !$(elem).is(":isFormRange");
+    return $(elem).is(":visibleElement") && $(elem).is("input") && !$(elem).is("[type=hidden]") && !$(elem).is(":isFormRadio") && !$(elem).is(":isFormCheckbox") && !$(elem).is(":isFormFile") && !$(elem).is(":isFormButton") && !$(elem).is(":isFormRange");
 };
 
 Wireframe.processFormInput = function(input) {
     var inputWf = $("<input />");
     inputWf.attr("type", "text");
-    inputWf.css("position", "absolute");
-    inputWf.css("top", input.offset().top + "px");
-    inputWf.css("left", input.offset().left + "px");
-    inputWf.css("width", input.width() + "px");
-    inputWf.css("height", input.height() + "px");
-    inputWf.appendTo(wireframeContainer);
+    Wireframe.basePosition(inputWf, input);
+    Wireframe.append(inputWf);
     return false;
 };
 
 jQuery.expr[":"].isFormSelect = function(elem) {
-    return isVisible(elem) && $(elem).is("select");
+    return $(elem).is(":visibleElement") && $(elem).is("select");
 };
 
 Wireframe.processFormSelect = function(select) {
@@ -292,27 +272,19 @@ Wireframe.processFormSelect = function(select) {
     if (select.is("[multiple]")) {
         selectWf.attr("multiple", "multiple");
     }
-    selectWf.css("position", "absolute");
-    selectWf.css("top", select.offset().top + "px");
-    selectWf.css("left", select.offset().left + "px");
-    selectWf.css("width", select.width() + "px");
-    selectWf.css("height", select.height() + "px");
-    selectWf.appendTo(wireframeContainer);
+    Wireframe.basePosition(selectWf, select);
+    Wireframe.append(selectWf);
     return false;
 };
 
 jQuery.expr[":"].isFormTextarea = function(elem) {
-    return isVisible(elem) && $(elem).is("textarea");
+    return $(elem).is(":visibleElement") && $(elem).is("textarea");
 };
 
 Wireframe.processFormTextarea = function(textarea) {
     var textareaWf = $("<textarea />");
-    textareaWf.css("position", "absolute");
-    textareaWf.css("top", textarea.offset().top + "px");
-    textareaWf.css("left", textarea.offset().left + "px");
-    textareaWf.css("width", textarea.width() + "px");
-    textareaWf.css("height", textarea.height() + "px");
-    textareaWf.appendTo(wireframeContainer);
+    Wireframe.basePosition(textareaWf, textarea);
+    Wireframe.append(textareaWf);
     return false;
 };
 

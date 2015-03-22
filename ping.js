@@ -25,7 +25,7 @@ page.onError = function(msg, trace) {
 
 page.onResourceError = function(trace){
     console.log(JSON.stringify(trace));
-}
+};
 
 
 page.open(url, function(status) {

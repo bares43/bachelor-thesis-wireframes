@@ -18,17 +18,16 @@ jQuery.expr[":"].isSlider = function(elem) {
 Wireframe.processSlider = function(slider){
     var sliderWf = $("<div />");
 
-    sliderWf.css("position","absolute");
     sliderWf.css("background-color","#d7d7d7");
-    sliderWf.css("height",slider.find("li").height()+"px");
-    sliderWf.css("width",slider.find("li").width()+"px");
 
     //var img = slider.find("img");
     //sliderWf.css("background-image","url('"+img.attr("src")+"')");
 
-    sliderWf.css("top",slider.offset().top+"px");
-    sliderWf.css("left",slider.offset().left+"px");
 
-    sliderWf.appendTo(wireframeContainer);
+    Wireframe.basePosition(sliderWf, slider);
+    sliderWf.css("height",slider.find("li").height()+"px");
+    sliderWf.css("width",slider.find("li").width()+"px");
+    Wireframe.append(sliderWf);
+
     return false;
 };

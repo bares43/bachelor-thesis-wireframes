@@ -1,22 +1,19 @@
 var Wireframe = {
 
-    elementTypes: ["FormSelect", "FormTextarea", "FormRadio", "FormCheckbox", "FormFile", "FormButton", "FormRange", "FormInput", "Slider", "Iframe", "Image", "OneLineText"],
+    elementTypes: ["DoNothing","FormSelect", "FormTextarea", "FormRadio", "FormCheckbox", "FormFile", "FormButton", "FormRange", "FormInput", "Slider", "Iframe", "Image", "OneLineText"],
+
+    wireframeContainer:"",
 
     walk: function (node) {
         var jq = $(node);
         var walkChilds = true;
 
-        if (jq.is(":displayNone") || jq.is("script")) {
-            walkChilds = false;
-        }
-        else {
-            var length = Wireframe.elementTypes.length;
-            for(var i = 0;i<length;++i){
-                var type = Wireframe.elementTypes[i];
-                if(jq.is(":is"+type)){
-                    walkChilds = Wireframe["process"+type](jq);
-                    break;
-                }
+        var length = Wireframe.elementTypes.length;
+        for(var i = 0;i<length;++i){
+            var type = Wireframe.elementTypes[i];
+            if(jq.is(":is"+type)){
+                walkChilds = Wireframe["process"+type](jq);
+                break;
             }
         }
 
@@ -28,14 +25,27 @@ var Wireframe = {
         }
     },
 
-    wireframeContainer:"",
+    copyCss: function(from, to, rule){
+        to.css(rule,from.css(rule));
+    },
+
+    basePosition: function(el, original){
+        el.css("position", "absolute");
+        el.css("top", original.offset().top + "px");
+        el.css("left", original.offset().left + "px");
+        el.css("width", original.width() + "px");
+        el.css("height", original.height() + "px");
+    },
+
+    append : function(element){
+        wireframeContainer.append(element);
+    },
 
     run: function (element, options) {
 
         var container = $(element);
         if (container.is(document)) {
-            //var webContainer = $("body");
-            //
+
             wireframeContainer = $("<div />").css("position", "relative");
 
 

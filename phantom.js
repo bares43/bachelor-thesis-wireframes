@@ -11,7 +11,6 @@ page.onConsoleMessage = function(msg) {
 page.onAlert  = function(msg) {
     console.log(msg);
 };
-
 page.onResourceError = function(trace){
     console.log(JSON.stringify(trace));
 };

@@ -35,17 +35,31 @@
     window.isVisible = isVisible;
 }).call(this);
 
-jQuery.expr[":"].noChild = function(elem) {
-    return jQuery(elem).children().length == 0 && isVisible(elem);
-};
 jQuery.expr[":"].visibleElement = function(elem) {
     return isVisible(elem);
+};
+
+jQuery.expr[":"].noChild = function(elem) {
+    return jQuery(elem).children().length == 0 && $(elem).is(":visibleElement");
 };
 jQuery.expr[":"].block = function(elem) {
     return $(elem).css("display") === "block";
 };
 jQuery.expr[":"].displayNone = function(elem) {
     return $(elem).css("display") === "none";
+};
+jQuery.expr[":"].toSmall = function(elem) {
+    return $(elem).width() < 2 && $(elem).height() < 2;
+};
+
+// dont process
+jQuery.expr[":"].isDoNothing = function(elem){
+    return $(elem).is(":displayNone") || $(elem).is(":toSmall") || $(elem).is("script");
+};
+
+Wireframe.processDoNothing = function(){
+    // dont walk childs
+    return false;
 };
 
 // one line text
@@ -63,13 +77,10 @@ Wireframe.processImage = function(img){
 
     //imgWF.css("background-image","url('"+img.attr("src")+"')");
 
-    imgWF.css("height",img.height()+"px");
-    imgWF.css("width",img.width()+"px");
 
-    imgWF.css("top",img.offset().top+"px");
-    imgWF.css("left",img.offset().left+"px");
+    Wireframe.basePosition(imgWF, img);
+    Wireframe.append(imgWF);
 
-    imgWF.appendTo(wireframeContainer);
     return false;
 };
 
@@ -84,18 +95,17 @@ Wireframe.processOneLineText = function(elm){
     var spanWF = $("<div />");
 
     spanWF.css("display","block");
-    spanWF.css("position","absolute");
 
     spanWF.css("font-size",elm.css("font-size"));
     spanWF.css("font-family",elm.css("font-family"));
     spanWF.css("font-weight",elm.css("font-weight"));
     spanWF.css("line-height",elm.css("line-height"));
 
-    copyCss(elm,spanWF,"font-size");
-    copyCss(elm,spanWF,"font-family");
-    copyCss(elm,spanWF,"font-weight");
-    copyCss(elm,spanWF,"line-height");
-    copyCss(elm,spanWF,"text-align");
+    Wireframe.copyCss(elm,spanWF,"font-size");
+    Wireframe.copyCss(elm,spanWF,"font-family");
+    Wireframe.copyCss(elm,spanWF,"font-weight");
+    Wireframe.copyCss(elm,spanWF,"line-height");
+    Wireframe.copyCss(elm,spanWF,"text-align");
 
     spanWF.css("word-wrap","break-word");
     //console.log(elm.css("font-size"));
@@ -109,13 +119,9 @@ Wireframe.processOneLineText = function(elm){
 
     //spanWF.text(/*elm.text()+" "+*/elm.css("font-size"));
 
-    spanWF.css("height",elm.height()+"px");
-    spanWF.css("width",elm.width()+"px");
+    Wireframe.basePosition(spanWF, elm);
+    Wireframe.append(spanWF);
 
-    spanWF.css("top",elm.offset().top+"px");
-    spanWF.css("left",elm.offset().left+"px");
-
-    spanWF.appendTo(wireframeContainer);
     return false;
 };
 
@@ -127,11 +133,6 @@ jQuery.expr[":"].isIframe = function(elem) {
 Wireframe.processIframe = function(iframe){
     var iframeWf = $("<div />");
 
-    iframeWf.css("position","absolute");
-    iframeWf.css("height",iframe.height()+"px");
-    iframeWf.css("width",iframe.width()+"px");
-    iframeWf.css("top",iframe.offset().top+"px");
-    iframeWf.css("left",iframe.offset().left+"px");
 
     iframeWf.css("background-color","#d7d7d7");
 
@@ -139,6 +140,8 @@ Wireframe.processIframe = function(iframe){
     //if(/youtube.com/.test(src) || /youtu.be/.test(src)){
     //}
 
-    iframeWf.appendTo(wireframeContainer);
+    Wireframe.basePosition(iframeWf, iframe);
+    Wireframe.append(iframeWf);
+
     return false;
-}
+};
