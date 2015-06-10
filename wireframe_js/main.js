@@ -2,9 +2,12 @@
     $.fn.wireframe = function (options, fn) {
 
         var defaults = {
-            srvUrl: ""
+            srvUrl: "",
+            textMode: ""
         };
-        var options = $.extend(defaults, options);
+        var options = $.extend({},defaults, options);
+
+        console.log(JSON.stringify(options));
 
         return Wireframe.run(this, options);
     };

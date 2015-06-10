@@ -4,6 +4,7 @@ var system = require('system');
 var url = system.args[1];
 var filename = system.args[2];
 var srvUrl = system.args[3];
+var textMode = system.args[4];
 
 page.onConsoleMessage = function(msg) {
     console.log(msg);
@@ -18,19 +19,22 @@ page.onResourceError = function(trace){
 var includeJsUrls = ["https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js",srvUrl+"jquery.lorem.js",srvUrl+"wireframe_combined.js"];
 
 page.viewportSize = {width:1280,height:720};
-
 page.settings.localToRemoteUrlAccessEnabled = true;
 page.open(url, function(status) {
     if ( status === "success" ) {
         includeJs(includeJsUrls, page, function() {
-            page.evaluate(function() {
+            page.evaluate(function(srvUrl,textMode) {
                 $(document).wireframe({
-                    srvUrl: "http://localhost/bt_wireframes"
+                    srvUrl: srvUrl,
+                    textMode: textMode
                 });
-            });
-            console.log(page.content);
-            page.render(filename);
-            phantom.exit();
+            }, srvUrl, textMode);
+            //console.log(page.content);
+
+            setTimeout(function () {
+                page.render(filename);
+                phantom.exit();
+            }, 5000);
         });
     }else{
         phantom.exit();

@@ -16,7 +16,8 @@ function load(){
     $("#status").text("Generování může chvíli trvat.").removeClass("error");
 
     var url = $("input[name=url]").val();
-    $.post("wireframe.php",{url:url},function(response){
+    var textMode = $("input:radio[name=textMode]:checked").val();
+    $.post("wireframe.php",{url:url,textMode:textMode},function(response){
         var json = JSON.parse(response);
 
         wfContainer.html("");

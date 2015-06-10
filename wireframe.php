@@ -9,6 +9,7 @@
 require "config.php";
 
 $url = $_POST["url"];
+$textMode = $_POST["textMode"];
 
 if(!preg_match("/^https?/",$url)){
     $url = "http://" . $url;
@@ -21,9 +22,9 @@ if(filter_var($url,FILTER_VALIDATE_URL)){
     if(checkUrl($url)) {
         preg_match("/^https?:\/\/(.+\.)?(.+)\.(.+)/", $url, $match);
 
-        $filename = "screens/".$match[2] . ".png";
+        $filename = "screens/".$match[2] . "_".time().".png";
 
-        $exec = PHANTOM_PATH." ".APP_PATH."phantom.js $url ".APP_PATH."$filename ".APP_URL;
+        $exec = PHANTOM_PATH." ".APP_PATH."phantom.js $url ".APP_PATH."$filename ".APP_URL." $textMode";
 
         exec($exec);
 

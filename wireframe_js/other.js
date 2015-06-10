@@ -98,10 +98,10 @@ Wireframe.processOneLineText = function(elm, nodeOptions){
 
     spanWF.css("display","block");
 
-    spanWF.css("font-size",elm.css("font-size"));
-    spanWF.css("font-family",elm.css("font-family"));
-    spanWF.css("font-weight",elm.css("font-weight"));
-    spanWF.css("line-height",elm.css("line-height"));
+    //spanWF.css("font-size",elm.css("font-size"));
+    //spanWF.css("font-family",elm.css("font-family"));
+    //spanWF.css("font-weight",elm.css("font-weight"));
+    //spanWF.css("line-height",elm.css("line-height"));
 
     Wireframe.copyCss(elm,spanWF,"font-size");
     Wireframe.copyCss(elm,spanWF,"font-family");
@@ -110,16 +110,21 @@ Wireframe.processOneLineText = function(elm, nodeOptions){
     Wireframe.copyCss(elm,spanWF,"text-align");
 
     spanWF.css("word-wrap","break-word");
-    //console.log(elm.css("font-size"));
 
-
-    //console.log(elm.text().length);
-    var trim = elm.text().length <= 10;
-    spanWF.lorem({type:"characters",amount:elm.text().length,trim:trim});
-
-    //spanWF.text(elm.text().length);
-
-    //spanWF.text(elm.text()/*+" "+elm.css("font-size")*/);
+    switch (Wireframe.wireframeOptions.textMode){
+        case "lorem":
+            var trim = elm.text().length <= 10;
+            spanWF.lorem({type:"characters",amount:elm.text().length,trim:trim});
+            break;
+        case "original":
+            spanWF.text(elm.text());
+            break;
+        case "box":
+            spanWF.css("background-image",'url("'+Wireframe.wireframeOptions.srvUrl+'images/line.png")');
+            Wireframe.copyCss(elm,spanWF,"height");
+            Wireframe.copyCss(elm,spanWF,"width");
+            break;
+    }
 
     if(nodeOptions.position){
         Wireframe.basePosition(spanWF, elm, nodeOptions);

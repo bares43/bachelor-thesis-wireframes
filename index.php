@@ -9,27 +9,37 @@
 </head>
 <body>
 <h1>Tvorba wireframu</h1>
-<h3>Příklady wireframů:</h3>
-<ul>
-    <li><a href="?url=novinky.cz">novinky.cz</a></li>
-    <li><a href="?url=idnes.cz">idnes.cz</a></li>
-    <li><a href="?url=youtube.com">youtube.com</a></li>
-    <li><a href="?url=google.com">google.com</a></li>
-    <li><a href="?url=seznam.cz">seznam.cz</a></li>
-    <li><a href="?url=uhk.cz">uhk.cz</a></li>
-</ul>
-<form>
-    <label>Web: <input name="url" style="width: 300px;"<?php if($_GET["url"]):?> value="<?php echo htmlspecialchars($_GET["url"]);?>"<?endif;?>></label>
-    <input type="submit" id="create-wf" value="Generovat wireframe" />
+
+<div style="float: left;">
+    <h3>Příklady wireframů:</h3>
+    <ul>
+        <li><a href="?url=novinky.cz">novinky.cz</a></li>
+        <li><a href="?url=idnes.cz">idnes.cz</a></li>
+        <li><a href="?url=youtube.com">youtube.com</a></li>
+        <li><a href="?url=google.com">google.com</a></li>
+        <li><a href="?url=seznam.cz">seznam.cz</a></li>
+        <li><a href="?url=uhk.cz">uhk.cz</a></li>
+    </ul>
+</div>
+<div style="float: left">
+    <h3>Nastavení text</h3>
+    <label><input type="radio" name="textMode" value="lorem" checked /> lorem ipsum</label><br />
+    <label><input type="radio" name="textMode" value="original" /> původní text</label><br />
+    <label><input type="radio" name="textMode" value="box" /> šedý box</label>
+</div>
+<form style="clear: both;">
+    <label>Web: <input name="url"
+                       style="width: 300px;"<?php if ($_GET["url"]): ?> value="<?php echo htmlspecialchars($_GET["url"]); ?>"<? endif; ?>></label>
+    <input type="submit" id="create-wf" value="Generovat wireframe"/>
 </form>
 <div id="status"></div>
 <div id="wf-container"></div>
-<?php if($_GET["url"]):?>
+<?php if ($_GET["url"]): ?>
     <script type="text/javascript">
-        $(document).ready(function(){
+        $(document).ready(function () {
             load();
         });
     </script>
-<?php endif;?>
+<?php endif; ?>
 </body>
 </html>

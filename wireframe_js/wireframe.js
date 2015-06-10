@@ -12,6 +12,7 @@ var Wireframe = {
         positionLeftAdd:0
     },
 
+    wireframeOptions:{},
 
     walk: function (node, nodeOptions) {
         var $node = $(node);
@@ -79,6 +80,8 @@ var Wireframe = {
     },
 
     run: function (element, options) {
+
+        Wireframe.wireframeOptions = options;
 
         var container = $(element);
         if (container.is(document)) {
