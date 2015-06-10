@@ -1,6 +1,6 @@
 var Wireframe = {
 
-    elementTypes: ["DoNothing","List","ListItemInline","ListItemChildrens", "FormSelect", "FormTextarea", "FormRadio", "FormCheckbox", "FormFile", "FormButton", "FormRange", "FormInput", "Slider", "Iframe", "Image", "OneLineText"],
+    elementTypes: ["DoNothing","List","ListItemInline","ListItemChildrens","Table","TableRow","TableCellInline","TableCellChildrens", "FormSelect", "FormTextarea", "FormRadio", "FormCheckbox", "FormFile", "FormButton", "FormRange", "FormInput", "Slider", "Iframe", "Image", "OneLineText"],
 
     wireframeContainer:[],
 
@@ -50,6 +50,10 @@ var Wireframe = {
         to.css(rule,from.css(rule));
     },
 
+    copyAttr: function(from, to, name){
+        to.attr(name,from.attr(name));
+    },
+
     basePosition: function(el, original,nodeOptions){
         console.log("top budu pricitat "+nodeOptions.positionTopAdd);
         console.log("left budu pricitat "+nodeOptions.positionLeftAdd);
@@ -66,6 +70,12 @@ var Wireframe = {
 
     getCurrentWireframeContainer : function(){
         return Wireframe.wireframeContainer[Wireframe.wireframeContainer.length-1];
+    },
+
+    setWireframeContainer : function(element){
+        Wireframe.wireframeContainer.push(element);
+        Wireframe.popWireframeContainer.pop();
+        Wireframe.popWireframeContainer.push(true);
     },
 
     run: function (element, options) {

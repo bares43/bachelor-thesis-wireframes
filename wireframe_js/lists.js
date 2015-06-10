@@ -78,9 +78,8 @@ Wireframe.processListItemChildrens = function (listItem, nodeOptions) {
     if (nodeOptions.position) {
         Wireframe.basePosition(li, listItem, nodeOptions);
     }
-    Wireframe.wireframeContainer.push(li);
-    Wireframe.popWireframeContainer.pop();
-    Wireframe.popWireframeContainer.push(true);
+    Wireframe.setWireframeContainer(li);
+
     nodeOptions.positionLeftAdd = -$(listItem).offset().left;
     nodeOptions.positionTopAdd = -$(listItem).offset().top;
     console.log("odecitam top "+$(listItem).offset().top);

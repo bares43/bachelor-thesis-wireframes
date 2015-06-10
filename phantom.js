@@ -28,7 +28,7 @@ page.open(url, function(status) {
                     srvUrl: "http://localhost/bt_wireframes"
                 });
             });
-            //console.log(page.content);
+            console.log(page.content);
             page.render(filename);
             phantom.exit();
         });

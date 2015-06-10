@@ -1,6 +1,6 @@
 var Wireframe = {
 
-    elementTypes: ["DoNothing","List","ListItemInline","ListItemChildrens", "FormSelect", "FormTextarea", "FormRadio", "FormCheckbox", "FormFile", "FormButton", "FormRange", "FormInput", "Slider", "Iframe", "Image", "OneLineText"],
+    elementTypes: ["DoNothing","List","ListItemInline","ListItemChildrens","Table","TableRow","TableCellInline","TableCellChildrens", "FormSelect", "FormTextarea", "FormRadio", "FormCheckbox", "FormFile", "FormButton", "FormRange", "FormInput", "Slider", "Iframe", "Image", "OneLineText"],
 
     wireframeContainer:[],
 
@@ -50,6 +50,10 @@ var Wireframe = {
         to.css(rule,from.css(rule));
     },
 
+    copyAttr: function(from, to, name){
+        to.attr(name,from.attr(name));
+    },
+
     basePosition: function(el, original,nodeOptions){
         console.log("top budu pricitat "+nodeOptions.positionTopAdd);
         console.log("left budu pricitat "+nodeOptions.positionLeftAdd);
@@ -66,6 +70,12 @@ var Wireframe = {
 
     getCurrentWireframeContainer : function(){
         return Wireframe.wireframeContainer[Wireframe.wireframeContainer.length-1];
+    },
+
+    setWireframeContainer : function(element){
+        Wireframe.wireframeContainer.push(element);
+        Wireframe.popWireframeContainer.pop();
+        Wireframe.popWireframeContainer.push(true);
     },
 
     run: function (element, options) {
@@ -357,9 +367,8 @@ Wireframe.processListItemChildrens = function (listItem, nodeOptions) {
     if (nodeOptions.position) {
         Wireframe.basePosition(li, listItem, nodeOptions);
     }
-    Wireframe.wireframeContainer.push(li);
-    Wireframe.popWireframeContainer.pop();
-    Wireframe.popWireframeContainer.push(true);
+    Wireframe.setWireframeContainer(li);
+
     nodeOptions.positionLeftAdd = -$(listItem).offset().left;
     nodeOptions.positionTopAdd = -$(listItem).offset().top;
     console.log("odecitam top "+$(listItem).offset().top);
@@ -367,6 +376,106 @@ Wireframe.processListItemChildrens = function (listItem, nodeOptions) {
     console.log("odecitam left "+$(listItem).offset().left);
     console.log("left je "+nodeOptions.positionLeftAdd);
     nodeOptions.position = true;
+    return {walkChilds: true, nodeOptions: nodeOptions};
+};// table
+jQuery.expr[":"].isTable = function (elem) {
+    return ($(elem).is(":visibleElement") && $(elem).is("table"));
+};
+
+Wireframe.processTable = function (node, nodeOptions) {
+    var $table = $("<table></table>");
+    Wireframe.copyCss(node,$table,"width");
+    Wireframe.copyCss(node,$table,"height");
+    if (nodeOptions.position) {
+        Wireframe.basePosition($table, node, nodeOptions);
+        nodeOptions.positionLeftAdd = -$(node).offset().left;
+        nodeOptions.positionTopAdd = -$(node).offset().top;
+    }
+    Wireframe.copyAttr(node,$table,"border");
+    Wireframe.setWireframeContainer($table);
+    return {walkChilds: true, nodeOptions: nodeOptions};
+};
+
+// tr
+jQuery.expr[":"].isTableRow = function (elem) {
+    return ($(elem).is(":visibleElement") && $(elem).is("tr"));
+};
+
+Wireframe.processTableRow = function (node, nodeOptions) {
+    var $tr = $("<tr></tr>");
+    Wireframe.copyCss(node,$tr,"width");
+    Wireframe.copyCss(node,$tr,"height");
+    Wireframe.setWireframeContainer($tr);
+    return {walkChilds: true, nodeOptions: nodeOptions};
+};
+
+// td/th
+jQuery.expr[":"].isTableCellInline = function (elem) {
+    var isInline = true;
+    if ($(elem).is(":visibleElement") && ($(elem).is("td") || $(elem).is("th"))) {
+        var childrens = $(elem).children();
+        if (childrens.length == 0) return isInline;
+        childrens.each(function (i, v) {
+            if (!$(v).is(":isOneLineText")) {
+                isInline = false;
+            }
+        });
+        return isInline;
+    }
+    return false;
+};
+
+Wireframe.processTableCellInline = function (node, nodeOptions) {
+    if($(node).is("th")){
+        var $cell = $("<th></th>");
+    }else{
+        var $cell = $("<td></td>");
+    }
+    //if (nodeOptions.position) {
+    //    Wireframe.basePosition($cell, node, nodeOptions);
+    //}
+
+    Wireframe.copyAttr(node,$cell,"colspan");
+    Wireframe.copyAttr(node,$cell,"rowspan");
+    Wireframe.copyCss(node,$cell,"width");
+    Wireframe.copyCss(node,$cell,"height");
+    var result = Wireframe.processOneLineText(node, $.extend({},nodeOptions, {position: false}));
+    $cell.html(result.node);
+    Wireframe.append($cell);
+    return {walkChilds: false, nodeOptions:nodeOptions };
+};
+
+// td/th
+jQuery.expr[":"].isTableCellChildrens = function (elem) {
+    var r = true;
+    if ($(elem).is(":visibleElement") && ($(elem).is("td") || $(elem).is("th"))) {
+        var childrens = $(elem).children();
+        if (childrens.length == 0) r = false;
+        return r;
+    }
+    return false;
+};
+
+Wireframe.processTableCellChildrens = function (node, nodeOptions) {
+    if($(node).is("th")){
+        var $cell = $("<th></th>");
+    }else{
+        var $cell = $("<td></td>");
+    }
+
+    //if (nodeOptions.position) {
+    //    Wireframe.basePosition($cell, node, nodeOptions);
+    //}
+
+    Wireframe.copyAttr(node,$cell,"colspan");
+    Wireframe.copyAttr(node,$cell,"rowspan");
+    Wireframe.copyCss(node,$cell,"width");
+    Wireframe.copyCss(node,$cell,"height");
+    Wireframe.setWireframeContainer($cell);
+
+    //nodeOptions.positionLeftAdd = -$(node).offset().left;
+    //nodeOptions.positionTopAdd = -$(node).offset().top;
+    nodeOptions.position = false;
     return {walkChilds: true, nodeOptions: nodeOptions};
 };// input type radio
 jQuery.expr[":"].isFormRadio = function (elem) {
