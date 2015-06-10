@@ -2,43 +2,70 @@ var Wireframe = {
 
     elementTypes: ["DoNothing","FormSelect", "FormTextarea", "FormRadio", "FormCheckbox", "FormFile", "FormButton", "FormRange", "FormInput", "Slider", "Iframe", "Image", "OneLineText"],
 
-    wireframeContainer:"",
+    wireframeContainer:[],
 
-    walk: function (node) {
-        var jq = $(node);
+    popWireframeContainer:[],
+
+    defaultNodeOptions:{
+        position:true,
+        positionTopAdd:0,
+        positionLeftAdd:0
+    },
+
+
+    walk: function (node, nodeOptions) {
+        var $node = $(node);
         var walkChilds = true;
+        Wireframe.popWireframeContainer.push(false);
+        nodeOptions = $.extend({},Wireframe.defaultNodeOptions, nodeOptions);
 
         var length = Wireframe.elementTypes.length;
         for(var i = 0;i<length;++i){
             var type = Wireframe.elementTypes[i];
-            if(jq.is(":is"+type)){
-                walkChilds = Wireframe["process"+type](jq);
+            if($node.is(":is"+type)){
+                var result = Wireframe["process"+type]($node, nodeOptions);
+                walkChilds = result.walkChilds;
+                if(result.nodeOptions){
+                    nodeOptions = result.nodeOptions;
+                }
+                console.log(JSON.stringify(nodeOptions));
                 break;
             }
         }
 
         if (walkChilds) {
-            var childrens = jq.children();
+            var childrens = $node.children();
             childrens.each(function (i, v) {
-                Wireframe.walk(v);
+                Wireframe.walk(v, nodeOptions);
             });
         }
+
+        if(Wireframe.popWireframeContainer.pop()){
+            Wireframe.append(Wireframe.wireframeContainer.pop());
+        }
+
     },
 
     copyCss: function(from, to, rule){
         to.css(rule,from.css(rule));
     },
 
-    basePosition: function(el, original){
+    basePosition: function(el, original,nodeOptions){
+        console.log("top budu pricitat "+nodeOptions.positionTopAdd);
+        console.log("left budu pricitat "+nodeOptions.positionLeftAdd);
         el.css("position", "absolute");
-        el.css("top", original.offset().top + "px");
-        el.css("left", original.offset().left + "px");
+        el.css("top", (original.offset().top + nodeOptions.positionTopAdd) + "px");
+        el.css("left", (original.offset().left + nodeOptions.positionLeftAdd) + "px");
         el.css("width", original.width() + "px");
         el.css("height", original.height() + "px");
     },
 
     append : function(element){
-        wireframeContainer.append(element);
+        Wireframe.getCurrentWireframeContainer().append(element);
+    },
+
+    getCurrentWireframeContainer : function(){
+        return Wireframe.wireframeContainer[Wireframe.wireframeContainer.length-1];
     },
 
     run: function (element, options) {
@@ -46,10 +73,10 @@ var Wireframe = {
         var container = $(element);
         if (container.is(document)) {
 
-            wireframeContainer = $("<div />").css("position", "relative");
+            Wireframe.wireframeContainer.push($("<div />").css("position", "relative"));
 
 
-            this.walk(container.find("body"));
+            this.walk(container.find("body"),{});
 
 
             container.find("html").css("background", "none");
@@ -57,7 +84,7 @@ var Wireframe = {
 
             container.find("body").replaceWith($("<body />"));
 
-            container.find("body").append(wireframeContainer);
+            container.find("body").append(Wireframe.wireframeContainer[0]);
 
         }
 

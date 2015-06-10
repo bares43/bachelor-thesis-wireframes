@@ -59,7 +59,7 @@ jQuery.expr[":"].isDoNothing = function(elem){
 
 Wireframe.processDoNothing = function(){
     // dont walk childs
-    return false;
+    return {walkChilds:false};
 };
 
 // one line text
@@ -67,7 +67,7 @@ jQuery.expr[":"].isImage = function(elem) {
     return $(elem).is("img:visibleElement");
 };
 
-Wireframe.processImage = function(img){
+Wireframe.processImage = function(img, nodeOptions){
     var imgWF = $("<div />");
 
     //imgWF.css("display","block");
@@ -78,10 +78,12 @@ Wireframe.processImage = function(img){
     //imgWF.css("background-image","url('"+img.attr("src")+"')");
 
 
-    Wireframe.basePosition(imgWF, img);
+    if(nodeOptions.position){
+        Wireframe.basePosition(imgWF, img, nodeOptions);
+    }
     Wireframe.append(imgWF);
 
-    return false;
+    return {walkChilds:false};
 };
 
 // one line text
@@ -89,7 +91,7 @@ jQuery.expr[":"].isOneLineText = function(elem) {
     return $(elem).is("span:noChild") || $(elem).is("a:noChild");
 };
 
-Wireframe.processOneLineText = function(elm){
+Wireframe.processOneLineText = function(elm, nodeOptions){
     //dump(elm);
 
     var spanWF = $("<div />");
@@ -117,12 +119,14 @@ Wireframe.processOneLineText = function(elm){
 
     //spanWF.text(elm.text().length);
 
-    //spanWF.text(/*elm.text()+" "+*/elm.css("font-size"));
+    //spanWF.text(elm.text()/*+" "+elm.css("font-size")*/);
 
-    Wireframe.basePosition(spanWF, elm);
+    if(nodeOptions.position){
+        Wireframe.basePosition(spanWF, elm, nodeOptions);
+    }
     Wireframe.append(spanWF);
 
-    return false;
+    return {walkChilds:false,node:spanWF};
 };
 
 // iframe
@@ -130,7 +134,7 @@ jQuery.expr[":"].isIframe = function(elem) {
     return $(elem).is("iframe");
 };
 
-Wireframe.processIframe = function(iframe){
+Wireframe.processIframe = function(iframe, nodeOptions){
     var iframeWf = $("<div />");
 
 
@@ -140,8 +144,10 @@ Wireframe.processIframe = function(iframe){
     //if(/youtube.com/.test(src) || /youtu.be/.test(src)){
     //}
 
-    Wireframe.basePosition(iframeWf, iframe);
+    if(nodeOptions.position){
+        Wireframe.basePosition(iframeWf, iframe, nodeOptions);
+    }
     Wireframe.append(iframeWf);
 
-    return false;
+    return {walkChilds:false};
 };

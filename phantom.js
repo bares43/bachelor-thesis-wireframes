@@ -15,7 +15,7 @@ page.onResourceError = function(trace){
     console.log(JSON.stringify(trace));
 };
 
-var includeJsUrls = ["https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js",srvUrl+"jquery.lorem.js",srvUrl+"wireframe.js"];
+var includeJsUrls = ["https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js",srvUrl+"jquery.lorem.js",srvUrl+"wireframe_combined.js"];
 
 page.viewportSize = {width:1280,height:720};
 
@@ -28,6 +28,7 @@ page.open(url, function(status) {
                     srvUrl: "http://localhost/bt_wireframes"
                 });
             });
+            //console.log(page.content);
             page.render(filename);
             phantom.exit();
         });

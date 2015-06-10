@@ -3,17 +3,20 @@ jQuery.expr[":"].isFormRadio = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("[type=radio]"));
 };
 
-Wireframe.processFormRadio = function (radio) {
+Wireframe.processFormRadio = function (radio, nodeOptions) {
     var radioWf = $("<input />");
     radioWf.attr("type", "radio");
     if (radio.is(":checked")) {
         radioWf.attr("checked", "checked");
     }
 
-    Wireframe.basePosition(radioWf, radio);
+    if (nodeOptions.position) {
+        Wireframe.basePosition(radioWf, radio, nodeOptions);
+
+    }
     Wireframe.append(radioWf);
 
-    return false;
+    return {walkChilds: false};
 };
 
 // input type checkbox
@@ -21,17 +24,20 @@ jQuery.expr[":"].isFormCheckbox = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("[type=checkbox]"));
 };
 
-Wireframe.processFormCheckbox = function (checkbox) {
+Wireframe.processFormCheckbox = function (checkbox, nodeOptions) {
     var checkboxWf = $("<input />");
     checkboxWf.attr("type", "checkbox");
     if (checkbox.is(":checked")) {
         checkboxWf.attr("checked", "checked");
     }
 
-    Wireframe.basePosition(checkboxWf, checkbox);
+    if (nodeOptions.position) {
+        Wireframe.basePosition(checkboxWf, checkbox, nodeOptions);
+
+    }
     Wireframe.append(checkboxWf);
 
-    return false;
+    return {walkChilds: false};
 };
 
 // input type file
@@ -39,14 +45,17 @@ jQuery.expr[":"].isFormFile = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("[type=file]"));
 };
 
-Wireframe.processFormFile = function (file) {
+Wireframe.processFormFile = function (file, nodeOptions) {
     var fileWf = $("<input />");
     fileWf.attr("type", "file");
 
-    Wireframe.basePosition(fileWf, file);
+    if (nodeOptions.position) {
+        Wireframe.basePosition(fileWf, file, nodeOptions);
+
+    }
     Wireframe.append(fileWf);
 
-    return false;
+    return {walkChilds: false};
 };
 
 // input type submit/reset/image or button
@@ -54,16 +63,19 @@ jQuery.expr[":"].isFormButton = function (elem) {
     return ($(elem).is(":visibleElement") && ($(elem).is("[type=submit]") || $(elem).is("[type=reset]") || $(elem).is("[type=image]") || $(elem).is("button")));
 };
 
-Wireframe.processFormButton = function (button) {
+Wireframe.processFormButton = function (button, nodeOptions) {
     var buttonWf = $("<input />");
     buttonWf.attr("type", "submit");
 
     buttonWf.attr("value", "");
 
-    Wireframe.basePosition(buttonWf, button);
+    if (nodeOptions.position) {
+        Wireframe.basePosition(buttonWf, button, nodeOptions);
+
+    }
     Wireframe.append(buttonWf);
 
-    return false;
+    return {walkChilds: false};
 };
 
 // input type range
@@ -71,14 +83,17 @@ jQuery.expr[":"].isFormRange = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("[type=range]"));
 };
 
-Wireframe.processFormRange = function (input) {
+Wireframe.processFormRange = function (input, nodeOptions) {
     var inputWf = $("<input />");
     inputWf.attr("type", "range");
 
-    Wireframe.basePosition(inputWf, input);
+    if (nodeOptions.position) {
+        Wireframe.basePosition(inputWf, input, nodeOptions);
+
+    }
     Wireframe.append(inputWf);
 
-    return false;
+    return {walkChilds: false};
 };
 
 // input type text
@@ -86,14 +101,17 @@ jQuery.expr[":"].isFormInput = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("input") && !$(elem).is("[type=hidden]") && !$(elem).is(":isFormRadio") && !$(elem).is(":isFormCheckbox") && !$(elem).is(":isFormFile") && !$(elem).is(":isFormButton") && !$(elem).is(":isFormRange"));
 };
 
-Wireframe.processFormInput = function (input) {
+Wireframe.processFormInput = function (input, nodeOptions) {
     var inputWf = $("<input />");
     inputWf.attr("type", "text");
 
-    Wireframe.basePosition(inputWf, input);
+    if (nodeOptions.position) {
+        Wireframe.basePosition(inputWf, input, nodeOptions);
+
+    }
     Wireframe.append(inputWf);
 
-    return false;
+    return {walkChilds: false};
 };
 
 // select
@@ -101,17 +119,20 @@ jQuery.expr[":"].isFormSelect = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("select"));
 };
 
-Wireframe.processFormSelect = function (select) {
+Wireframe.processFormSelect = function (select, nodeOptions) {
     var selectWf = $("<select />");
 
     if (select.is("[multiple]")) {
         selectWf.attr("multiple", "multiple");
     }
 
-    Wireframe.basePosition(selectWf, select);
+    if (nodeOptions.position) {
+        Wireframe.basePosition(selectWf, select, nodeOptions);
+
+    }
     Wireframe.append(selectWf);
 
-    return false;
+    return {walkChilds: false};
 };
 
 // textarea
@@ -119,11 +140,14 @@ jQuery.expr[":"].isFormTextarea = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("textarea"));
 };
 
-Wireframe.processFormTextarea = function (textarea) {
+Wireframe.processFormTextarea = function (textarea, nodeOptions) {
     var textareaWf = $("<textarea />");
 
-    Wireframe.basePosition(textareaWf, textarea);
+    if (nodeOptions.position) {
+        Wireframe.basePosition(textareaWf, textarea, nodeOptions);
+
+    }
     Wireframe.append(textareaWf);
 
-    return false;
+    return {walkChilds: false};
 };
