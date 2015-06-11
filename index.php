@@ -38,7 +38,18 @@
                        style="width: 300px;"<?php if ($_GET["url"]): ?> value="<?php echo htmlspecialchars($_GET["url"]); ?>"<? endif; ?>></label>
     <input type="submit" id="create-wf" value="Generovat wireframe"/>
 </form>
-<div id="links"></div>
+<div id="links">
+    <?php if ($_GET["url"]): ?>
+        <?php
+        $url = $_GET["url"];
+        if(!preg_match("/^https?/",$url)){
+            $url = "http://".$url;
+        }
+        ?>
+        <a class="web-links" href="<?php echo $url;?>" target="_blank">Link na web</a>
+        <a class="web-links" href="?url=<?php echo $_GET["url"];?>" target="_blank">Link na wireframe</a>
+    <?php endif;?>
+</div>
 <div id="status"></div>
 <div id="wf-container"></div>
 <?php if ($_GET["url"]): ?>
