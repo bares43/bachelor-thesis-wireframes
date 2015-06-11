@@ -4,11 +4,25 @@ $(document).ready(function(){
         e.stopImmediatePropagation();
         load();
     });
+
+    $("input[name=url]").keyup(function(){
+        var url = $(this).val();
+        $("#links .web-links").remove();
+        if(url) {
+            var wfLink = $("<a></a>").text("Link na wireframe").attr("href", "?url=" + url).attr("target","_blank").addClass("web-links");
+            if (!/^https?/.test(url)) {
+                url = "http://" + url;
+            }
+            var link = $("<a></a>").text("Link na web").attr("href", url).attr("target","_blank").addClass("web-links");
+            $("#links").prepend(wfLink).prepend(link);
+        }
+    });
 });
 
 function load(){
     var wfContainer = $("#wf-container");
     wfContainer.html("");
+    $(".wireframe-download").remove();
     var img = $("<img />").attr("src","./ajax-loader.gif");
     wfContainer.append(img);
     wfContainer.show();
@@ -31,6 +45,8 @@ function load(){
             $("#status").text("");
             var img = $("<img />").attr("src","./"+json.filename);
             wfContainer.append(img);
+            var link = $("<a></a>").text("Stáhnout wireframe").attr("href", "./"+json.filename).attr("target","_blank").addClass("wireframe-download").attr("download",json.filename);
+            $("#links").append(link);
         }else if(json.state === "failed"){
             $("#status").text(json.msg).addClass("error");
         }

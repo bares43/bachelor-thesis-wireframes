@@ -6,6 +6,12 @@
     text-align: center;
     display: none;
 }
+#links, #status {
+    height: 25px;
+}
+#links a {
+    margin-right: 20px;
+}
 #status.error {
     color: red;
 }

@@ -188,7 +188,7 @@ Wireframe.processImage = function(img, nodeOptions){
             Wireframe.copyCss(img,blurImg,"width");
             Wireframe.copyCss(img,blurImg,"height");
             console.log("blur obrazku");
-            blurImg.css("-webkit-filter","blur(20px)");
+            blurImg.css("-webkit-filter","blur(10px)");
             imgWF.append(blurImg);
             break;
         case "original":
@@ -235,6 +235,7 @@ Wireframe.processOneLineText = function(elm, nodeOptions){
     Wireframe.copyCss(elm,spanWF,"text-align");
 
     spanWF.css("word-wrap","break-word");
+    spanWF.css("overflow","hidden");
 
     switch (Wireframe.wireframeOptions.textMode){
         case "lorem":
