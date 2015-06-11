@@ -8,7 +8,7 @@
     <title>Wireframe</title>
 </head>
 <body>
-<h1>Tvorba wireframu</h1>
+<h1><a href="?">Tvorba wireframu</a></h1>
 
 <div style="float: left;">
     <h3>Příklady wireframů</h3>
@@ -32,6 +32,11 @@
     <label><input type="radio" name="imageMode" value="box" checked /> šedý box</label><br />
     <label><input type="radio" name="imageMode" value="original" /> původní obrázek</label><br />
     <label><input type="radio" name="imageMode" value="blur" /> rozmazání (vyžaduje PhantomJS 2)</label>
+</div>
+<div style="float: left; margin-left: 15px; width: 200px;">
+    <a href="https://github.com/bares43/bachelors_thesis_wireframes" target="_blank">GitHub</a>
+    <p>Zpracováno jako součást bakalářské práce na téma "<strong>Význam rozložení stránky pro identitu webu</strong>".</p>
+    <a href="mailto:janbares43@gmail.com">Jan Bareš</a>, 2015
 </div>
 <form style="clear: both;">
     <label>Web: <input name="url"
