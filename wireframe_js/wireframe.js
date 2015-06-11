@@ -1,6 +1,6 @@
 var Wireframe = {
 
-    elementTypes: ["DoNothing","List","ListItemInline","ListItemChildrens","Table","TableRow","TableCellInline","TableCellChildrens", "FormSelect", "FormTextarea", "FormRadio", "FormCheckbox", "FormFile", "FormButton", "FormRange", "FormInput", "Slider", "Iframe", "Image", "OneLineText"],
+    elementTypes: ["DoNothing","List","ListItemInline","ListItemChildrens","Table","TableRow","TableCellInline","TableCellChildrens", "FormSelect", "FormTextarea", "FormRadio", "FormCheckbox", "FormFile", "FormButton", "FormRange", "FormInput", "Slider", "Iframe", "Image","HeadingInline", "OneLineText"],
 
     wireframeContainer:[],
 
