@@ -192,7 +192,11 @@ Wireframe.processImage = function(img, nodeOptions){
             imgWF.append(blurImg);
             break;
         case "original":
-            imgWF.css("background-image",'url("'+$(img).attr("src")+'")');
+            var innerImg = $("<img />");
+            innerImg.attr("src",img.attr("src"));
+            Wireframe.copyCss(img,innerImg,"width");
+            Wireframe.copyCss(img,innerImg,"height");
+            imgWF.append(innerImg);
             break;
     }
 
@@ -658,8 +662,8 @@ Wireframe.processFormTextarea = function (textarea, nodeOptions) {
 
         var defaults = {
             srvUrl: "",
-            textMode: "",
-            imageMode: ""
+            textMode: "lorem",
+            imageMode: "box"
         };
         var options = $.extend({},defaults, options);
 

@@ -16,9 +16,14 @@ function load(){
     $("#status").text("Generování může chvíli trvat.").removeClass("error");
 
     var url = $("input[name=url]").val();
-    var textMode = $("input:radio[name=textMode]:checked").val();
-    var imageMode = $("input:radio[name=imageMode]:checked").val();
-    $.post("wireframe.php",{url:url,textMode:textMode, imageMode:imageMode},function(response){
+    //var textMode = $("input:radio[name=textMode]:checked").val();
+    //var imageMode = $("input:radio[name=imageMode]:checked").val();
+
+    var options = {};
+    options["textMode"] = $("input:radio[name=textMode]:checked").val();
+    options["imageMode"] = $("input:radio[name=imageMode]:checked").val();
+
+    $.post("wireframe.php",{url:url,options:options},function(response){
         var json = JSON.parse(response);
 
         wfContainer.html("");

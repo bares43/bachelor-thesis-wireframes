@@ -87,7 +87,11 @@ Wireframe.processImage = function(img, nodeOptions){
             imgWF.append(blurImg);
             break;
         case "original":
-            imgWF.css("background-image",'url("'+$(img).attr("src")+'")');
+            var innerImg = $("<img />");
+            innerImg.attr("src",img.attr("src"));
+            Wireframe.copyCss(img,innerImg,"width");
+            Wireframe.copyCss(img,innerImg,"height");
+            imgWF.append(innerImg);
             break;
     }
 

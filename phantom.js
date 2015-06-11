@@ -4,8 +4,6 @@ var system = require('system');
 var url = system.args[1];
 var filename = system.args[2];
 var srvUrl = system.args[3];
-var textMode = system.args[4];
-var imageMode = system.args[5];
 
 page.onConsoleMessage = function(msg) {
     console.log(msg);
@@ -19,24 +17,26 @@ page.onResourceError = function(trace){
 
 var includeJsUrls = ["https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js",srvUrl+"jquery.lorem.js",srvUrl+"wireframe_combined.js"];
 
+var options = getOptions(system.args);
+
+console.log(JSON.stringify(options));
+
+options.srvUrl = srvUrl;
+
 page.viewportSize = {width:1280,height:720};
 page.settings.localToRemoteUrlAccessEnabled = true;
 page.open(url, function(status) {
     if ( status === "success" ) {
         includeJs(includeJsUrls, page, function() {
-            page.evaluate(function(srvUrl,textMode,imageMode) {
-                $(document).wireframe({
-                    srvUrl: srvUrl,
-                    textMode: textMode,
-                    imageMode: imageMode
-                });
-            }, srvUrl, textMode,imageMode);
-            console.log(page.content);
+            page.evaluate(function(options) {
+                $(document).wireframe(options);
+            }, options);
+           // console.log(page.content);
 
-            setTimeout(function () {
+          //  setTimeout(function () {
                 page.render(filename);
                 phantom.exit();
-            }, 5000);
+            //}, 5000);
         });
     }else{
         phantom.exit();
@@ -57,4 +57,24 @@ function includeJs(urls,page, callback){
             includeJs(urls, page, callback);
         })
     }
+}
+
+function getOptions(args){
+    var options = {};
+    var testPatternValue = /^-[a-zA-Z]+=\w+$/;
+    var testPatternBoolean = /^-[a-zA-Z]+$/;
+    for(var i = 0;i<args.length;i++){
+        if(testPatternValue.test(args[i])){
+            var name = /^-([a-zA-Z]+)=/.exec(args[i])[1];
+            var value = /=(\w+)$/.exec(args[i])[1];
+            if(/^\d+$/.test(value)){
+                value = parseInt(value);
+            }
+            options[name] = value;
+        }else if(testPatternBoolean.test(args[i])){
+            var name = /^-([a-zA-Z]+)$/.exec(args[i])[1];
+            options[name] = true;
+        }
+    }
+    return options;
 }
