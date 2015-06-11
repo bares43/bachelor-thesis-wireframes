@@ -73,7 +73,23 @@ Wireframe.processImage = function(img, nodeOptions){
     //imgWF.css("display","block");
     imgWF.css("position","absolute");
 
-    imgWF.css("background-color","#d7d7d7");
+    switch (Wireframe.wireframeOptions.imageMode){
+        case "box":
+            imgWF.css("background-color","#d7d7d7");
+        break;
+        case "blur":
+            var blurImg = $("<img />");
+            blurImg.attr("src",img.attr("src"));
+            Wireframe.copyCss(img,blurImg,"width");
+            Wireframe.copyCss(img,blurImg,"height");
+            console.log("blur obrazku");
+            blurImg.css("-webkit-filter","blur(20px)");
+            imgWF.append(blurImg);
+            break;
+        case "original":
+            imgWF.css("background-image",'url("'+$(img).attr("src")+'")');
+            break;
+    }
 
     //imgWF.css("background-image","url('"+img.attr("src")+"')");
 

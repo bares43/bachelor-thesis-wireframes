@@ -21,11 +21,17 @@
         <li><a href="?url=uhk.cz">uhk.cz</a></li>
     </ul>
 </div>
-<div style="float: left">
-    <h3>Nastavení text</h3>
+<div style="float: left; margin-left: 15px;">
+    <h3>Nastavení textu:</h3>
     <label><input type="radio" name="textMode" value="lorem" checked /> lorem ipsum</label><br />
     <label><input type="radio" name="textMode" value="original" /> původní text</label><br />
     <label><input type="radio" name="textMode" value="box" /> šedý box</label>
+</div>
+<div style="float: left; margin-left: 15px;">
+    <h3>Nastavení obrázků:</h3>
+    <label><input type="radio" name="imageMode" value="box" checked /> šedý box</label><br />
+    <label><input type="radio" name="imageMode" value="original" /> původní obrázek</label><br />
+    <label><input type="radio" name="imageMode" value="blur" /> rozmazání</label>
 </div>
 <form style="clear: both;">
     <label>Web: <input name="url"

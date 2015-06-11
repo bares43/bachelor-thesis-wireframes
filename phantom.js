@@ -5,6 +5,7 @@ var url = system.args[1];
 var filename = system.args[2];
 var srvUrl = system.args[3];
 var textMode = system.args[4];
+var imageMode = system.args[5];
 
 page.onConsoleMessage = function(msg) {
     console.log(msg);
@@ -23,13 +24,14 @@ page.settings.localToRemoteUrlAccessEnabled = true;
 page.open(url, function(status) {
     if ( status === "success" ) {
         includeJs(includeJsUrls, page, function() {
-            page.evaluate(function(srvUrl,textMode) {
+            page.evaluate(function(srvUrl,textMode,imageMode) {
                 $(document).wireframe({
                     srvUrl: srvUrl,
-                    textMode: textMode
+                    textMode: textMode,
+                    imageMode: imageMode
                 });
-            }, srvUrl, textMode);
-            //console.log(page.content);
+            }, srvUrl, textMode,imageMode);
+            console.log(page.content);
 
             setTimeout(function () {
                 page.render(filename);

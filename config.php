@@ -9,5 +9,6 @@ if(getenv("OPENSHIFT_PHP_IP")){
 else{
     define("APP_URL","http://localhost/bt_wireframes/");
     define("APP_PATH","V:\\wamp\\www\\bt_wireframes\\");
-    define("PHANTOM_PATH","V:\\phantom\\phantomjs");
+    define("PHANTOM_PATH","V:\\phantomjs2\\bin\\phantomjs");
+//    define("PHANTOM_PATH","V:\\phantom\\phantomjs");
 }

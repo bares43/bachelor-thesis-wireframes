@@ -17,7 +17,8 @@ function load(){
 
     var url = $("input[name=url]").val();
     var textMode = $("input:radio[name=textMode]:checked").val();
-    $.post("wireframe.php",{url:url,textMode:textMode},function(response){
+    var imageMode = $("input:radio[name=imageMode]:checked").val();
+    $.post("wireframe.php",{url:url,textMode:textMode, imageMode:imageMode},function(response){
         var json = JSON.parse(response);
 
         wfContainer.html("");

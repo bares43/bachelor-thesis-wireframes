@@ -3,7 +3,8 @@
 
         var defaults = {
             srvUrl: "",
-            textMode: ""
+            textMode: "",
+            imageMode: ""
         };
         var options = $.extend({},defaults, options);
 
