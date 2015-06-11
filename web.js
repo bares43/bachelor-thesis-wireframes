@@ -36,6 +36,8 @@ function load(){
     var options = {};
     options["textMode"] = $("input:radio[name=textMode]:checked").val();
     options["imageMode"] = $("input:radio[name=imageMode]:checked").val();
+    options["viewport_width"] = $("input[name=viewport_width]").val();
+    options["viewport_height"] = $("input[name=viewport_height]").val();
 
     $.post("wireframe.php",{url:url,options:options},function(response){
         var json = JSON.parse(response);
