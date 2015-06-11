@@ -129,8 +129,10 @@ Wireframe.processOneLineText = function(elm, nodeOptions){
     Wireframe.copyCss(elm,spanWF,"line-height");
     Wireframe.copyCss(elm,spanWF,"text-align");
 
-    spanWF.css("word-wrap","break-word");
+    //spanWF.css("word-wrap","break-word");
     spanWF.css("overflow","hidden");
+    Wireframe.copyCss(elm,spanWF,"height");
+    Wireframe.copyCss(elm,spanWF,"width");
 
     switch (Wireframe.wireframeOptions.textMode){
         case "lorem":
@@ -142,8 +144,6 @@ Wireframe.processOneLineText = function(elm, nodeOptions){
             break;
         case "box":
             spanWF.css("background-image",'url("'+Wireframe.wireframeOptions.srvUrl+'images/line.png")');
-            Wireframe.copyCss(elm,spanWF,"height");
-            Wireframe.copyCss(elm,spanWF,"width");
             break;
     }
 

@@ -16,7 +16,7 @@ jQuery.expr[":"].isHeadingInline = function(elem) {
 };
 
 Wireframe.processHeadingInline = function (node, nodeOptions) {
-    console.log($(node).prop("tagName"));
+    //console.log($(node).prop("tagName"));
     switch($(node).prop("tagName")){
         case "H1":
             var $heading = $("<h1></h1>");
