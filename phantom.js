@@ -23,7 +23,7 @@ console.log(JSON.stringify(options));
 
 options.srvUrl = srvUrl;
 
-page.viewportSize = {width:options.viewport_width,height:options.viewport_height};
+page.viewportSize = {width:options.viewportWidth,height:options.viewportHeight};
 page.settings.localToRemoteUrlAccessEnabled = true;
 page.open(url, function(status) {
     if ( status === "success" ) {
