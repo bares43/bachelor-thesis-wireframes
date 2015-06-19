@@ -2,8 +2,9 @@ var page = require('webpage').create();
 var system = require('system');
 
 var url = system.args[1];
-var filename = system.args[2];
-var srvUrl = system.args[3];
+var filename_wf = system.args[2];
+var filename = system.args[3];
+var srvUrl = system.args[4];
 
 page.onConsoleMessage = function(msg) {
     console.log(msg);
@@ -27,6 +28,7 @@ page.viewportSize = {width:options.viewportWidth,height:options.viewportHeight};
 page.settings.localToRemoteUrlAccessEnabled = true;
 page.open(url, function(status) {
     if ( status === "success" ) {
+        page.render(filename);
         includeJs(includeJsUrls, page, function() {
             page.evaluate(function(options) {
                 $(document).wireframe(options);
@@ -34,7 +36,7 @@ page.open(url, function(status) {
            // console.log(page.content);
 
           //  setTimeout(function () {
-                page.render(filename);
+                page.render(filename_wf);
                 phantom.exit();
             //}, 5000);
         });

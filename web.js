@@ -27,6 +27,8 @@ function load(){
     wfContainer.append(img);
     wfContainer.show();
 
+    $("#colors tbody").html("");
+
     $("#status").text("Generování může chvíli trvat.").removeClass("error");
 
     var url = $("input[name=url]").val();
@@ -49,6 +51,17 @@ function load(){
             wfContainer.append(img);
             var link = $("<a></a>").text("Stáhnout wireframe").attr("href", "./"+json.filename).attr("target","_blank").addClass("wireframe-download").attr("download",json.filename);
             $("#links").append(link);
+
+            var colors = JSON.parse(json.colors);
+            $.each(colors,function(k,v){
+               var tr = $("<tr></tr>");
+               tr.append($("<td></td>").text("#"+k));
+               var span = $("<span></span>").css("background-color","#"+k);
+               tr.append($("<td></td>").append(span));
+               tr.append($("<td></td>").text(v));
+
+                $("#colors tbody").append(tr);
+            });
         }else if(json.state === "failed"){
             $("#status").text(json.msg).addClass("error");
         }

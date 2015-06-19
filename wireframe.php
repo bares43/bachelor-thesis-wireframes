@@ -7,6 +7,7 @@
  */
 
 require "config.php";
+require "colors.php";
 
 $url = $_POST["url"];
 $textMode = $_POST["textMode"];
@@ -24,17 +25,34 @@ if(filter_var($url,FILTER_VALIDATE_URL)){
     if(checkUrl($url)) {
         preg_match("/^https?:\/\/(.+\.)?(.+)\.(.+)/", $url, $match);
 
+        $filename_wf = "screens/".$match[2] . "_wf_".time().".png";
         $filename = "screens/".$match[2] . "_".time().".png";
 
         $options_string = getOptions($options);
 
-        $exec = PHANTOM_PATH." ".APP_PATH."phantom.js $url ".APP_PATH."$filename ".APP_URL." $options_string";
+        $exec = PHANTOM_PATH." ".APP_PATH."phantom.js $url ".APP_PATH."$filename_wf $filename ".APP_URL." $options_string";
 
         exec($exec);
 
+//        if(true){
         if(file_exists($filename)){
             $response["state"] = "success";
-            $response["filename"] = $filename;
+            $response["filename"] = $filename_wf;
+
+            $colors = color_analysis($filename);
+
+
+
+//            $colors = array("ffffff"=>1842125,"fff5d9"=>37377,"de0000"=>21702,"0"=>20502,"10103"=>14750);
+
+            $frequently_colors = array();
+            for($i = 0;$i<5;$i++){
+                $frequently_colors[key($colors)] = current($colors);
+                next($colors);
+            }
+
+            $response["colors"] = json_encode($frequently_colors);
+
         }else{
             $response["state"] = "failed";
             $response["msg"] = "Wireframe se nepodařilo vytvořit.";

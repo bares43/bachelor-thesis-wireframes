@@ -19,3 +19,9 @@ h1, h3 {
     margin: 0px;
     margin-bottom: 10px;
 }
+table#colors span {
+    width: 40px;
+    height: 15px;
+    display: block;
+    border: 1px solid black;
+}
