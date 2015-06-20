@@ -39,9 +39,7 @@ if(filter_var($url,FILTER_VALIDATE_URL)){
             $response["state"] = "success";
             $response["filename"] = $filename_wf;
 
-            $colors = color_analysis($filename);
-
-
+            $colors = color_analysis($filename, 5);
 
 //            $colors = array("ffffff"=>1842125,"fff5d9"=>37377,"de0000"=>21702,"0"=>20502,"10103"=>14750);
 

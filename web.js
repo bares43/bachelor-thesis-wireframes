@@ -27,7 +27,8 @@ function load(){
     wfContainer.append(img);
     wfContainer.show();
 
-    $("#colors tbody").html("");
+    $("#color-analysis").hide();
+    $("#color-analysis tbody").html("");
 
     $("#status").text("Generování může chvíli trvat.").removeClass("error");
 
@@ -58,10 +59,11 @@ function load(){
                tr.append($("<td></td>").text("#"+k));
                var span = $("<span></span>").css("background-color","#"+k);
                tr.append($("<td></td>").append(span));
-               tr.append($("<td></td>").text(v));
-
-                $("#colors tbody").append(tr);
+               tr.append($("<td></td>").text(v+"%"));
+console.log(1);
+                $("#color-analysis tbody").append(tr);
             });
+            $("#color-analysis").show();
         }else if(json.state === "failed"){
             $("#status").text(json.msg).addClass("error");
         }

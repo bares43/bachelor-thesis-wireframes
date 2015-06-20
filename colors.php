@@ -1,5 +1,5 @@
 <?php
-function color_analysis($filename){
+function color_analysis($filename, $count = 0){
     $resource = imagecreatefrompng($filename);
     $colors = array();
 
@@ -21,5 +21,15 @@ function color_analysis($filename){
 
     arsort($colors);
 
-    return $colors;
+    $pixels = $width * $height;
+
+    if($count == 0 || $count < count($colors)) $count = count($colors);
+
+    $frequently_colors = array();
+    for($i = 0;$i<$count;$i++){
+        $frequently_colors[key($colors)] = round((current($colors)/$pixels)*100,2);
+        next($colors);
+    }
+
+    return $frequently_colors;
 }
