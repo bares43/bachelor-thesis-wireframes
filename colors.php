@@ -11,8 +11,8 @@ function color_analysis($filename, $count = 0){
 
         $colorsCount = 0;
 
-        for($x = 0; $x < $width; $x++) {
-            for($y = 0; $y < $height; $y++) {
+        for($x = 0; $x < $width-2; $x+=2) {
+            for($y = 0; $y < $height-2; $y+=2) {
 
                 $rgb = imagecolorat($resource, $x, $y);
 
