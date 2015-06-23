@@ -82,7 +82,7 @@ Wireframe.processImage = function(img, nodeOptions){
             blurImg.attr("src",img.attr("src"));
             Wireframe.copyCss(img,blurImg,"width");
             Wireframe.copyCss(img,blurImg,"height");
-            console.log("blur obrazku");
+            //console.log("blur obrazku");
             blurImg.css("-webkit-filter","blur(10px)");
             imgWF.append(blurImg);
             break;
@@ -143,7 +143,8 @@ Wireframe.processOneLineText = function(elm, nodeOptions){
             spanWF.text(elm.text());
             break;
         case "box":
-            spanWF.css("background-image",'url("'+Wireframe.wireframeOptions.srvUrl+'images/line.png")');
+            spanWF.css("background-image",'url("https://cdn.tutsplus.com/net/uploads/legacy/2161_phantom/preview.png")');
+            //spanWF.css("background-image",'url("'+Wireframe.wireframeOptions.srvUrl+'images/line.png")');
             //spanWF.text(Wireframe.wireframeOptions.srvUrl+'images/line.png');
             break;
     }

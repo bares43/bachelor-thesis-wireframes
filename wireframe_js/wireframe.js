@@ -29,7 +29,7 @@ var Wireframe = {
                 if(result.nodeOptions){
                     nodeOptions = result.nodeOptions;
                 }
-                console.log(JSON.stringify(nodeOptions));
+                //console.log(JSON.stringify(nodeOptions));
                 break;
             }
         }
@@ -56,8 +56,8 @@ var Wireframe = {
     },
 
     basePosition: function(el, original,nodeOptions){
-        console.log("top budu pricitat "+nodeOptions.positionTopAdd);
-        console.log("left budu pricitat "+nodeOptions.positionLeftAdd);
+        //console.log("top budu pricitat "+nodeOptions.positionTopAdd);
+        //console.log("left budu pricitat "+nodeOptions.positionLeftAdd);
         el.css("position", "absolute");
         el.css("top", (original.offset().top + nodeOptions.positionTopAdd) + "px");
         el.css("left", (original.offset().left + nodeOptions.positionLeftAdd) + "px");
@@ -89,7 +89,7 @@ var Wireframe = {
         //containerWf.find("body").replaceWith($("<body />"));
 
         if (container.is(document)) {
-            console.log("tvorim wf");
+            //console.log("tvorim wf");
 
             Wireframe.wireframeContainer.push($("<div />").css("position", "relative"));
 

@@ -20,6 +20,8 @@ var includeJsUrls = ["https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery
 
 var options = getOptions(system.args);
 
+var runningRequestedCount = 0;
+
 console.log(JSON.stringify(options));
 
 options.srvUrl = srvUrl;
@@ -33,7 +35,7 @@ page.open(url, function(status) {
             page.evaluate(function(options) {
                 $(document).wireframe(options);
             }, options);
-           // console.log(page.content);
+           //console.log(page.content);
 
             setTimeout(function () {
                 page.render(filename_wf);
@@ -44,6 +46,15 @@ page.open(url, function(status) {
         phantom.exit();
     }
 });
+
+//page.onLoadFinished = function(status) {
+//    page.render(filename_wf);
+//    phantom.exit();
+//};
+
+page.onResourceRequested = function(requestData, networkRequest) {
+    console.log('Request (#' + requestData.id + '): ' + JSON.stringify(requestData));
+};
 
 /**
  * Include more js and then call callback

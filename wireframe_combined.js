@@ -29,7 +29,7 @@ var Wireframe = {
                 if(result.nodeOptions){
                     nodeOptions = result.nodeOptions;
                 }
-                console.log(JSON.stringify(nodeOptions));
+                //console.log(JSON.stringify(nodeOptions));
                 break;
             }
         }
@@ -56,8 +56,8 @@ var Wireframe = {
     },
 
     basePosition: function(el, original,nodeOptions){
-        console.log("top budu pricitat "+nodeOptions.positionTopAdd);
-        console.log("left budu pricitat "+nodeOptions.positionLeftAdd);
+        //console.log("top budu pricitat "+nodeOptions.positionTopAdd);
+        //console.log("left budu pricitat "+nodeOptions.positionLeftAdd);
         el.css("position", "absolute");
         el.css("top", (original.offset().top + nodeOptions.positionTopAdd) + "px");
         el.css("left", (original.offset().left + nodeOptions.positionLeftAdd) + "px");
@@ -89,7 +89,7 @@ var Wireframe = {
         //containerWf.find("body").replaceWith($("<body />"));
 
         if (container.is(document)) {
-            console.log("tvorim wf");
+            //console.log("tvorim wf");
 
             Wireframe.wireframeContainer.push($("<div />").css("position", "relative"));
 
@@ -191,7 +191,7 @@ Wireframe.processImage = function(img, nodeOptions){
             blurImg.attr("src",img.attr("src"));
             Wireframe.copyCss(img,blurImg,"width");
             Wireframe.copyCss(img,blurImg,"height");
-            console.log("blur obrazku");
+            //console.log("blur obrazku");
             blurImg.css("-webkit-filter","blur(10px)");
             imgWF.append(blurImg);
             break;
@@ -252,7 +252,8 @@ Wireframe.processOneLineText = function(elm, nodeOptions){
             spanWF.text(elm.text());
             break;
         case "box":
-            spanWF.css("background-image",'url("'+Wireframe.wireframeOptions.srvUrl+'images/line.png")');
+            spanWF.css("background-image",'url("https://cdn.tutsplus.com/net/uploads/legacy/2161_phantom/preview.png")');
+            //spanWF.css("background-image",'url("'+Wireframe.wireframeOptions.srvUrl+'images/line.png")');
             //spanWF.text(Wireframe.wireframeOptions.srvUrl+'images/line.png');
             break;
     }
@@ -294,7 +295,7 @@ jQuery.expr[":"].isHeadingInline = function(elem) {
         var childrens = $(elem).children();
         if (childrens.length == 0) return isInline;
         childrens.each(function (i, v) {
-            console.log($(v).attr("id"));
+            //console.log($(v).attr("id"));
             if (!$(v).is(":isOneLineText")) {
                 isInline = false;
             }
@@ -393,7 +394,7 @@ Wireframe.processSlider = function(slider, nodeOptions){
     return {walkChilds:false};
 };// ol/ul
 jQuery.expr[":"].isList = function (elem) {
-    console.log("expression list");
+    //console.log("expression list");
     var r = ($(elem).is(":visibleElement") && ($(elem).is("ol") || $(elem).is("ul")));
     //console.log(r);
     return r;
@@ -408,7 +409,7 @@ Wireframe.processList = function (list, nodeOptions) {
         var listWf = $("<ol></ol>");
         //console.log("procesuji ol");
     }
-    console.log("procesuji list "+$(list).attr("id"));
+    //console.log("procesuji list "+$(list).attr("id"));
     Wireframe.copyCss(list, listWf, "list-style-type");
 
     if (nodeOptions.position) {
@@ -427,23 +428,23 @@ jQuery.expr[":"].isListItemInline = function (elem) {
     var isInline = true;
     if ($(elem).is(":visibleElement") && $(elem).is("li")) {
         var childrens = $(elem).children();
-        console.log("id: "+$(elem).attr("id"));
-        console.log("deti: "+childrens.length);
+        //console.log("id: "+$(elem).attr("id"));
+        //console.log("deti: "+childrens.length);
         if (childrens.length == 0) return isInline;
         childrens.each(function (i, v) {
-            console.log($(v).attr("id"));
+            //console.log($(v).attr("id"));
             if (!$(v).is(":isOneLineText")) {
                 isInline = false;
             }
         });
-        console.log("je inline");
+        //console.log("je inline");
         return isInline;
     }
     return false;
 };
 
 Wireframe.processListItemInline = function (listItem, nodeOptions) {
-    console.log("inline li");
+    //console.log("inline li");
     var li = $("<li></li>");
     if (nodeOptions.position) {
         Wireframe.basePosition(li, listItem, nodeOptions);
@@ -466,7 +467,7 @@ jQuery.expr[":"].isListItemChildrens = function (elem) {
 };
 
 Wireframe.processListItemChildrens = function (listItem, nodeOptions) {
-    console.log("li s potomky");
+    //console.log("li s potomky");
     var li = $("<li></li>");
     if (nodeOptions.position) {
         Wireframe.basePosition(li, listItem, nodeOptions);
@@ -475,10 +476,10 @@ Wireframe.processListItemChildrens = function (listItem, nodeOptions) {
 
     nodeOptions.positionLeftAdd = -$(listItem).offset().left;
     nodeOptions.positionTopAdd = -$(listItem).offset().top;
-    console.log("odecitam top "+$(listItem).offset().top);
-    console.log("top je "+nodeOptions.positionTopAdd);
-    console.log("odecitam left "+$(listItem).offset().left);
-    console.log("left je "+nodeOptions.positionLeftAdd);
+    //console.log("odecitam top "+$(listItem).offset().top);
+    //console.log("top je "+nodeOptions.positionTopAdd);
+    //console.log("odecitam left "+$(listItem).offset().left);
+    //console.log("left je "+nodeOptions.positionLeftAdd);
     nodeOptions.position = true;
     return {walkChilds: true, nodeOptions: nodeOptions};
 };// table

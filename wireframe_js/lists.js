@@ -1,6 +1,6 @@
 // ol/ul
 jQuery.expr[":"].isList = function (elem) {
-    console.log("expression list");
+    //console.log("expression list");
     var r = ($(elem).is(":visibleElement") && ($(elem).is("ol") || $(elem).is("ul")));
     //console.log(r);
     return r;
@@ -15,7 +15,7 @@ Wireframe.processList = function (list, nodeOptions) {
         var listWf = $("<ol></ol>");
         //console.log("procesuji ol");
     }
-    console.log("procesuji list "+$(list).attr("id"));
+    //console.log("procesuji list "+$(list).attr("id"));
     Wireframe.copyCss(list, listWf, "list-style-type");
 
     if (nodeOptions.position) {
@@ -34,23 +34,23 @@ jQuery.expr[":"].isListItemInline = function (elem) {
     var isInline = true;
     if ($(elem).is(":visibleElement") && $(elem).is("li")) {
         var childrens = $(elem).children();
-        console.log("id: "+$(elem).attr("id"));
-        console.log("deti: "+childrens.length);
+        //console.log("id: "+$(elem).attr("id"));
+        //console.log("deti: "+childrens.length);
         if (childrens.length == 0) return isInline;
         childrens.each(function (i, v) {
-            console.log($(v).attr("id"));
+            //console.log($(v).attr("id"));
             if (!$(v).is(":isOneLineText")) {
                 isInline = false;
             }
         });
-        console.log("je inline");
+        //console.log("je inline");
         return isInline;
     }
     return false;
 };
 
 Wireframe.processListItemInline = function (listItem, nodeOptions) {
-    console.log("inline li");
+    //console.log("inline li");
     var li = $("<li></li>");
     if (nodeOptions.position) {
         Wireframe.basePosition(li, listItem, nodeOptions);
@@ -73,7 +73,7 @@ jQuery.expr[":"].isListItemChildrens = function (elem) {
 };
 
 Wireframe.processListItemChildrens = function (listItem, nodeOptions) {
-    console.log("li s potomky");
+    //console.log("li s potomky");
     var li = $("<li></li>");
     if (nodeOptions.position) {
         Wireframe.basePosition(li, listItem, nodeOptions);
@@ -82,10 +82,10 @@ Wireframe.processListItemChildrens = function (listItem, nodeOptions) {
 
     nodeOptions.positionLeftAdd = -$(listItem).offset().left;
     nodeOptions.positionTopAdd = -$(listItem).offset().top;
-    console.log("odecitam top "+$(listItem).offset().top);
-    console.log("top je "+nodeOptions.positionTopAdd);
-    console.log("odecitam left "+$(listItem).offset().left);
-    console.log("left je "+nodeOptions.positionLeftAdd);
+    //console.log("odecitam top "+$(listItem).offset().top);
+    //console.log("top je "+nodeOptions.positionTopAdd);
+    //console.log("odecitam left "+$(listItem).offset().left);
+    //console.log("left je "+nodeOptions.positionLeftAdd);
     nodeOptions.position = true;
     return {walkChilds: true, nodeOptions: nodeOptions};
 };

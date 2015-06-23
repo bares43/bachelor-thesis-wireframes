@@ -5,7 +5,7 @@ jQuery.expr[":"].isHeadingInline = function(elem) {
         var childrens = $(elem).children();
         if (childrens.length == 0) return isInline;
         childrens.each(function (i, v) {
-            console.log($(v).attr("id"));
+            //console.log($(v).attr("id"));
             if (!$(v).is(":isOneLineText")) {
                 isInline = false;
             }
