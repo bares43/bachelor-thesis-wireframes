@@ -337,6 +337,12 @@ Wireframe.processHeadingInline = function (node, nodeOptions) {
             break;
     }
 
+    Wireframe.copyCss(node,$heading,"font-size");
+    Wireframe.copyCss(node,$heading,"font-family");
+    Wireframe.copyCss(node,$heading,"font-weight");
+    Wireframe.copyCss(node,$heading,"line-height");
+    Wireframe.copyCss(node,$heading,"text-align");
+
     if (nodeOptions.position) {
         Wireframe.basePosition($heading, node, nodeOptions);
     }
