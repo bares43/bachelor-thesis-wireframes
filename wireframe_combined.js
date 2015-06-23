@@ -293,6 +293,9 @@ jQuery.expr[":"].isHeadingInline = function(elem) {
             if (!$(v).is(":isOneLineText")) {
                 isInline = false;
             }
+            if($(v).is("br")){
+                isInline = true;
+            }
         });
         return isInline;
     }
