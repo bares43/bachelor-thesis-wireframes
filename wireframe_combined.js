@@ -252,8 +252,8 @@ Wireframe.processOneLineText = function(elm, nodeOptions){
             spanWF.text(elm.text());
             break;
         case "box":
-            spanWF.css("background-image",'url("'+Wireframe.wireframeOptions.srvUrl+'images/line.png")');
-            //spanWF.text(Wireframe.wireframeOptions.srvUrl+'images/line.png');
+            //spanWF.css("background-image",'url("'+Wireframe.wireframeOptions.srvUrl+'images/line.png")');
+            spanWF.text(Wireframe.wireframeOptions.srvUrl+'images/line.png');
             break;
     }
 
