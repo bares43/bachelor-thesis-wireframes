@@ -35,10 +35,10 @@ page.open(url, function(status) {
             }, options);
            // console.log(page.content);
 
-          //  setTimeout(function () {
+            setTimeout(function () {
                 page.render(filename_wf);
                 phantom.exit();
-            //}, 5000);
+            }, 15000);
         });
     }else{
         phantom.exit();
