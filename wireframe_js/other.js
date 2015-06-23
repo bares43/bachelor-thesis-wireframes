@@ -144,6 +144,7 @@ Wireframe.processOneLineText = function(elm, nodeOptions){
             break;
         case "box":
             spanWF.css("background-image",'url("https://cdn.tutsplus.com/net/uploads/legacy/2161_phantom/preview.png")');
+            spanWF.css("border","1px solid black");
             //spanWF.css("background-image",'url("'+Wireframe.wireframeOptions.srvUrl+'images/line.png")');
             //spanWF.text(Wireframe.wireframeOptions.srvUrl+'images/line.png');
             break;
