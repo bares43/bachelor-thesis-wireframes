@@ -84,23 +84,27 @@ var Wireframe = {
         Wireframe.wireframeOptions = options;
 
         var container = $(element);
+
+        //containerWf.find("html").replaceWith($("<html />"));
+        //containerWf.find("body").replaceWith($("<body />"));
+
         if (container.is(document)) {
+            console.log("tvorim wf");
 
             Wireframe.wireframeContainer.push($("<div />").css("position", "relative"));
 
 
             this.walk(container.find("body"),{});
 
-
-            container.find("html").css("background", "none");
-            container.find("html").css("background-color", "white");
-
+            //container.find("html").replaceWith($("<html />"));
             container.find("body").replaceWith($("<body />"));
+
+            $("html,body",container).css("background","none");
+            $("html,body",container).css("background-color","white");
 
             container.find("body").append(Wireframe.wireframeContainer[0]);
 
         }
-
         return container;
     }
 };/*
