@@ -43,8 +43,11 @@ function load(){
     options["viewportHeight"] = $("input[name=viewport_height]").val();
 
     $.post("wireframe.php",{url:url,options:options},function(response){
-        var json = JSON.parse(response);
-
+        try {
+            var json = JSON.parse(response);
+        }catch(err){
+            $("#status").text("Došlo k chybě").addClass("error");
+        }
         wfContainer.html("");
         if(json.state === "success"){
             $("#status").text("");
@@ -60,7 +63,7 @@ function load(){
                var span = $("<span></span>").css("background-color","#"+k);
                tr.append($("<td></td>").append(span));
                tr.append($("<td></td>").text(v+"%"));
-console.log(1);
+
                 $("#color-analysis tbody").append(tr);
             });
             $("#color-analysis").show();

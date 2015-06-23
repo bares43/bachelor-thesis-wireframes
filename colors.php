@@ -1,34 +1,54 @@
 <?php
 function color_analysis($filename, $count = 0){
-    $resource = imagecreatefrompng($filename);
-    $colors = array();
-
-    $width = imagesx($resource);
-    $height = imagesy($resource);
-
-    for($x = 0; $x < $width; $x++) {
-        for($y = 0; $y < $height; $y++) {
-            // pixel color at (x, y)
-            $rgb = imagecolorat($resource, $x, $y);
-
-            $color = dechex($rgb);
-
-            if(!array_key_exists($color, $colors)) $colors[$color] = 0;
-
-            $colors[$color]++;
-        }
-    }
-
-    arsort($colors);
-
-    $pixels = $width * $height;
-
-    if($count == 0 || $count < count($colors)) $count = count($colors);
-
     $frequently_colors = array();
-    for($i = 0;$i<$count;$i++){
-        $frequently_colors[key($colors)] = round((current($colors)/$pixels)*100,2);
-        next($colors);
+
+    if(file_exists($filename)){
+        $resource = imagecreatefrompng($filename);
+        $colors = array();
+
+        $width = imagesx($resource);
+        $height = imagesy($resource);
+
+        $colorsCount = 0;
+
+        for($x = 0; $x < $width; $x++) {
+            for($y = 0; $y < $height; $y++) {
+
+                $rgb = imagecolorat($resource, $x, $y);
+
+                $color = dechex($rgb);
+
+                if($colors[$color] == 0) {
+                    $colorsCount++;
+                }
+
+                $colors[$color]++;
+
+
+                if($colorsCount > 200){
+                    $min = min($colors);
+                    foreach($colors as $k=>$v){
+                        if($v == $min) {
+                            unset($colors[$k]);
+                            --$colorsCount;
+                        }
+                    }
+                }
+            }
+        }
+
+        arsort($colors);
+
+        $pixels = $width * $height;
+
+        if($count == 0 || $count > count($colors)) $count = count($colors);
+        $keys = array_slice(array_keys($colors),0,$count);
+        $values = array_slice($colors,0,$count);
+        $frequently_colors = array_combine($keys, $values);
+
+        $frequently_colors = array_map(function($item) use ($pixels){
+            return round(($item/$pixels) * 100,2);
+        },$frequently_colors);
     }
 
     return $frequently_colors;

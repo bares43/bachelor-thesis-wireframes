@@ -20,52 +20,63 @@ if(!preg_match("/^https?/",$url)){
 
 $response = array();
 
-if(filter_var($url,FILTER_VALIDATE_URL)){
+try {
 
-    if(checkUrl($url)) {
-        preg_match("/^https?:\/\/(.+\.)?(.+)\.(.+)/", $url, $match);
+    if (filter_var($url, FILTER_VALIDATE_URL)) {
 
-        $filename_wf = "screens/".$match[2] . "_wf_".time().".png";
-        $filename = "screens/".$match[2] . "_".time().".png";
+        if (checkUrl($url)) {
+            preg_match("/^https?:\/\/(.+\.)?(.+)\.(.+)/", $url, $match);
 
-        $options_string = getOptions($options);
+            $filename_wf = "screens/" . $match[2] . "_wf_" . time() . ".png";
+            $filename = "screens/" . $match[2] . "_" . time() . ".png";
 
-        $exec = PHANTOM_PATH." ".APP_PATH."phantom.js $url ".APP_PATH."$filename_wf $filename ".APP_URL." $options_string";
+            $options_string = getOptions($options);
 
-        exec($exec);
+            $exec = PHANTOM_PATH . " " . APP_PATH . "phantom.js $url " . APP_PATH . "$filename_wf $filename " . APP_URL . " $options_string";
+
+            exec($exec);
 
 //        if(true){
-        if(file_exists($filename)){
-            $response["state"] = "success";
-            $response["filename"] = $filename_wf;
+            if (file_exists($filename_wf)) {
+                $response["state"] = "success";
+                $response["filename"] = $filename_wf;
 
-            $colors = color_analysis($filename, 5);
+                if (file_exists($filename)) {
+//                echo $options["viewportWidth"];
+//                echo min(2*$options["viewportHeight"],2000);
 
-//            $colors = array("ffffff"=>1842125,"fff5d9"=>37377,"de0000"=>21702,"0"=>20502,"10103"=>14750);
+                    $width = min($options["viewportWidth"], 1280);
+                    $height = min(2 * $options["viewportHeight"], 720);
 
-            $frequently_colors = array();
-            for($i = 0;$i<5;$i++){
-                $frequently_colors[key($colors)] = current($colors);
-                next($colors);
+                    $img = imagecreatetruecolor($width, $height);
+                    $org_img = imagecreatefrompng($filename);
+                    imagecopy($img, $org_img, 0, 0, 0, 0, $width, $height);
+                    imagepng($img, $filename, 9);
+                }
+
+                $colors = color_analysis($filename, 5);
+
+                $response["colors"] = json_encode($colors);
+
+            } else {
+                $response["state"] = "failed";
+                $response["msg"] = "Wireframe se nepodařilo vytvořit.";
             }
 
-            $response["colors"] = json_encode($frequently_colors);
 
-        }else{
+        } else {
+            // nedostupny web
             $response["state"] = "failed";
-            $response["msg"] = "Wireframe se nepodařilo vytvořit.";
+            $response["msg"] = "Web není dostupný.";
         }
-
-
-    }else{
-        // nedostupny web
+    } else {
+        // neni zadana adresa
         $response["state"] = "failed";
-        $response["msg"] = "Web není dostupný.";
+        $response["msg"] = "Není zadána validní adresa.";
     }
-}else{
-    // neni zadana adresa
+}catch(Exception $e) {
     $response["state"] = "failed";
-    $response["msg"] = "Není zadána validní adresa.";
+    $response["msg"] = "exception";
 }
 echo json_encode($response);
 exit;
