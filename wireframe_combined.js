@@ -1,4 +1,4 @@
-var Wireframe = {
+var WireframeCreating = {
 
     elementTypes: ["DoNothing","List","ListItemInline","ListItemChildrens","Table","TableRow","TableCellInline","TableCellChildrens", "FormSelect", "FormTextarea", "FormRadio", "FormCheckbox", "FormFile", "FormButton", "FormRange", "FormInput", "Slider", "Iframe", "Image","HeadingInline", "OneLineText"],
 
@@ -17,14 +17,14 @@ var Wireframe = {
     walk: function (node, nodeOptions) {
         var $node = $(node);
         var walkChilds = true;
-        Wireframe.popWireframeContainer.push(false);
-        nodeOptions = $.extend({},Wireframe.defaultNodeOptions, nodeOptions);
+        WireframeCreating.popWireframeContainer.push(false);
+        nodeOptions = $.extend({},WireframeCreating.defaultNodeOptions, nodeOptions);
 
-        var length = Wireframe.elementTypes.length;
+        var length = WireframeCreating.elementTypes.length;
         for(var i = 0;i<length;++i){
-            var type = Wireframe.elementTypes[i];
+            var type = WireframeCreating.elementTypes[i];
             if($node.is(":is"+type)){
-                var result = Wireframe["process"+type]($node, nodeOptions);
+                var result = WireframeCreating["process"+type]($node, nodeOptions);
                 walkChilds = result.walkChilds;
                 if(result.nodeOptions){
                     nodeOptions = result.nodeOptions;
@@ -37,12 +37,12 @@ var Wireframe = {
         if (walkChilds) {
             var childrens = $node.children();
             childrens.each(function (i, v) {
-                Wireframe.walk(v, nodeOptions);
+                WireframeCreating.walk(v, nodeOptions);
             });
         }
 
-        if(Wireframe.popWireframeContainer.pop()){
-            Wireframe.append(Wireframe.wireframeContainer.pop());
+        if(WireframeCreating.popWireframeContainer.pop()){
+            WireframeCreating.append(WireframeCreating.wireframeContainer.pop());
         }
 
     },
@@ -66,22 +66,22 @@ var Wireframe = {
     },
 
     append : function(element){
-        Wireframe.getCurrentWireframeContainer().append(element);
+        WireframeCreating.getCurrentWireframeContainer().append(element);
     },
 
     getCurrentWireframeContainer : function(){
-        return Wireframe.wireframeContainer[Wireframe.wireframeContainer.length-1];
+        return WireframeCreating.wireframeContainer[WireframeCreating.wireframeContainer.length-1];
     },
 
     setWireframeContainer : function(element){
-        Wireframe.wireframeContainer.push(element);
-        Wireframe.popWireframeContainer.pop();
-        Wireframe.popWireframeContainer.push(true);
+        WireframeCreating.wireframeContainer.push(element);
+        WireframeCreating.popWireframeContainer.pop();
+        WireframeCreating.popWireframeContainer.push(true);
     },
 
     run: function (element, options) {
 
-        Wireframe.wireframeOptions = options;
+        WireframeCreating.wireframeOptions = options;
 
         var container = $(element);
 
@@ -91,7 +91,7 @@ var Wireframe = {
         if (container.is(document)) {
             //console.log("tvorim wf");
 
-            Wireframe.wireframeContainer.push($("<div />").css("position", "relative"));
+            WireframeCreating.wireframeContainer.push($("<div />").css("position", "relative"));
 
 
             this.walk(container.find("body"),{});
@@ -102,7 +102,7 @@ var Wireframe = {
             $("html,body",container).css("background","none");
             $("html,body",container).css("background-color","white");
 
-            container.find("body").append(Wireframe.wireframeContainer[0]);
+            container.find("body").append(WireframeCreating.wireframeContainer[0]);
 
         }
         return container;
@@ -166,7 +166,7 @@ jQuery.expr[":"].isDoNothing = function(elem){
     return $(elem).is(":displayNone") || $(elem).is(":toSmall") || $(elem).is("script");
 };
 
-Wireframe.processDoNothing = function(){
+WireframeCreating.processDoNothing = function(){
     // dont walk childs
     return {walkChilds:false};
 };
@@ -176,21 +176,21 @@ jQuery.expr[":"].isImage = function(elem) {
     return $(elem).is("img:visibleElement");
 };
 
-Wireframe.processImage = function(img, nodeOptions){
+WireframeCreating.processImage = function(img, nodeOptions){
     var imgWF = $("<div />");
 
     //imgWF.css("display","block");
     imgWF.css("position","absolute");
 
-    switch (Wireframe.wireframeOptions.imageMode){
+    switch (WireframeCreating.wireframeOptions.imageMode){
         case "box":
             imgWF.css("background-color","#d7d7d7");
         break;
         case "blur":
             var blurImg = $("<img />");
             blurImg.attr("src",img.attr("src"));
-            Wireframe.copyCss(img,blurImg,"width");
-            Wireframe.copyCss(img,blurImg,"height");
+            WireframeCreating.copyCss(img,blurImg,"width");
+            WireframeCreating.copyCss(img,blurImg,"height");
             //console.log("blur obrazku");
             blurImg.css("-webkit-filter","blur(10px)");
             imgWF.append(blurImg);
@@ -198,8 +198,8 @@ Wireframe.processImage = function(img, nodeOptions){
         case "original":
             var innerImg = $("<img />");
             innerImg.attr("src",img.attr("src"));
-            Wireframe.copyCss(img,innerImg,"width");
-            Wireframe.copyCss(img,innerImg,"height");
+            WireframeCreating.copyCss(img,innerImg,"width");
+            WireframeCreating.copyCss(img,innerImg,"height");
             imgWF.append(innerImg);
             break;
     }
@@ -208,9 +208,9 @@ Wireframe.processImage = function(img, nodeOptions){
 
 
     if(nodeOptions.position){
-        Wireframe.basePosition(imgWF, img, nodeOptions);
+        WireframeCreating.basePosition(imgWF, img, nodeOptions);
     }
-    Wireframe.append(imgWF);
+    WireframeCreating.append(imgWF);
 
     return {walkChilds:false};
 };
@@ -220,7 +220,7 @@ jQuery.expr[":"].isOneLineText = function(elem) {
     return $(elem).is("span:noChild") || $(elem).is("a:noChild");
 };
 
-Wireframe.processOneLineText = function(elm, nodeOptions){
+WireframeCreating.processOneLineText = function(elm, nodeOptions){
     //dump(elm);
 
     var spanWF = $("<div />");
@@ -232,18 +232,18 @@ Wireframe.processOneLineText = function(elm, nodeOptions){
     //spanWF.css("font-weight",elm.css("font-weight"));
     //spanWF.css("line-height",elm.css("line-height"));
 
-    Wireframe.copyCss(elm,spanWF,"font-size");
-    Wireframe.copyCss(elm,spanWF,"font-family");
-    Wireframe.copyCss(elm,spanWF,"font-weight");
-    Wireframe.copyCss(elm,spanWF,"line-height");
-    Wireframe.copyCss(elm,spanWF,"text-align");
+    WireframeCreating.copyCss(elm,spanWF,"font-size");
+    WireframeCreating.copyCss(elm,spanWF,"font-family");
+    WireframeCreating.copyCss(elm,spanWF,"font-weight");
+    WireframeCreating.copyCss(elm,spanWF,"line-height");
+    WireframeCreating.copyCss(elm,spanWF,"text-align");
 
     //spanWF.css("word-wrap","break-word");
     spanWF.css("overflow","hidden");
-    Wireframe.copyCss(elm,spanWF,"height");
-    Wireframe.copyCss(elm,spanWF,"width");
+    WireframeCreating.copyCss(elm,spanWF,"height");
+    WireframeCreating.copyCss(elm,spanWF,"width");
 
-    switch (Wireframe.wireframeOptions.textMode){
+    switch (WireframeCreating.wireframeOptions.textMode){
         case "lorem":
             var trim = elm.text().length <= 10;
             spanWF.lorem({type:"characters",amount:elm.text().length,trim:trim});
@@ -254,15 +254,15 @@ Wireframe.processOneLineText = function(elm, nodeOptions){
         case "box":
             spanWF.css("background-image",'url("https://cdn.tutsplus.com/net/uploads/legacy/2161_phantom/preview.png")');
             spanWF.css("border","1px solid black");
-            //spanWF.css("background-image",'url("'+Wireframe.wireframeOptions.srvUrl+'images/line.png")');
-            //spanWF.text(Wireframe.wireframeOptions.srvUrl+'images/line.png');
+            //spanWF.css("background-image",'url("'+WireframeCreating.wireframeOptions.srvUrl+'images/line.png")');
+            //spanWF.text(WireframeCreating.wireframeOptions.srvUrl+'images/line.png');
             break;
     }
 
     if(nodeOptions.position){
-        Wireframe.basePosition(spanWF, elm, nodeOptions);
+        WireframeCreating.basePosition(spanWF, elm, nodeOptions);
     }
-    Wireframe.append(spanWF);
+    WireframeCreating.append(spanWF);
 
     return {walkChilds:false,node:spanWF};
 };
@@ -272,7 +272,7 @@ jQuery.expr[":"].isIframe = function(elem) {
     return $(elem).is("iframe");
 };
 
-Wireframe.processIframe = function(iframe, nodeOptions){
+WireframeCreating.processIframe = function(iframe, nodeOptions){
     var iframeWf = $("<div />");
 
 
@@ -283,9 +283,9 @@ Wireframe.processIframe = function(iframe, nodeOptions){
     //}
 
     if(nodeOptions.position){
-        Wireframe.basePosition(iframeWf, iframe, nodeOptions);
+        WireframeCreating.basePosition(iframeWf, iframe, nodeOptions);
     }
-    Wireframe.append(iframeWf);
+    WireframeCreating.append(iframeWf);
 
     return {walkChilds:false};
 };
@@ -309,7 +309,7 @@ jQuery.expr[":"].isHeadingInline = function(elem) {
     return false;
 };
 
-Wireframe.processHeadingInline = function (node, nodeOptions) {
+WireframeCreating.processHeadingInline = function (node, nodeOptions) {
     //console.log($(node).prop("tagName"));
     switch($(node).prop("tagName")){
         case "H1":
@@ -332,7 +332,7 @@ Wireframe.processHeadingInline = function (node, nodeOptions) {
             break;
     }
 
-    switch (Wireframe.wireframeOptions.textMode){
+    switch (WireframeCreating.wireframeOptions.textMode){
         case "lorem":
             var trim = node.text().length <= 10;
             $heading.lorem({type:"characters",amount:node.text().length,trim:trim});
@@ -341,22 +341,22 @@ Wireframe.processHeadingInline = function (node, nodeOptions) {
             $heading.text(node.text());
             break;
         case "box":
-            $heading.css("background-image",'url("'+Wireframe.wireframeOptions.srvUrl+'images/line.png")');
-            Wireframe.copyCss(node,$heading,"height");
-            Wireframe.copyCss(node,$heading,"width");
+            $heading.css("background-image",'url("'+WireframeCreating.wireframeOptions.srvUrl+'images/line.png")');
+            WireframeCreating.copyCss(node,$heading,"height");
+            WireframeCreating.copyCss(node,$heading,"width");
             break;
     }
 
-    Wireframe.copyCss(node,$heading,"font-size");
-    Wireframe.copyCss(node,$heading,"font-family");
-    Wireframe.copyCss(node,$heading,"font-weight");
-    Wireframe.copyCss(node,$heading,"line-height");
-    Wireframe.copyCss(node,$heading,"text-align");
+    WireframeCreating.copyCss(node,$heading,"font-size");
+    WireframeCreating.copyCss(node,$heading,"font-family");
+    WireframeCreating.copyCss(node,$heading,"font-weight");
+    WireframeCreating.copyCss(node,$heading,"line-height");
+    WireframeCreating.copyCss(node,$heading,"text-align");
 
     if (nodeOptions.position) {
-        Wireframe.basePosition($heading, node, nodeOptions);
+        WireframeCreating.basePosition($heading, node, nodeOptions);
     }
-    Wireframe.append($heading);
+    WireframeCreating.append($heading);
 
     return {walkChilds:false,node:$heading};
 };// try do detect if element is a slider
@@ -376,7 +376,7 @@ jQuery.expr[":"].isSlider = function(elem) {
     return isSlider;
 };
 
-Wireframe.processSlider = function(slider, nodeOptions){
+WireframeCreating.processSlider = function(slider, nodeOptions){
     var sliderWf = $("<div />");
 
     sliderWf.css("background-color","#d7d7d7");
@@ -386,11 +386,11 @@ Wireframe.processSlider = function(slider, nodeOptions){
 
 
     if(nodeOptions.position){
-        Wireframe.basePosition(sliderWf, slider, nodeOptions);
+        WireframeCreating.basePosition(sliderWf, slider, nodeOptions);
     }
     sliderWf.css("height",slider.find("li").height()+"px");
     sliderWf.css("width",slider.find("li").width()+"px");
-    Wireframe.append(sliderWf);
+    WireframeCreating.append(sliderWf);
 
     return {walkChilds:false};
 };// ol/ul
@@ -401,7 +401,7 @@ jQuery.expr[":"].isList = function (elem) {
     return r;
 };
 
-Wireframe.processList = function (list, nodeOptions) {
+WireframeCreating.processList = function (list, nodeOptions) {
     if (list.is("ul")) {
         var listWf = $("<ul></ul>");
         //console.log("procesuji ul");
@@ -411,15 +411,15 @@ Wireframe.processList = function (list, nodeOptions) {
         //console.log("procesuji ol");
     }
     //console.log("procesuji list "+$(list).attr("id"));
-    Wireframe.copyCss(list, listWf, "list-style-type");
+    WireframeCreating.copyCss(list, listWf, "list-style-type");
 
     if (nodeOptions.position) {
-        //Wireframe.basePosition(listWf, list);
+        //WireframeCreating.basePosition(listWf, list);
 
     }
-    Wireframe.wireframeContainer.push(listWf);
-    Wireframe.popWireframeContainer.pop();
-    Wireframe.popWireframeContainer.push(true);
+    WireframeCreating.wireframeContainer.push(listWf);
+    WireframeCreating.popWireframeContainer.pop();
+    WireframeCreating.popWireframeContainer.push(true);
 
     return {walkChilds: true, nodeOptions: nodeOptions};
 };
@@ -444,15 +444,15 @@ jQuery.expr[":"].isListItemInline = function (elem) {
     return false;
 };
 
-Wireframe.processListItemInline = function (listItem, nodeOptions) {
+WireframeCreating.processListItemInline = function (listItem, nodeOptions) {
     //console.log("inline li");
     var li = $("<li></li>");
     if (nodeOptions.position) {
-        Wireframe.basePosition(li, listItem, nodeOptions);
+        WireframeCreating.basePosition(li, listItem, nodeOptions);
     }
-    var result = Wireframe.processOneLineText(listItem, $.extend({},nodeOptions, {position: false}));
+    var result = WireframeCreating.processOneLineText(listItem, $.extend({},nodeOptions, {position: false}));
     li.html(result.node);
-    Wireframe.append(li);
+    WireframeCreating.append(li);
     return {walkChilds: false, nodeOptions:nodeOptions };
 };
 
@@ -467,13 +467,13 @@ jQuery.expr[":"].isListItemChildrens = function (elem) {
     return false;
 };
 
-Wireframe.processListItemChildrens = function (listItem, nodeOptions) {
+WireframeCreating.processListItemChildrens = function (listItem, nodeOptions) {
     //console.log("li s potomky");
     var li = $("<li></li>");
     if (nodeOptions.position) {
-        Wireframe.basePosition(li, listItem, nodeOptions);
+        WireframeCreating.basePosition(li, listItem, nodeOptions);
     }
-    Wireframe.setWireframeContainer(li);
+    WireframeCreating.setWireframeContainer(li);
 
     nodeOptions.positionLeftAdd = -$(listItem).offset().left;
     nodeOptions.positionTopAdd = -$(listItem).offset().top;
@@ -488,17 +488,17 @@ jQuery.expr[":"].isTable = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("table"));
 };
 
-Wireframe.processTable = function (node, nodeOptions) {
+WireframeCreating.processTable = function (node, nodeOptions) {
     var $table = $("<table></table>");
-    Wireframe.copyCss(node,$table,"width");
-    Wireframe.copyCss(node,$table,"height");
+    WireframeCreating.copyCss(node,$table,"width");
+    WireframeCreating.copyCss(node,$table,"height");
     if (nodeOptions.position) {
-        Wireframe.basePosition($table, node, nodeOptions);
+        WireframeCreating.basePosition($table, node, nodeOptions);
         nodeOptions.positionLeftAdd = -$(node).offset().left;
         nodeOptions.positionTopAdd = -$(node).offset().top;
     }
-    Wireframe.copyAttr(node,$table,"border");
-    Wireframe.setWireframeContainer($table);
+    WireframeCreating.copyAttr(node,$table,"border");
+    WireframeCreating.setWireframeContainer($table);
     return {walkChilds: true, nodeOptions: nodeOptions};
 };
 
@@ -507,11 +507,11 @@ jQuery.expr[":"].isTableRow = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("tr"));
 };
 
-Wireframe.processTableRow = function (node, nodeOptions) {
+WireframeCreating.processTableRow = function (node, nodeOptions) {
     var $tr = $("<tr></tr>");
-    Wireframe.copyCss(node,$tr,"width");
-    Wireframe.copyCss(node,$tr,"height");
-    Wireframe.setWireframeContainer($tr);
+    WireframeCreating.copyCss(node,$tr,"width");
+    WireframeCreating.copyCss(node,$tr,"height");
+    WireframeCreating.setWireframeContainer($tr);
     return {walkChilds: true, nodeOptions: nodeOptions};
 };
 
@@ -531,23 +531,23 @@ jQuery.expr[":"].isTableCellInline = function (elem) {
     return false;
 };
 
-Wireframe.processTableCellInline = function (node, nodeOptions) {
+WireframeCreating.processTableCellInline = function (node, nodeOptions) {
     if($(node).is("th")){
         var $cell = $("<th></th>");
     }else{
         var $cell = $("<td></td>");
     }
     //if (nodeOptions.position) {
-    //    Wireframe.basePosition($cell, node, nodeOptions);
+    //    WireframeCreating.basePosition($cell, node, nodeOptions);
     //}
 
-    Wireframe.copyAttr(node,$cell,"colspan");
-    Wireframe.copyAttr(node,$cell,"rowspan");
-    Wireframe.copyCss(node,$cell,"width");
-    Wireframe.copyCss(node,$cell,"height");
-    var result = Wireframe.processOneLineText(node, $.extend({},nodeOptions, {position: false}));
+    WireframeCreating.copyAttr(node,$cell,"colspan");
+    WireframeCreating.copyAttr(node,$cell,"rowspan");
+    WireframeCreating.copyCss(node,$cell,"width");
+    WireframeCreating.copyCss(node,$cell,"height");
+    var result = WireframeCreating.processOneLineText(node, $.extend({},nodeOptions, {position: false}));
     $cell.html(result.node);
-    Wireframe.append($cell);
+    WireframeCreating.append($cell);
     return {walkChilds: false, nodeOptions:nodeOptions };
 };
 
@@ -562,7 +562,7 @@ jQuery.expr[":"].isTableCellChildrens = function (elem) {
     return false;
 };
 
-Wireframe.processTableCellChildrens = function (node, nodeOptions) {
+WireframeCreating.processTableCellChildrens = function (node, nodeOptions) {
     if($(node).is("th")){
         var $cell = $("<th></th>");
     }else{
@@ -570,14 +570,14 @@ Wireframe.processTableCellChildrens = function (node, nodeOptions) {
     }
 
     //if (nodeOptions.position) {
-    //    Wireframe.basePosition($cell, node, nodeOptions);
+    //    WireframeCreating.basePosition($cell, node, nodeOptions);
     //}
 
-    Wireframe.copyAttr(node,$cell,"colspan");
-    Wireframe.copyAttr(node,$cell,"rowspan");
-    Wireframe.copyCss(node,$cell,"width");
-    Wireframe.copyCss(node,$cell,"height");
-    Wireframe.setWireframeContainer($cell);
+    WireframeCreating.copyAttr(node,$cell,"colspan");
+    WireframeCreating.copyAttr(node,$cell,"rowspan");
+    WireframeCreating.copyCss(node,$cell,"width");
+    WireframeCreating.copyCss(node,$cell,"height");
+    WireframeCreating.setWireframeContainer($cell);
 
     //nodeOptions.positionLeftAdd = -$(node).offset().left;
     //nodeOptions.positionTopAdd = -$(node).offset().top;
@@ -588,7 +588,7 @@ jQuery.expr[":"].isFormRadio = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("[type=radio]"));
 };
 
-Wireframe.processFormRadio = function (radio, nodeOptions) {
+WireframeCreating.processFormRadio = function (radio, nodeOptions) {
     var radioWf = $("<input />");
     radioWf.attr("type", "radio");
     if (radio.is(":checked")) {
@@ -596,10 +596,10 @@ Wireframe.processFormRadio = function (radio, nodeOptions) {
     }
 
     if (nodeOptions.position) {
-        Wireframe.basePosition(radioWf, radio, nodeOptions);
+        WireframeCreating.basePosition(radioWf, radio, nodeOptions);
 
     }
-    Wireframe.append(radioWf);
+    WireframeCreating.append(radioWf);
 
     return {walkChilds: false};
 };
@@ -609,7 +609,7 @@ jQuery.expr[":"].isFormCheckbox = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("[type=checkbox]"));
 };
 
-Wireframe.processFormCheckbox = function (checkbox, nodeOptions) {
+WireframeCreating.processFormCheckbox = function (checkbox, nodeOptions) {
     var checkboxWf = $("<input />");
     checkboxWf.attr("type", "checkbox");
     if (checkbox.is(":checked")) {
@@ -617,10 +617,10 @@ Wireframe.processFormCheckbox = function (checkbox, nodeOptions) {
     }
 
     if (nodeOptions.position) {
-        Wireframe.basePosition(checkboxWf, checkbox, nodeOptions);
+        WireframeCreating.basePosition(checkboxWf, checkbox, nodeOptions);
 
     }
-    Wireframe.append(checkboxWf);
+    WireframeCreating.append(checkboxWf);
 
     return {walkChilds: false};
 };
@@ -630,15 +630,15 @@ jQuery.expr[":"].isFormFile = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("[type=file]"));
 };
 
-Wireframe.processFormFile = function (file, nodeOptions) {
+WireframeCreating.processFormFile = function (file, nodeOptions) {
     var fileWf = $("<input />");
     fileWf.attr("type", "file");
 
     if (nodeOptions.position) {
-        Wireframe.basePosition(fileWf, file, nodeOptions);
+        WireframeCreating.basePosition(fileWf, file, nodeOptions);
 
     }
-    Wireframe.append(fileWf);
+    WireframeCreating.append(fileWf);
 
     return {walkChilds: false};
 };
@@ -648,17 +648,17 @@ jQuery.expr[":"].isFormButton = function (elem) {
     return ($(elem).is(":visibleElement") && ($(elem).is("[type=submit]") || $(elem).is("[type=reset]") || $(elem).is("[type=image]") || $(elem).is("button")));
 };
 
-Wireframe.processFormButton = function (button, nodeOptions) {
+WireframeCreating.processFormButton = function (button, nodeOptions) {
     var buttonWf = $("<input />");
     buttonWf.attr("type", "submit");
 
     buttonWf.attr("value", "");
 
     if (nodeOptions.position) {
-        Wireframe.basePosition(buttonWf, button, nodeOptions);
+        WireframeCreating.basePosition(buttonWf, button, nodeOptions);
 
     }
-    Wireframe.append(buttonWf);
+    WireframeCreating.append(buttonWf);
 
     return {walkChilds: false};
 };
@@ -668,15 +668,15 @@ jQuery.expr[":"].isFormRange = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("[type=range]"));
 };
 
-Wireframe.processFormRange = function (input, nodeOptions) {
+WireframeCreating.processFormRange = function (input, nodeOptions) {
     var inputWf = $("<input />");
     inputWf.attr("type", "range");
 
     if (nodeOptions.position) {
-        Wireframe.basePosition(inputWf, input, nodeOptions);
+        WireframeCreating.basePosition(inputWf, input, nodeOptions);
 
     }
-    Wireframe.append(inputWf);
+    WireframeCreating.append(inputWf);
 
     return {walkChilds: false};
 };
@@ -686,15 +686,15 @@ jQuery.expr[":"].isFormInput = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("input") && !$(elem).is("[type=hidden]") && !$(elem).is(":isFormRadio") && !$(elem).is(":isFormCheckbox") && !$(elem).is(":isFormFile") && !$(elem).is(":isFormButton") && !$(elem).is(":isFormRange"));
 };
 
-Wireframe.processFormInput = function (input, nodeOptions) {
+WireframeCreating.processFormInput = function (input, nodeOptions) {
     var inputWf = $("<input />");
     inputWf.attr("type", "text");
 
     if (nodeOptions.position) {
-        Wireframe.basePosition(inputWf, input, nodeOptions);
+        WireframeCreating.basePosition(inputWf, input, nodeOptions);
 
     }
-    Wireframe.append(inputWf);
+    WireframeCreating.append(inputWf);
 
     return {walkChilds: false};
 };
@@ -704,7 +704,7 @@ jQuery.expr[":"].isFormSelect = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("select"));
 };
 
-Wireframe.processFormSelect = function (select, nodeOptions) {
+WireframeCreating.processFormSelect = function (select, nodeOptions) {
     var selectWf = $("<select />");
 
     if (select.is("[multiple]")) {
@@ -712,10 +712,10 @@ Wireframe.processFormSelect = function (select, nodeOptions) {
     }
 
     if (nodeOptions.position) {
-        Wireframe.basePosition(selectWf, select, nodeOptions);
+        WireframeCreating.basePosition(selectWf, select, nodeOptions);
 
     }
-    Wireframe.append(selectWf);
+    WireframeCreating.append(selectWf);
 
     return {walkChilds: false};
 };
@@ -725,28 +725,173 @@ jQuery.expr[":"].isFormTextarea = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("textarea"));
 };
 
-Wireframe.processFormTextarea = function (textarea, nodeOptions) {
+WireframeCreating.processFormTextarea = function (textarea, nodeOptions) {
     var textareaWf = $("<textarea />");
 
     if (nodeOptions.position) {
-        Wireframe.basePosition(textareaWf, textarea, nodeOptions);
+        WireframeCreating.basePosition(textareaWf, textarea, nodeOptions);
 
     }
-    Wireframe.append(textareaWf);
+    WireframeCreating.append(textareaWf);
 
     return {walkChilds: false};
-};(function ($) {
-    $.fn.wireframe = function (options, fn) {
+};var WireframeReplacing = {
+    elementTypes: ["DoNothing","Image","Element"],
 
-        var defaults = {
-            srvUrl: "",
-            textMode: "lorem",
-            imageMode: "box"
-        };
-        var options = $.extend({},defaults, options);
+    defaultNodeOptions:{
+        position:true,
+        positionTopAdd:0,
+        positionLeftAdd:0
+    },
 
-        console.log(JSON.stringify(options));
+    wireframeOptions:{},
+    container : null,
 
-        return Wireframe.run(this, options);
+    basePosition: function(el, original,nodeOptions){
+        //el.css("position", "absolute");
+        //el.css("top", (original.offset().top + nodeOptions.positionTopAdd) + "px");
+        //el.css("left", (original.offset().left + nodeOptions.positionLeftAdd) + "px");
+        //el.css("width", original.width() + "px");
+        //el.css("height", original.height() + "px");
+    },
+
+    append : function(element){
+        WireframeReplacing.container.append(element);
+    },
+
+    copyCss: function(from, to, rule){
+        to.css(rule,from.css(rule));
+    },
+
+    copyAttr: function(from, to, name){
+        to.attr(name,from.attr(name));
+    },
+
+    walk: function (node, nodeOptions) {
+        var $node = $(node);
+        var walkChilds = true;
+        nodeOptions = $.extend({},WireframeReplacing.defaultNodeOptions, nodeOptions);
+
+        var length = WireframeReplacing.elementTypes.length;
+        for(var i = 0;i<length;++i){
+            var type = WireframeReplacing.elementTypes[i];
+            if($node.is(":is"+type)){
+                var result = WireframeReplacing["process"+type]($node, nodeOptions);
+                walkChilds = result.walkChilds;
+                if(result.nodeOptions){
+                    nodeOptions = result.nodeOptions;
+                }
+                break;
+            }
+        }
+
+        if (walkChilds) {
+            var childrens = $node.children();
+            childrens.each(function (i, v) {
+                WireframeReplacing.walk(v, nodeOptions);
+            });
+        }
+    },
+
+    run: function (element, options) {
+
+        WireframeReplacing.wireframeOptions = options;
+
+        var container = $(element);
+
+
+        if (container.is(document)) {
+            WireframeReplacing.container = container.find("body");
+
+            console.log("ahoj");
+
+            this.walk(WireframeReplacing.container,{});
+
+            $("html,body",container).css("background","none");
+            $("html,body",container).css("background-color","white");
+
+        }
+        return container;
+    }
+};// some element
+jQuery.expr[":"].isElement = function(elem){
+    return true;
+};
+
+WireframeReplacing.processElement = function(node, nodeOptions){
+    node.css("color","black");
+    node.css("backround","none");
+    return {walkChilds:true};
+};
+
+// dont process
+jQuery.expr[":"].isDoNothing = function(elem){
+    return $(elem).is(":displayNone") || $(elem).is(":toSmall") || $(elem).is("script");
+};
+
+WireframeReplacing.processDoNothing = function(){
+    // dont walk childs
+    return {walkChilds:false};
+};
+
+// image
+jQuery.expr[":"].isImage = function(elem) {
+    return $(elem).is("img");
+};
+
+WireframeReplacing.processImage = function(img, nodeOptions){
+    console.log(WireframeReplacing.wireframeOptions.imageMode);
+    img.css("border","none");
+    switch (WireframeReplacing.wireframeOptions.imageMode){
+        case "box":
+            img.css("display","inline-block");
+            img.css("background-color","#d7d7d7");
+            img.css("color","#d7d7d7");
+            img.css("width",img.width()+"px");
+            img.css("height",img.height()+"px");
+            img.removeAttr("src");
+            img.removeAttr("alt");
+            img.removeAttr("title");
+            break;
+        case "blur":
+            img.css("-webkit-filter","blur(10px)");
+            break;
+        case "remove":
+            img.removeAttr("src");
+            img.removeAttr("alt");
+            img.removeAttr("title");
+            break;
+    }
+
+    return {walkChilds:false};
+};
+
+jQuery.expr[":"].displayNone = function(elem) {
+    return $(elem).css("display") === "none";
+};
+jQuery.expr[":"].toSmall = function(elem) {
+    return $(elem).width() < 2 && $(elem).height() < 2;
+};
+$.fn.wireframeCreating = function (options, fn) {
+
+    var defaults = {
+        srvUrl: "",
+        textMode: "lorem",
+        imageMode: "box"
     };
-})(jQuery);
+    var options = $.extend({},defaults, options);
+
+    return WireframeCreating.run(this, options);
+};
+
+$.fn.wireframeReplacing = function(options, fn){
+
+    var defaults = {
+        srvUrl: "",
+        textMode: "lorem",
+        imageMode: "box"
+    };
+    var options = $.extend({},defaults, options);
+
+    return WireframeReplacing.run(this, options);
+};

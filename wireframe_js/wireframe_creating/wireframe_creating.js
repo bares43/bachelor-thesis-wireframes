@@ -1,4 +1,4 @@
-var Wireframe = {
+var WireframeCreating = {
 
     elementTypes: ["DoNothing","List","ListItemInline","ListItemChildrens","Table","TableRow","TableCellInline","TableCellChildrens", "FormSelect", "FormTextarea", "FormRadio", "FormCheckbox", "FormFile", "FormButton", "FormRange", "FormInput", "Slider", "Iframe", "Image","HeadingInline", "OneLineText"],
 
@@ -17,14 +17,14 @@ var Wireframe = {
     walk: function (node, nodeOptions) {
         var $node = $(node);
         var walkChilds = true;
-        Wireframe.popWireframeContainer.push(false);
-        nodeOptions = $.extend({},Wireframe.defaultNodeOptions, nodeOptions);
+        WireframeCreating.popWireframeContainer.push(false);
+        nodeOptions = $.extend({},WireframeCreating.defaultNodeOptions, nodeOptions);
 
-        var length = Wireframe.elementTypes.length;
+        var length = WireframeCreating.elementTypes.length;
         for(var i = 0;i<length;++i){
-            var type = Wireframe.elementTypes[i];
+            var type = WireframeCreating.elementTypes[i];
             if($node.is(":is"+type)){
-                var result = Wireframe["process"+type]($node, nodeOptions);
+                var result = WireframeCreating["process"+type]($node, nodeOptions);
                 walkChilds = result.walkChilds;
                 if(result.nodeOptions){
                     nodeOptions = result.nodeOptions;
@@ -37,12 +37,12 @@ var Wireframe = {
         if (walkChilds) {
             var childrens = $node.children();
             childrens.each(function (i, v) {
-                Wireframe.walk(v, nodeOptions);
+                WireframeCreating.walk(v, nodeOptions);
             });
         }
 
-        if(Wireframe.popWireframeContainer.pop()){
-            Wireframe.append(Wireframe.wireframeContainer.pop());
+        if(WireframeCreating.popWireframeContainer.pop()){
+            WireframeCreating.append(WireframeCreating.wireframeContainer.pop());
         }
 
     },
@@ -66,22 +66,22 @@ var Wireframe = {
     },
 
     append : function(element){
-        Wireframe.getCurrentWireframeContainer().append(element);
+        WireframeCreating.getCurrentWireframeContainer().append(element);
     },
 
     getCurrentWireframeContainer : function(){
-        return Wireframe.wireframeContainer[Wireframe.wireframeContainer.length-1];
+        return WireframeCreating.wireframeContainer[WireframeCreating.wireframeContainer.length-1];
     },
 
     setWireframeContainer : function(element){
-        Wireframe.wireframeContainer.push(element);
-        Wireframe.popWireframeContainer.pop();
-        Wireframe.popWireframeContainer.push(true);
+        WireframeCreating.wireframeContainer.push(element);
+        WireframeCreating.popWireframeContainer.pop();
+        WireframeCreating.popWireframeContainer.push(true);
     },
 
     run: function (element, options) {
 
-        Wireframe.wireframeOptions = options;
+        WireframeCreating.wireframeOptions = options;
 
         var container = $(element);
 
@@ -91,7 +91,7 @@ var Wireframe = {
         if (container.is(document)) {
             //console.log("tvorim wf");
 
-            Wireframe.wireframeContainer.push($("<div />").css("position", "relative"));
+            WireframeCreating.wireframeContainer.push($("<div />").css("position", "relative"));
 
 
             this.walk(container.find("body"),{});
@@ -102,7 +102,7 @@ var Wireframe = {
             $("html,body",container).css("background","none");
             $("html,body",container).css("background-color","white");
 
-            container.find("body").append(Wireframe.wireframeContainer[0]);
+            container.find("body").append(WireframeCreating.wireframeContainer[0]);
 
         }
         return container;

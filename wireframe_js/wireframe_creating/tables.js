@@ -3,17 +3,17 @@ jQuery.expr[":"].isTable = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("table"));
 };
 
-Wireframe.processTable = function (node, nodeOptions) {
+WireframeCreating.processTable = function (node, nodeOptions) {
     var $table = $("<table></table>");
-    Wireframe.copyCss(node,$table,"width");
-    Wireframe.copyCss(node,$table,"height");
+    WireframeCreating.copyCss(node,$table,"width");
+    WireframeCreating.copyCss(node,$table,"height");
     if (nodeOptions.position) {
-        Wireframe.basePosition($table, node, nodeOptions);
+        WireframeCreating.basePosition($table, node, nodeOptions);
         nodeOptions.positionLeftAdd = -$(node).offset().left;
         nodeOptions.positionTopAdd = -$(node).offset().top;
     }
-    Wireframe.copyAttr(node,$table,"border");
-    Wireframe.setWireframeContainer($table);
+    WireframeCreating.copyAttr(node,$table,"border");
+    WireframeCreating.setWireframeContainer($table);
     return {walkChilds: true, nodeOptions: nodeOptions};
 };
 
@@ -22,11 +22,11 @@ jQuery.expr[":"].isTableRow = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("tr"));
 };
 
-Wireframe.processTableRow = function (node, nodeOptions) {
+WireframeCreating.processTableRow = function (node, nodeOptions) {
     var $tr = $("<tr></tr>");
-    Wireframe.copyCss(node,$tr,"width");
-    Wireframe.copyCss(node,$tr,"height");
-    Wireframe.setWireframeContainer($tr);
+    WireframeCreating.copyCss(node,$tr,"width");
+    WireframeCreating.copyCss(node,$tr,"height");
+    WireframeCreating.setWireframeContainer($tr);
     return {walkChilds: true, nodeOptions: nodeOptions};
 };
 
@@ -46,23 +46,23 @@ jQuery.expr[":"].isTableCellInline = function (elem) {
     return false;
 };
 
-Wireframe.processTableCellInline = function (node, nodeOptions) {
+WireframeCreating.processTableCellInline = function (node, nodeOptions) {
     if($(node).is("th")){
         var $cell = $("<th></th>");
     }else{
         var $cell = $("<td></td>");
     }
     //if (nodeOptions.position) {
-    //    Wireframe.basePosition($cell, node, nodeOptions);
+    //    WireframeCreating.basePosition($cell, node, nodeOptions);
     //}
 
-    Wireframe.copyAttr(node,$cell,"colspan");
-    Wireframe.copyAttr(node,$cell,"rowspan");
-    Wireframe.copyCss(node,$cell,"width");
-    Wireframe.copyCss(node,$cell,"height");
-    var result = Wireframe.processOneLineText(node, $.extend({},nodeOptions, {position: false}));
+    WireframeCreating.copyAttr(node,$cell,"colspan");
+    WireframeCreating.copyAttr(node,$cell,"rowspan");
+    WireframeCreating.copyCss(node,$cell,"width");
+    WireframeCreating.copyCss(node,$cell,"height");
+    var result = WireframeCreating.processOneLineText(node, $.extend({},nodeOptions, {position: false}));
     $cell.html(result.node);
-    Wireframe.append($cell);
+    WireframeCreating.append($cell);
     return {walkChilds: false, nodeOptions:nodeOptions };
 };
 
@@ -77,7 +77,7 @@ jQuery.expr[":"].isTableCellChildrens = function (elem) {
     return false;
 };
 
-Wireframe.processTableCellChildrens = function (node, nodeOptions) {
+WireframeCreating.processTableCellChildrens = function (node, nodeOptions) {
     if($(node).is("th")){
         var $cell = $("<th></th>");
     }else{
@@ -85,14 +85,14 @@ Wireframe.processTableCellChildrens = function (node, nodeOptions) {
     }
 
     //if (nodeOptions.position) {
-    //    Wireframe.basePosition($cell, node, nodeOptions);
+    //    WireframeCreating.basePosition($cell, node, nodeOptions);
     //}
 
-    Wireframe.copyAttr(node,$cell,"colspan");
-    Wireframe.copyAttr(node,$cell,"rowspan");
-    Wireframe.copyCss(node,$cell,"width");
-    Wireframe.copyCss(node,$cell,"height");
-    Wireframe.setWireframeContainer($cell);
+    WireframeCreating.copyAttr(node,$cell,"colspan");
+    WireframeCreating.copyAttr(node,$cell,"rowspan");
+    WireframeCreating.copyCss(node,$cell,"width");
+    WireframeCreating.copyCss(node,$cell,"height");
+    WireframeCreating.setWireframeContainer($cell);
 
     //nodeOptions.positionLeftAdd = -$(node).offset().left;
     //nodeOptions.positionTopAdd = -$(node).offset().top;

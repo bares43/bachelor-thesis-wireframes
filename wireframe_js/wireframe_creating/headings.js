@@ -18,7 +18,7 @@ jQuery.expr[":"].isHeadingInline = function(elem) {
     return false;
 };
 
-Wireframe.processHeadingInline = function (node, nodeOptions) {
+WireframeCreating.processHeadingInline = function (node, nodeOptions) {
     //console.log($(node).prop("tagName"));
     switch($(node).prop("tagName")){
         case "H1":
@@ -41,7 +41,7 @@ Wireframe.processHeadingInline = function (node, nodeOptions) {
             break;
     }
 
-    switch (Wireframe.wireframeOptions.textMode){
+    switch (WireframeCreating.wireframeOptions.textMode){
         case "lorem":
             var trim = node.text().length <= 10;
             $heading.lorem({type:"characters",amount:node.text().length,trim:trim});
@@ -50,22 +50,22 @@ Wireframe.processHeadingInline = function (node, nodeOptions) {
             $heading.text(node.text());
             break;
         case "box":
-            $heading.css("background-image",'url("'+Wireframe.wireframeOptions.srvUrl+'images/line.png")');
-            Wireframe.copyCss(node,$heading,"height");
-            Wireframe.copyCss(node,$heading,"width");
+            $heading.css("background-image",'url("'+WireframeCreating.wireframeOptions.srvUrl+'images/line.png")');
+            WireframeCreating.copyCss(node,$heading,"height");
+            WireframeCreating.copyCss(node,$heading,"width");
             break;
     }
 
-    Wireframe.copyCss(node,$heading,"font-size");
-    Wireframe.copyCss(node,$heading,"font-family");
-    Wireframe.copyCss(node,$heading,"font-weight");
-    Wireframe.copyCss(node,$heading,"line-height");
-    Wireframe.copyCss(node,$heading,"text-align");
+    WireframeCreating.copyCss(node,$heading,"font-size");
+    WireframeCreating.copyCss(node,$heading,"font-family");
+    WireframeCreating.copyCss(node,$heading,"font-weight");
+    WireframeCreating.copyCss(node,$heading,"line-height");
+    WireframeCreating.copyCss(node,$heading,"text-align");
 
     if (nodeOptions.position) {
-        Wireframe.basePosition($heading, node, nodeOptions);
+        WireframeCreating.basePosition($heading, node, nodeOptions);
     }
-    Wireframe.append($heading);
+    WireframeCreating.append($heading);
 
     return {walkChilds:false,node:$heading};
 };

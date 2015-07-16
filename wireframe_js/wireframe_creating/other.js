@@ -57,7 +57,7 @@ jQuery.expr[":"].isDoNothing = function(elem){
     return $(elem).is(":displayNone") || $(elem).is(":toSmall") || $(elem).is("script");
 };
 
-Wireframe.processDoNothing = function(){
+WireframeCreating.processDoNothing = function(){
     // dont walk childs
     return {walkChilds:false};
 };
@@ -67,21 +67,21 @@ jQuery.expr[":"].isImage = function(elem) {
     return $(elem).is("img:visibleElement");
 };
 
-Wireframe.processImage = function(img, nodeOptions){
+WireframeCreating.processImage = function(img, nodeOptions){
     var imgWF = $("<div />");
 
     //imgWF.css("display","block");
     imgWF.css("position","absolute");
 
-    switch (Wireframe.wireframeOptions.imageMode){
+    switch (WireframeCreating.wireframeOptions.imageMode){
         case "box":
             imgWF.css("background-color","#d7d7d7");
         break;
         case "blur":
             var blurImg = $("<img />");
             blurImg.attr("src",img.attr("src"));
-            Wireframe.copyCss(img,blurImg,"width");
-            Wireframe.copyCss(img,blurImg,"height");
+            WireframeCreating.copyCss(img,blurImg,"width");
+            WireframeCreating.copyCss(img,blurImg,"height");
             //console.log("blur obrazku");
             blurImg.css("-webkit-filter","blur(10px)");
             imgWF.append(blurImg);
@@ -89,8 +89,8 @@ Wireframe.processImage = function(img, nodeOptions){
         case "original":
             var innerImg = $("<img />");
             innerImg.attr("src",img.attr("src"));
-            Wireframe.copyCss(img,innerImg,"width");
-            Wireframe.copyCss(img,innerImg,"height");
+            WireframeCreating.copyCss(img,innerImg,"width");
+            WireframeCreating.copyCss(img,innerImg,"height");
             imgWF.append(innerImg);
             break;
     }
@@ -99,9 +99,9 @@ Wireframe.processImage = function(img, nodeOptions){
 
 
     if(nodeOptions.position){
-        Wireframe.basePosition(imgWF, img, nodeOptions);
+        WireframeCreating.basePosition(imgWF, img, nodeOptions);
     }
-    Wireframe.append(imgWF);
+    WireframeCreating.append(imgWF);
 
     return {walkChilds:false};
 };
@@ -111,7 +111,7 @@ jQuery.expr[":"].isOneLineText = function(elem) {
     return $(elem).is("span:noChild") || $(elem).is("a:noChild");
 };
 
-Wireframe.processOneLineText = function(elm, nodeOptions){
+WireframeCreating.processOneLineText = function(elm, nodeOptions){
     //dump(elm);
 
     var spanWF = $("<div />");
@@ -123,18 +123,18 @@ Wireframe.processOneLineText = function(elm, nodeOptions){
     //spanWF.css("font-weight",elm.css("font-weight"));
     //spanWF.css("line-height",elm.css("line-height"));
 
-    Wireframe.copyCss(elm,spanWF,"font-size");
-    Wireframe.copyCss(elm,spanWF,"font-family");
-    Wireframe.copyCss(elm,spanWF,"font-weight");
-    Wireframe.copyCss(elm,spanWF,"line-height");
-    Wireframe.copyCss(elm,spanWF,"text-align");
+    WireframeCreating.copyCss(elm,spanWF,"font-size");
+    WireframeCreating.copyCss(elm,spanWF,"font-family");
+    WireframeCreating.copyCss(elm,spanWF,"font-weight");
+    WireframeCreating.copyCss(elm,spanWF,"line-height");
+    WireframeCreating.copyCss(elm,spanWF,"text-align");
 
     //spanWF.css("word-wrap","break-word");
     spanWF.css("overflow","hidden");
-    Wireframe.copyCss(elm,spanWF,"height");
-    Wireframe.copyCss(elm,spanWF,"width");
+    WireframeCreating.copyCss(elm,spanWF,"height");
+    WireframeCreating.copyCss(elm,spanWF,"width");
 
-    switch (Wireframe.wireframeOptions.textMode){
+    switch (WireframeCreating.wireframeOptions.textMode){
         case "lorem":
             var trim = elm.text().length <= 10;
             spanWF.lorem({type:"characters",amount:elm.text().length,trim:trim});
@@ -145,15 +145,15 @@ Wireframe.processOneLineText = function(elm, nodeOptions){
         case "box":
             spanWF.css("background-image",'url("https://cdn.tutsplus.com/net/uploads/legacy/2161_phantom/preview.png")');
             spanWF.css("border","1px solid black");
-            //spanWF.css("background-image",'url("'+Wireframe.wireframeOptions.srvUrl+'images/line.png")');
-            //spanWF.text(Wireframe.wireframeOptions.srvUrl+'images/line.png');
+            //spanWF.css("background-image",'url("'+WireframeCreating.wireframeOptions.srvUrl+'images/line.png")');
+            //spanWF.text(WireframeCreating.wireframeOptions.srvUrl+'images/line.png');
             break;
     }
 
     if(nodeOptions.position){
-        Wireframe.basePosition(spanWF, elm, nodeOptions);
+        WireframeCreating.basePosition(spanWF, elm, nodeOptions);
     }
-    Wireframe.append(spanWF);
+    WireframeCreating.append(spanWF);
 
     return {walkChilds:false,node:spanWF};
 };
@@ -163,7 +163,7 @@ jQuery.expr[":"].isIframe = function(elem) {
     return $(elem).is("iframe");
 };
 
-Wireframe.processIframe = function(iframe, nodeOptions){
+WireframeCreating.processIframe = function(iframe, nodeOptions){
     var iframeWf = $("<div />");
 
 
@@ -174,9 +174,9 @@ Wireframe.processIframe = function(iframe, nodeOptions){
     //}
 
     if(nodeOptions.position){
-        Wireframe.basePosition(iframeWf, iframe, nodeOptions);
+        WireframeCreating.basePosition(iframeWf, iframe, nodeOptions);
     }
-    Wireframe.append(iframeWf);
+    WireframeCreating.append(iframeWf);
 
     return {walkChilds:false};
 };

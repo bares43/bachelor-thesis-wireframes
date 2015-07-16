@@ -3,7 +3,7 @@ jQuery.expr[":"].isFormRadio = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("[type=radio]"));
 };
 
-Wireframe.processFormRadio = function (radio, nodeOptions) {
+WireframeCreating.processFormRadio = function (radio, nodeOptions) {
     var radioWf = $("<input />");
     radioWf.attr("type", "radio");
     if (radio.is(":checked")) {
@@ -11,10 +11,10 @@ Wireframe.processFormRadio = function (radio, nodeOptions) {
     }
 
     if (nodeOptions.position) {
-        Wireframe.basePosition(radioWf, radio, nodeOptions);
+        WireframeCreating.basePosition(radioWf, radio, nodeOptions);
 
     }
-    Wireframe.append(radioWf);
+    WireframeCreating.append(radioWf);
 
     return {walkChilds: false};
 };
@@ -24,7 +24,7 @@ jQuery.expr[":"].isFormCheckbox = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("[type=checkbox]"));
 };
 
-Wireframe.processFormCheckbox = function (checkbox, nodeOptions) {
+WireframeCreating.processFormCheckbox = function (checkbox, nodeOptions) {
     var checkboxWf = $("<input />");
     checkboxWf.attr("type", "checkbox");
     if (checkbox.is(":checked")) {
@@ -32,10 +32,10 @@ Wireframe.processFormCheckbox = function (checkbox, nodeOptions) {
     }
 
     if (nodeOptions.position) {
-        Wireframe.basePosition(checkboxWf, checkbox, nodeOptions);
+        WireframeCreating.basePosition(checkboxWf, checkbox, nodeOptions);
 
     }
-    Wireframe.append(checkboxWf);
+    WireframeCreating.append(checkboxWf);
 
     return {walkChilds: false};
 };
@@ -45,15 +45,15 @@ jQuery.expr[":"].isFormFile = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("[type=file]"));
 };
 
-Wireframe.processFormFile = function (file, nodeOptions) {
+WireframeCreating.processFormFile = function (file, nodeOptions) {
     var fileWf = $("<input />");
     fileWf.attr("type", "file");
 
     if (nodeOptions.position) {
-        Wireframe.basePosition(fileWf, file, nodeOptions);
+        WireframeCreating.basePosition(fileWf, file, nodeOptions);
 
     }
-    Wireframe.append(fileWf);
+    WireframeCreating.append(fileWf);
 
     return {walkChilds: false};
 };
@@ -63,17 +63,17 @@ jQuery.expr[":"].isFormButton = function (elem) {
     return ($(elem).is(":visibleElement") && ($(elem).is("[type=submit]") || $(elem).is("[type=reset]") || $(elem).is("[type=image]") || $(elem).is("button")));
 };
 
-Wireframe.processFormButton = function (button, nodeOptions) {
+WireframeCreating.processFormButton = function (button, nodeOptions) {
     var buttonWf = $("<input />");
     buttonWf.attr("type", "submit");
 
     buttonWf.attr("value", "");
 
     if (nodeOptions.position) {
-        Wireframe.basePosition(buttonWf, button, nodeOptions);
+        WireframeCreating.basePosition(buttonWf, button, nodeOptions);
 
     }
-    Wireframe.append(buttonWf);
+    WireframeCreating.append(buttonWf);
 
     return {walkChilds: false};
 };
@@ -83,15 +83,15 @@ jQuery.expr[":"].isFormRange = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("[type=range]"));
 };
 
-Wireframe.processFormRange = function (input, nodeOptions) {
+WireframeCreating.processFormRange = function (input, nodeOptions) {
     var inputWf = $("<input />");
     inputWf.attr("type", "range");
 
     if (nodeOptions.position) {
-        Wireframe.basePosition(inputWf, input, nodeOptions);
+        WireframeCreating.basePosition(inputWf, input, nodeOptions);
 
     }
-    Wireframe.append(inputWf);
+    WireframeCreating.append(inputWf);
 
     return {walkChilds: false};
 };
@@ -101,15 +101,15 @@ jQuery.expr[":"].isFormInput = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("input") && !$(elem).is("[type=hidden]") && !$(elem).is(":isFormRadio") && !$(elem).is(":isFormCheckbox") && !$(elem).is(":isFormFile") && !$(elem).is(":isFormButton") && !$(elem).is(":isFormRange"));
 };
 
-Wireframe.processFormInput = function (input, nodeOptions) {
+WireframeCreating.processFormInput = function (input, nodeOptions) {
     var inputWf = $("<input />");
     inputWf.attr("type", "text");
 
     if (nodeOptions.position) {
-        Wireframe.basePosition(inputWf, input, nodeOptions);
+        WireframeCreating.basePosition(inputWf, input, nodeOptions);
 
     }
-    Wireframe.append(inputWf);
+    WireframeCreating.append(inputWf);
 
     return {walkChilds: false};
 };
@@ -119,7 +119,7 @@ jQuery.expr[":"].isFormSelect = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("select"));
 };
 
-Wireframe.processFormSelect = function (select, nodeOptions) {
+WireframeCreating.processFormSelect = function (select, nodeOptions) {
     var selectWf = $("<select />");
 
     if (select.is("[multiple]")) {
@@ -127,10 +127,10 @@ Wireframe.processFormSelect = function (select, nodeOptions) {
     }
 
     if (nodeOptions.position) {
-        Wireframe.basePosition(selectWf, select, nodeOptions);
+        WireframeCreating.basePosition(selectWf, select, nodeOptions);
 
     }
-    Wireframe.append(selectWf);
+    WireframeCreating.append(selectWf);
 
     return {walkChilds: false};
 };
@@ -140,14 +140,14 @@ jQuery.expr[":"].isFormTextarea = function (elem) {
     return ($(elem).is(":visibleElement") && $(elem).is("textarea"));
 };
 
-Wireframe.processFormTextarea = function (textarea, nodeOptions) {
+WireframeCreating.processFormTextarea = function (textarea, nodeOptions) {
     var textareaWf = $("<textarea />");
 
     if (nodeOptions.position) {
-        Wireframe.basePosition(textareaWf, textarea, nodeOptions);
+        WireframeCreating.basePosition(textareaWf, textarea, nodeOptions);
 
     }
-    Wireframe.append(textareaWf);
+    WireframeCreating.append(textareaWf);
 
     return {walkChilds: false};
 };

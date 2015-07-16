@@ -6,7 +6,7 @@ jQuery.expr[":"].isList = function (elem) {
     return r;
 };
 
-Wireframe.processList = function (list, nodeOptions) {
+WireframeCreating.processList = function (list, nodeOptions) {
     if (list.is("ul")) {
         var listWf = $("<ul></ul>");
         //console.log("procesuji ul");
@@ -16,15 +16,15 @@ Wireframe.processList = function (list, nodeOptions) {
         //console.log("procesuji ol");
     }
     //console.log("procesuji list "+$(list).attr("id"));
-    Wireframe.copyCss(list, listWf, "list-style-type");
+    WireframeCreating.copyCss(list, listWf, "list-style-type");
 
     if (nodeOptions.position) {
-        //Wireframe.basePosition(listWf, list);
+        //WireframeCreating.basePosition(listWf, list);
 
     }
-    Wireframe.wireframeContainer.push(listWf);
-    Wireframe.popWireframeContainer.pop();
-    Wireframe.popWireframeContainer.push(true);
+    WireframeCreating.wireframeContainer.push(listWf);
+    WireframeCreating.popWireframeContainer.pop();
+    WireframeCreating.popWireframeContainer.push(true);
 
     return {walkChilds: true, nodeOptions: nodeOptions};
 };
@@ -49,15 +49,15 @@ jQuery.expr[":"].isListItemInline = function (elem) {
     return false;
 };
 
-Wireframe.processListItemInline = function (listItem, nodeOptions) {
+WireframeCreating.processListItemInline = function (listItem, nodeOptions) {
     //console.log("inline li");
     var li = $("<li></li>");
     if (nodeOptions.position) {
-        Wireframe.basePosition(li, listItem, nodeOptions);
+        WireframeCreating.basePosition(li, listItem, nodeOptions);
     }
-    var result = Wireframe.processOneLineText(listItem, $.extend({},nodeOptions, {position: false}));
+    var result = WireframeCreating.processOneLineText(listItem, $.extend({},nodeOptions, {position: false}));
     li.html(result.node);
-    Wireframe.append(li);
+    WireframeCreating.append(li);
     return {walkChilds: false, nodeOptions:nodeOptions };
 };
 
@@ -72,13 +72,13 @@ jQuery.expr[":"].isListItemChildrens = function (elem) {
     return false;
 };
 
-Wireframe.processListItemChildrens = function (listItem, nodeOptions) {
+WireframeCreating.processListItemChildrens = function (listItem, nodeOptions) {
     //console.log("li s potomky");
     var li = $("<li></li>");
     if (nodeOptions.position) {
-        Wireframe.basePosition(li, listItem, nodeOptions);
+        WireframeCreating.basePosition(li, listItem, nodeOptions);
     }
-    Wireframe.setWireframeContainer(li);
+    WireframeCreating.setWireframeContainer(li);
 
     nodeOptions.positionLeftAdd = -$(listItem).offset().left;
     nodeOptions.positionTopAdd = -$(listItem).offset().top;

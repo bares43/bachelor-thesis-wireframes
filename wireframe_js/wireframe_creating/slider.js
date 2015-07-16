@@ -15,7 +15,7 @@ jQuery.expr[":"].isSlider = function(elem) {
     return isSlider;
 };
 
-Wireframe.processSlider = function(slider, nodeOptions){
+WireframeCreating.processSlider = function(slider, nodeOptions){
     var sliderWf = $("<div />");
 
     sliderWf.css("background-color","#d7d7d7");
@@ -25,11 +25,11 @@ Wireframe.processSlider = function(slider, nodeOptions){
 
 
     if(nodeOptions.position){
-        Wireframe.basePosition(sliderWf, slider, nodeOptions);
+        WireframeCreating.basePosition(sliderWf, slider, nodeOptions);
     }
     sliderWf.css("height",slider.find("li").height()+"px");
     sliderWf.css("width",slider.find("li").width()+"px");
-    Wireframe.append(sliderWf);
+    WireframeCreating.append(sliderWf);
 
     return {walkChilds:false};
 };

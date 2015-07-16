@@ -31,9 +31,12 @@ page.open(url, function(status) {
         page.render(filename);
         includeJs(includeJsUrls, page, function() {
             page.evaluate(function(options) {
-                $(document).wireframe(options);
+                if(options.algorithm === "creating"){
+                    $(document).wireframeCreating(options);
+                }else{
+                    $(document).wireframeReplacing(options);
+                }
             }, options);
-           //console.log(page.content);
 
             setTimeout(function () {
                     page.render(filename_wf);

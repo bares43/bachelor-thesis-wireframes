@@ -22,6 +22,11 @@
     </ul>
 </div>
 <div style="float: left; margin-left: 15px;">
+    <h3>Algortimus</h3>
+    <label><input type="radio" name="algorithm" value="replacing" checked /> nahrazeni</label><br />
+    <label><input type="radio" name="algorithm" value="creating" /> vytvoření</label>
+</div>
+<div style="float: left; margin-left: 15px;">
     <h3>Nastavení textů</h3>
     <label><input type="radio" name="textMode" value="lorem" checked /> lorem ipsum</label><br />
     <label><input type="radio" name="textMode" value="original" /> původní text</label><br />
@@ -31,7 +36,8 @@
     <h3>Nastavení obrázků</h3>
     <label><input type="radio" name="imageMode" value="box" checked /> šedý box</label><br />
     <label><input type="radio" name="imageMode" value="original" /> původní obrázek</label><br />
-    <label><input type="radio" name="imageMode" value="blur" /> rozmazání (vyžaduje PhantomJS 2)</label>
+    <label><input type="radio" name="imageMode" value="blur" /> rozmazání (vyžaduje PhantomJS 2)</label><br />
+    <label><input type="radio" name="imageMode" value="remove" /> odstranit</label>
 </div>
 <div style="float: left; margin-left: 15px;">
     <h3>Rozlišení</h3>
