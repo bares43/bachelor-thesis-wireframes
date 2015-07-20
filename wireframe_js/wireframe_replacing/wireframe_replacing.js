@@ -1,5 +1,5 @@
 var WireframeReplacing = {
-    elementTypes: ["DoNothing","Image","Element"],
+    elementTypes: ["DoNothing","Text","Image","Element"],
 
     defaultNodeOptions:{
         position:true,
@@ -28,6 +28,11 @@ var WireframeReplacing = {
 
     copyAttr: function(from, to, name){
         to.attr(name,from.attr(name));
+    },
+
+    doBaseFormat : function(node){
+      $(node).css("color","black");
+      $(node).css("background","none");
     },
 
     walk: function (node, nodeOptions) {

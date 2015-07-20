@@ -1,4 +1,16 @@
-var WireframeCreating = {
+function isElement(node,tags){
+    for(var i = 0;i<tags.length;i++){
+        if(node.is(tags[i])) return true;
+    }
+}
+
+String.prototype.getAllOccurrences = function(char){
+    var regex = new RegExp(char,"gi"), result, indices = [];
+    while ( (result = regex.exec(this.toString())) ) {
+        indices.push(result.index);
+    }
+    return indices;
+};var WireframeCreating = {
 
     elementTypes: ["DoNothing","List","ListItemInline","ListItemChildrens","Table","TableRow","TableCellInline","TableCellChildrens", "FormSelect", "FormTextarea", "FormRadio", "FormCheckbox", "FormFile", "FormButton", "FormRange", "FormInput", "Slider", "Iframe", "Image","HeadingInline", "OneLineText"],
 
@@ -736,7 +748,7 @@ WireframeCreating.processFormTextarea = function (textarea, nodeOptions) {
 
     return {walkChilds: false};
 };var WireframeReplacing = {
-    elementTypes: ["DoNothing","Image","Element"],
+    elementTypes: ["DoNothing","Text","Image","Element"],
 
     defaultNodeOptions:{
         position:true,
@@ -765,6 +777,11 @@ WireframeCreating.processFormTextarea = function (textarea, nodeOptions) {
 
     copyAttr: function(from, to, name){
         to.attr(name,from.attr(name));
+    },
+
+    doBaseFormat : function(node){
+      $(node).css("color","black");
+      $(node).css("background","none");
     },
 
     walk: function (node, nodeOptions) {
@@ -819,8 +836,7 @@ jQuery.expr[":"].isElement = function(elem){
 };
 
 WireframeReplacing.processElement = function(node, nodeOptions){
-    node.css("color","black");
-    node.css("backround","none");
+    WireframeReplacing.doBaseFormat(node);
     return {walkChilds:true};
 };
 
@@ -840,7 +856,6 @@ jQuery.expr[":"].isImage = function(elem) {
 };
 
 WireframeReplacing.processImage = function(img, nodeOptions){
-    console.log(WireframeReplacing.wireframeOptions.imageMode);
     img.css("border","none");
     switch (WireframeReplacing.wireframeOptions.imageMode){
         case "box":
@@ -866,6 +881,44 @@ WireframeReplacing.processImage = function(img, nodeOptions){
     return {walkChilds:false};
 };
 
+// one line text
+jQuery.expr[":"].isText = function(elem) {
+    console.log("selektor is text");
+    return $(elem).is(":hasText")/* && isElement($(elem),["span","a","p","li","div","h1","h2","h3","h4","h5","h6","em","strong","b","u","i","s"])*/;
+};
+
+jQuery.expr[":"].hasText = function(node){
+    console.log("selektor has text");
+    var hasText = false;
+    $(node).contents().each(function(i,v){
+        console.log(v.nodeType+" "+ v.nodeValue);
+       if(v.nodeType === 3 && v.nodeValue.trim().length > 0){
+           hasText = true;
+       }
+    });
+    return hasText;
+};
+
+WireframeReplacing.processText = function(node, nodeOptions){
+console.log("jsem na elementu");
+    var walkChilds = false;
+    $(node).contents().each(function(i,v){
+        if(v.nodeType === 3 && v.nodeValue.trim().length > 0){
+            var text = this.nodeValue;
+            v.nodeValue = lorem_ipsum_generator({length : text.length, remove : true, addChars : [{char : " ", positions: text.getAllOccurrences(" ")}]});
+        }else if(v.nodeType === 1){
+            walkChilds = true;
+        }
+    });
+
+    //var spaces = elm.text().getAllOccurrences(" ");
+    //var lorem = lorem_ipsum_generator({length : elm.text().length, remove : true, addChars : [{char : " ", positions : spaces}]});
+    //elm.text(lorem);
+
+    WireframeReplacing.doBaseFormat(node);
+    return {walkChilds:walkChilds};
+};
+
 jQuery.expr[":"].displayNone = function(elem) {
     return $(elem).css("display") === "none";
 };
@@ -881,6 +934,8 @@ $.fn.wireframeCreating = function (options, fn) {
     };
     var options = $.extend({},defaults, options);
 
+    console.log(JSON.stringify(options));
+
     return WireframeCreating.run(this, options);
 };
 
@@ -892,6 +947,8 @@ $.fn.wireframeReplacing = function(options, fn){
         imageMode: "box"
     };
     var options = $.extend({},defaults, options);
+
+    console.log(JSON.stringify(options));
 
     return WireframeReplacing.run(this, options);
 };

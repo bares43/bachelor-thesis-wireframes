@@ -4,8 +4,7 @@ jQuery.expr[":"].isElement = function(elem){
 };
 
 WireframeReplacing.processElement = function(node, nodeOptions){
-    node.css("color","black");
-    node.css("backround","none");
+    WireframeReplacing.doBaseFormat(node);
     return {walkChilds:true};
 };
 
@@ -48,6 +47,40 @@ WireframeReplacing.processImage = function(img, nodeOptions){
     }
 
     return {walkChilds:false};
+};
+
+// one line text
+jQuery.expr[":"].isText = function(elem) {
+    console.log("selektor is text");
+    return $(elem).is(":hasText")/* && isElement($(elem),["span","a","p","li","div","h1","h2","h3","h4","h5","h6","em","strong","b","u","i","s"])*/;
+};
+
+jQuery.expr[":"].hasText = function(node){
+    console.log("selektor has text");
+    var hasText = false;
+    $(node).contents().each(function(i,v){
+        console.log(v.nodeType+" "+ v.nodeValue);
+       if(v.nodeType === 3 && v.nodeValue.trim().length > 0){
+           hasText = true;
+       }
+    });
+    return hasText;
+};
+
+WireframeReplacing.processText = function(node, nodeOptions){
+console.log("jsem na elementu");
+    var walkChilds = false;
+    $(node).contents().each(function(i,v){
+        if(v.nodeType === 3 && v.nodeValue.trim().length > 0){
+            var text = this.nodeValue;
+            v.nodeValue = lorem_ipsum_generator({length : text.length, remove : true, addChars : [{char : " ", positions: text.getAllOccurrences(" ")}]});
+        }else if(v.nodeType === 1){
+            walkChilds = true;
+        }
+    });
+
+    WireframeReplacing.doBaseFormat(node);
+    return {walkChilds:walkChilds};
 };
 
 jQuery.expr[":"].displayNone = function(elem) {

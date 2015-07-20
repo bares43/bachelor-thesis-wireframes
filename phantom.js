@@ -16,7 +16,7 @@ page.onResourceError = function(trace){
     console.log(JSON.stringify(trace));
 };
 
-var includeJsUrls = ["https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js",srvUrl+"jquery.lorem.js",srvUrl+"wireframe_combined.js"];
+var includeJsUrls = ["https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js",srvUrl+"lorem_ipsum_generator.min.js",srvUrl+"wireframe_combined.js"];
 
 var options = getOptions(system.args);
 
