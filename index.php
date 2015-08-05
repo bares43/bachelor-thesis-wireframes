@@ -1,3 +1,4 @@
+<?php include "./config.php";?>
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -41,8 +42,8 @@
 </div>
 <div style="float: left; margin-left: 15px;">
     <h3>Rozlišení</h3>
-    <label><input type="text" name="viewport_width" value="1280" style="width: 50px;" /> šířka</label><br />
-    <label><input type="text" name="viewport_height" value="720" style="width: 50px;" /> výška</label>
+    <label><input type="text" name="viewport_width" value="<?= RESOLUTION_WIDTH;?>" style="width: 50px;" /> šířka</label><br />
+    <label><input type="text" name="viewport_height" value="<?= RESOLUTION_HEIGHT;?>" style="width: 50px;" /> výška</label>
 </div>
 <div style="float: left; margin-left: 15px;" id="color-analysis">
     <h3>Analýza barev</h3>
