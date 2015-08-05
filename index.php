@@ -37,7 +37,7 @@
     <h3>Nastavení obrázků</h3>
     <label><input type="radio" name="imageMode" value="box" checked /> šedý box</label><br />
     <label><input type="radio" name="imageMode" value="original" /> původní obrázek</label><br />
-    <label><input type="radio" name="imageMode" value="blur" /> rozmazání (vyžaduje PhantomJS 2)</label><br />
+    <label><input type="radio" name="imageMode" value="blur" /> rozmazání</label><br />
     <label><input type="radio" name="imageMode" value="remove" /> odstranit</label>
 </div>
 <div style="float: left; margin-left: 15px;">

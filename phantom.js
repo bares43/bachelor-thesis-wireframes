@@ -41,7 +41,7 @@ page.open(url, function(status) {
             setTimeout(function () {
                     page.render(filename_wf);
                     phantom.exit();
-            }, 15000);
+            }, 0);
         });
     }else{
         phantom.exit();

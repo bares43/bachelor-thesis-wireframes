@@ -33,6 +33,8 @@ var WireframeReplacing = {
     doBaseFormat : function(node){
       $(node).css("color","black");
       $(node).css("background","none");
+      $(node).css("text-decoration","none");
+      $(node).css("border","none");
     },
 
     walk: function (node, nodeOptions) {

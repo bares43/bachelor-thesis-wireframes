@@ -782,6 +782,8 @@ WireframeCreating.processFormTextarea = function (textarea, nodeOptions) {
     doBaseFormat : function(node){
       $(node).css("color","black");
       $(node).css("background","none");
+      $(node).css("text-decoration","none");
+      $(node).css("border","none");
     },
 
     walk: function (node, nodeOptions) {
@@ -883,12 +885,10 @@ WireframeReplacing.processImage = function(img, nodeOptions){
 
 // one line text
 jQuery.expr[":"].isText = function(elem) {
-    console.log("selektor is text");
     return $(elem).is(":hasText")/* && isElement($(elem),["span","a","p","li","div","h1","h2","h3","h4","h5","h6","em","strong","b","u","i","s"])*/;
 };
 
 jQuery.expr[":"].hasText = function(node){
-    console.log("selektor has text");
     var hasText = false;
     $(node).contents().each(function(i,v){
         console.log(v.nodeType+" "+ v.nodeValue);
@@ -900,20 +900,24 @@ jQuery.expr[":"].hasText = function(node){
 };
 
 WireframeReplacing.processText = function(node, nodeOptions){
-console.log("jsem na elementu");
     var walkChilds = false;
     $(node).contents().each(function(i,v){
         if(v.nodeType === 3 && v.nodeValue.trim().length > 0){
             var text = this.nodeValue;
-            v.nodeValue = lorem_ipsum_generator({length : text.length, remove : true, addChars : [{char : " ", positions: text.getAllOccurrences(" ")}]});
+
+            switch (WireframeReplacing.wireframeOptions.textMode){
+                case "lorem":
+                    v.nodeValue = lorem_ipsum_generator({length : text.length, remove : true, addChars : [{char : " ", positions: text.getAllOccurrences(" ")}]});
+                    break;
+                case "box":
+                    $(v).replaceWith($("<span></span>").text(v.nodeValue).css("color","#dfdfdf").css("background-color","#dfdfdf").css("text-decoration","none"));
+                    break;
+            }
+
         }else if(v.nodeType === 1){
             walkChilds = true;
         }
     });
-
-    //var spaces = elm.text().getAllOccurrences(" ");
-    //var lorem = lorem_ipsum_generator({length : elm.text().length, remove : true, addChars : [{char : " ", positions : spaces}]});
-    //elm.text(lorem);
 
     WireframeReplacing.doBaseFormat(node);
     return {walkChilds:walkChilds};
