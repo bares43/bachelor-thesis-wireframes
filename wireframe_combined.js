@@ -748,7 +748,7 @@ WireframeCreating.processFormTextarea = function (textarea, nodeOptions) {
 
     return {walkChilds: false};
 };var WireframeReplacing = {
-    elementTypes: ["DoNothing","Text","Image","Element"],
+    elementTypes: ["DoNothing","Image","Text","Element"],
 
     defaultNodeOptions:{
         position:true,
@@ -844,7 +844,7 @@ WireframeReplacing.processElement = function(node, nodeOptions){
 
 // dont process
 jQuery.expr[":"].isDoNothing = function(elem){
-    return $(elem).is(":displayNone") || $(elem).is(":toSmall") || $(elem).is("script");
+    return $(elem).is(":displayNone") || /*$(elem).is(":toSmall") ||*/ $(elem).is("script");
 };
 
 WireframeReplacing.processDoNothing = function(){

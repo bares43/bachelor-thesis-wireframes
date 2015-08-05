@@ -1,5 +1,5 @@
 var WireframeReplacing = {
-    elementTypes: ["DoNothing","Text","Image","Element"],
+    elementTypes: ["DoNothing","Image","Text","Element"],
 
     defaultNodeOptions:{
         position:true,

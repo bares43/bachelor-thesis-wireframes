@@ -10,7 +10,7 @@ WireframeReplacing.processElement = function(node, nodeOptions){
 
 // dont process
 jQuery.expr[":"].isDoNothing = function(elem){
-    return $(elem).is(":displayNone") || $(elem).is(":toSmall") || $(elem).is("script");
+    return $(elem).is(":displayNone") || /*$(elem).is(":toSmall") ||*/ $(elem).is("script");
 };
 
 WireframeReplacing.processDoNothing = function(){
