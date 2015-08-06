@@ -822,8 +822,6 @@ WireframeCreating.processFormTextarea = function (textarea, nodeOptions) {
         if (container.is(document)) {
             WireframeReplacing.container = container.find("body");
 
-            //WireframeReplacing.container.append('<style>img.image-badge::after{color: black; content: "test";}</style>');
-            WireframeReplacing.container.append('<style>img.image-badge::after{color: black; content: "◪";}</style>');
             this.walk(WireframeReplacing.container,{});
 
 
@@ -873,18 +871,13 @@ WireframeReplacing.processImage = function(img, nodeOptions){
     switch (WireframeReplacing.wireframeOptions.imageMode){
         case "box":
             img.css("display","inline-block");
-            img.css("background-color","#d7d7d7");
-            img.css("color","#d7d7d7");
+            img.css("background-color","#bfbfbf");
+            img.css("color","#bfbfbf");
             img.css("width",img.width()+"px");
             img.css("height",img.height()+"px");
             img.removeAttr("src");
             img.removeAttr("alt");
             img.removeAttr("title");
-            img.addClass("image-badge");
-            //img.css("color","black");
-            //img.css("content","❏");
-            //img.after().css("content","❏");
-            //img.after().css("color","black");
             break;
         case "blur":
             img.css("-webkit-filter","blur(10px)");
@@ -926,7 +919,7 @@ WireframeReplacing.processText = function(node, nodeOptions){
                     v.nodeValue = lorem_ipsum_generator({length : text.length, remove : true, addChars : [{char : " ", positions: text.getAllOccurrences(" ")}]});
                     break;
                 case "box":
-                    $(v).replaceWith($("<span></span>").text(v.nodeValue).css("color","#dfdfdf").css("background-color","#bfbfbf").css("text-decoration","none"));
+                    $(v).replaceWith($("<span></span>").text(v.nodeValue).css("color","#dfdfdf").css("background-color","#dfdfdf").css("text-decoration","none"));
                     break;
             }
 
