@@ -748,7 +748,7 @@ WireframeCreating.processFormTextarea = function (textarea, nodeOptions) {
 
     return {walkChilds: false};
 };var WireframeReplacing = {
-    elementTypes: ["DoNothing","Image","Text","Element"],
+    elementTypes: ["DoNothing","Image","Text","Iframe","Element"],
 
     defaultNodeOptions:{
         position:true,
@@ -822,9 +822,10 @@ WireframeCreating.processFormTextarea = function (textarea, nodeOptions) {
         if (container.is(document)) {
             WireframeReplacing.container = container.find("body");
 
-            console.log("ahoj");
-
+            //WireframeReplacing.container.append('<style>img.image-badge::after{color: black; content: "test";}</style>');
+            WireframeReplacing.container.append('<style>img.image-badge::after{color: black; content: "◪";}</style>');
             this.walk(WireframeReplacing.container,{});
+
 
             $("html,body",container).css("background","none");
             $("html,body",container).css("background-color","white");
@@ -840,6 +841,16 @@ jQuery.expr[":"].isElement = function(elem){
 WireframeReplacing.processElement = function(node, nodeOptions){
     WireframeReplacing.doBaseFormat(node);
     return {walkChilds:true};
+};
+
+jQuery.expr[":"].isIframe = function(node){
+  return $(node).is("iframe");
+};
+
+WireframeReplacing.processIframe = function(node, nodeOptions){
+    $node_wf = $("<div></div>").css("width",$(node).width()+"px").css("height",$(node).height()+"px").css("background-color","#9d9d9d");
+    $(node).replaceWith($node_wf);
+    return {walkChildes:false};
 };
 
 // dont process
@@ -869,6 +880,11 @@ WireframeReplacing.processImage = function(img, nodeOptions){
             img.removeAttr("src");
             img.removeAttr("alt");
             img.removeAttr("title");
+            img.addClass("image-badge");
+            //img.css("color","black");
+            //img.css("content","❏");
+            //img.after().css("content","❏");
+            //img.after().css("color","black");
             break;
         case "blur":
             img.css("-webkit-filter","blur(10px)");
@@ -910,7 +926,7 @@ WireframeReplacing.processText = function(node, nodeOptions){
                     v.nodeValue = lorem_ipsum_generator({length : text.length, remove : true, addChars : [{char : " ", positions: text.getAllOccurrences(" ")}]});
                     break;
                 case "box":
-                    $(v).replaceWith($("<span></span>").text(v.nodeValue).css("color","#dfdfdf").css("background-color","#dfdfdf").css("text-decoration","none"));
+                    $(v).replaceWith($("<span></span>").text(v.nodeValue).css("color","#dfdfdf").css("background-color","#bfbfbf").css("text-decoration","none"));
                     break;
             }
 

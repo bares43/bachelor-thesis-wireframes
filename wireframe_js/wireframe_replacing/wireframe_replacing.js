@@ -1,5 +1,5 @@
 var WireframeReplacing = {
-    elementTypes: ["DoNothing","Image","Text","Element"],
+    elementTypes: ["DoNothing","Image","Text","Iframe","Element"],
 
     defaultNodeOptions:{
         position:true,
@@ -73,9 +73,8 @@ var WireframeReplacing = {
         if (container.is(document)) {
             WireframeReplacing.container = container.find("body");
 
-            console.log("ahoj");
-
             this.walk(WireframeReplacing.container,{});
+
 
             $("html,body",container).css("background","none");
             $("html,body",container).css("background-color","white");

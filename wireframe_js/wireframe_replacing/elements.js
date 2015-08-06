@@ -8,6 +8,16 @@ WireframeReplacing.processElement = function(node, nodeOptions){
     return {walkChilds:true};
 };
 
+jQuery.expr[":"].isIframe = function(node){
+  return $(node).is("iframe");
+};
+
+WireframeReplacing.processIframe = function(node, nodeOptions){
+    $node_wf = $("<div></div>").css("width",$(node).width()+"px").css("height",$(node).height()+"px").css("background-color","#9d9d9d");
+    $(node).replaceWith($node_wf);
+    return {walkChildes:false};
+};
+
 // dont process
 jQuery.expr[":"].isDoNothing = function(elem){
     return $(elem).is(":displayNone") || /*$(elem).is(":toSmall") ||*/ $(elem).is("script");
@@ -76,7 +86,7 @@ WireframeReplacing.processText = function(node, nodeOptions){
                     v.nodeValue = lorem_ipsum_generator({length : text.length, remove : true, addChars : [{char : " ", positions: text.getAllOccurrences(" ")}]});
                     break;
                 case "box":
-                    $(v).replaceWith($("<span></span>").text(v.nodeValue).css("color","#dfdfdf").css("background-color","#dfdfdf").css("text-decoration","none"));
+                    $(v).replaceWith($("<span></span>").text(v.nodeValue).css("color","#bfbfbf").css("background-color","#bfbfbf").css("text-decoration","none"));
                     break;
             }
 
