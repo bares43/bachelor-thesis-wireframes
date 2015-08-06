@@ -784,6 +784,8 @@ WireframeCreating.processFormTextarea = function (textarea, nodeOptions) {
       $(node).css("background","none");
       $(node).css("text-decoration","none");
       $(node).css("border","none");
+      $(node).css("box-shadow","none");
+      $(node).css("text-shadow","none");
     },
 
     walk: function (node, nodeOptions) {
