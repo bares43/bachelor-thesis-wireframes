@@ -29,7 +29,7 @@ WireframeReplacing.processDoNothing = function(){
 };
 
 jQuery.expr[":"].isBackgroundImage = function(elem){
-   return $(elem).children().length === 0 && $(elem).text().length === 0 && $(elem).css("background-image") !== "";
+   return $(elem).children().length === 0 && $(elem).text().length === 0 && $(elem).css("background-image") !== "" && $(elem).css("background-image") !== "none";
 };
 
 WireframeReplacing.processBackgroundImage = function(node, nodeOptions){
