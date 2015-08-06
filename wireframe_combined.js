@@ -748,7 +748,7 @@ WireframeCreating.processFormTextarea = function (textarea, nodeOptions) {
 
     return {walkChilds: false};
 };var WireframeReplacing = {
-    elementTypes: ["DoNothing","Image","Text","Iframe","Element"],
+    elementTypes: ["DoNothing","Image","Text","BackgroundImage","Iframe","Element"],
 
     defaultNodeOptions:{
         position:true,
@@ -846,7 +846,7 @@ jQuery.expr[":"].isIframe = function(node){
 };
 
 WireframeReplacing.processIframe = function(node, nodeOptions){
-    $node_wf = $("<div></div>").css("width",$(node).width()+"px").css("height",$(node).height()+"px").css("background-color","#9d9d9d");
+    var $node_wf = $("<div></div>").css("width", $(node).width() + "px").css("height", $(node).height() + "px").css("background-color", "#9d9d9d");
     $(node).replaceWith($node_wf);
     return {walkChildes:false};
 };
@@ -858,6 +858,28 @@ jQuery.expr[":"].isDoNothing = function(elem){
 
 WireframeReplacing.processDoNothing = function(){
     // dont walk childs
+    return {walkChilds:false};
+};
+
+jQuery.expr[":"].isBackgroundImage = function(elem){
+   return $(elem).children().length === 0 && $(elem).text().length === 0 && $(elem).css("background-image") !== "";
+};
+
+WireframeReplacing.processBackgroundImage = function(node, nodeOptions){
+    switch (WireframeReplacing.wireframeOptions.imageMode) {
+        case "box":
+            $(node).css("background-image","none");
+            $(node).css("background-color","#bfbfbf");
+            break;
+        case "blur":
+            $(node).css("-webkit-filter","blur(10px)");
+            break;
+        case "remove":
+            $(node).css("background-image","none");
+            $(node).css("background-color","white");
+            break;
+    }
+
     return {walkChilds:false};
 };
 
