@@ -748,7 +748,7 @@ WireframeCreating.processFormTextarea = function (textarea, nodeOptions) {
 
     return {walkChilds: false};
 };var WireframeReplacing = {
-    elementTypes: ["DoNothing","Image","Text","BackgroundImage","Iframe","Element"],
+    elementTypes: ["DoNothing","Image","FormInputText","FormInputSubmit","FormTextarea" ,"Text","BackgroundImage","Iframe","Element"],
 
     defaultNodeOptions:{
         position:true,
@@ -954,6 +954,84 @@ WireframeReplacing.processText = function(node, nodeOptions){
 
     WireframeReplacing.doBaseFormat(node);
     return {walkChilds:walkChilds};
+};
+
+jQuery.expr[":"].isFormInputText = function(node){
+  return $(node).is("input") && !$(node).is("[type=submit]") && !$(node).is("[type=image]") && !$(node).is("[type=search]");
+};
+
+WireframeReplacing.processFormInputText = function(node, nodeOptions){
+
+    WireframeReplacing.doBaseFormat(node);
+
+    $(node).css("background-color","white");
+    $(node).css("border","1px solid #b0b0b0");
+
+    switch (WireframeReplacing.wireframeOptions.textMode){
+      case "lorem":
+          var placeholder = $(node).attr("placeholder");
+          if(placeholder !== undefined && placeholder.length > 0){
+              console.log("resim placeholder");
+              $(node).attr("placeholder",lorem_ipsum_generator({length : placeholder.length, remove : true, addChars : [{char : " ", positions : placeholder.getAllOccurrences(" ")}]}));
+          }
+
+          var value = $(node).val();
+          if(value !== undefined && value.length > 0){
+              $(node).val(lorem_ipsum_generator({length : value.length, remove : true, addChars : [{char : " ", positions : value.getAllOccurrences(" ")}]}))
+          }
+          break;
+      case "box":
+        $(node).removeAttr("placeholder");
+        $(node).css("color","#b0b0b0");
+        break;
+    }
+
+    return {walkChilds : false};
+};
+
+jQuery.expr[":"].isFormInputSubmit = function (node) {
+    return $(node).is("input[type=submit]") || $(node).is("input[type=image]") || $(node).is("input[type=search]") || $(node).is("button");
+};
+
+WireframeReplacing.processFormInputSubmit = function(node, nodeOptions){
+    WireframeReplacing.doBaseFormat(node);
+    $(node).removeAttr("src");
+    $(node).css("background-color","#b0b0b0");
+
+    switch (WireframeReplacing.wireframeOptions.textMode){
+        case "lorem":
+            var value = $(node).val();
+            if(value !== undefined && value.length > 0){
+                $(node).val(lorem_ipsum_generator({length : value.length, remove : true, addChars : [{char : " ", positions : value.getAllOccurrences(" ")}]}));
+            }
+            break;
+        case "box":
+            $(node).css("color","#b0b0b0");
+            break;
+    }
+
+    return {walkChilds : false};
+};
+
+jQuery.expr[":"].isFormTextarea = function(node){
+    return $(node).is("textarea");
+};
+
+WireframeReplacing.processFormTextarea = function(node, nodeOptions){
+    switch (WireframeReplacing.wireframeOptions.textMode){
+        case "lorem":
+            var text = $(node).text();
+            $(node).text(lorem_ipsum_generator({length : text.length, remove : true, addChars : [{char : " ", positions : text.getAllOccurrences(" ")}]}));
+            break;
+        case "box":
+            $(node).css("color","white");
+    }
+
+    $(node).css("border","1px solid black");
+
+    //WireframeReplacing.doBaseFormat(node);
+
+    return {walkChilds : false};
 };
 
 jQuery.expr[":"].displayNone = function(elem) {
