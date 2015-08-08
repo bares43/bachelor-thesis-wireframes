@@ -183,6 +183,8 @@ jQuery.expr[":"].isFormTextarea = function(node){
 };
 
 WireframeReplacing.processFormTextarea = function(node, nodeOptions){
+    WireframeReplacing.doBaseFormat(node);
+
     switch (WireframeReplacing.wireframeOptions.textMode){
         case "lorem":
             var text = $(node).text();
@@ -193,8 +195,6 @@ WireframeReplacing.processFormTextarea = function(node, nodeOptions){
     }
 
     $(node).css("border","1px solid black");
-
-    //WireframeReplacing.doBaseFormat(node);
 
     return {walkChilds : false};
 };
