@@ -907,9 +907,7 @@ WireframeReplacing.processImage = function(img, nodeOptions){
             img.css("-webkit-filter","blur(10px)");
             break;
         case "remove":
-            img.removeAttr("src");
-            img.removeAttr("alt");
-            img.removeAttr("title");
+            img.css("opacity",0);
             break;
     }
 
