@@ -12,7 +12,7 @@ $.fn.wireframeCreating = function (options, fn) {
     return WireframeCreating.run(this, options);
 };
 
-$.fn.wireframeReplacing = function(options, fn){
+$.fn.wireframeReplacing = function(options, response){
 
     var defaults = {
         srvUrl: "",
@@ -21,7 +21,5 @@ $.fn.wireframeReplacing = function(options, fn){
     };
     var options = $.extend({},defaults, options);
 
-    console.log(JSON.stringify(options));
-
-    return WireframeReplacing.run(this, options);
+    return WireframeReplacing.run(this, options, response);
 };

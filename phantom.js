@@ -24,19 +24,22 @@ console.log(JSON.stringify(options));
 
 options.srvUrl = srvUrl;
 
+var response = {};
+
 page.viewportSize = {width:options.viewportWidth,height:options.viewportHeight};
 page.settings.localToRemoteUrlAccessEnabled = true;
 page.open(url, function(status) {
     if ( status === "success" ) {
         page.render(filename);
         includeJs(includeJsUrls, page, function() {
-            page.evaluate(function(options) {
+            page.evaluate(function(options, response) {
                 if(options.algorithm === "creating"){
                     $(document).wireframeCreating(options);
                 }else{
-                    $(document).wireframeReplacing(options);
+                    $(document).wireframeReplacing(options,response);
                 }
-            }, options);
+                console.log(JSON.stringify(response));
+            }, options, response);
 
             setTimeout(function () {
                     page.render(filename_wf);

@@ -34,7 +34,11 @@ try {
 
             $exec = PHANTOM_PATH . " " . APP_PATH . "phantom.js $url " . APP_PATH . "$filename_wf $filename " . APP_URL . " $options_string";
 
-            exec($exec);
+            exec($exec, $output);
+
+            /** @var array $response_from_phantom */
+            $response_from_phantom = json_decode($output[count($output)-1], true);
+
 
 //        if(true){
             if (file_exists($filename_wf)) {

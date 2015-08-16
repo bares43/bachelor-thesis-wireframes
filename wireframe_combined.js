@@ -814,12 +814,11 @@ WireframeCreating.processFormTextarea = function (textarea, nodeOptions) {
         }
     },
 
-    run: function (element, options) {
+    run: function (element, options, response) {
 
         WireframeReplacing.wireframeOptions = options;
 
         var container = $(element);
-
 
         if (container.is(document)) {
             WireframeReplacing.container = container.find("body");
@@ -831,6 +830,7 @@ WireframeCreating.processFormTextarea = function (textarea, nodeOptions) {
             $("html,body",container).css("background-color","white");
 
         }
+
         return container;
     }
 };// some element
@@ -1052,7 +1052,7 @@ $.fn.wireframeCreating = function (options, fn) {
     return WireframeCreating.run(this, options);
 };
 
-$.fn.wireframeReplacing = function(options, fn){
+$.fn.wireframeReplacing = function(options, response){
 
     var defaults = {
         srvUrl: "",
@@ -1061,7 +1061,5 @@ $.fn.wireframeReplacing = function(options, fn){
     };
     var options = $.extend({},defaults, options);
 
-    console.log(JSON.stringify(options));
-
-    return WireframeReplacing.run(this, options);
+    return WireframeReplacing.run(this, options, response);
 };

@@ -65,12 +65,11 @@ var WireframeReplacing = {
         }
     },
 
-    run: function (element, options) {
+    run: function (element, options, response) {
 
         WireframeReplacing.wireframeOptions = options;
 
         var container = $(element);
-
 
         if (container.is(document)) {
             WireframeReplacing.container = container.find("body");
@@ -82,6 +81,7 @@ var WireframeReplacing = {
             $("html,body",container).css("background-color","white");
 
         }
+
         return container;
     }
 };
