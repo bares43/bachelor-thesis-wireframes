@@ -33,11 +33,7 @@ page.open(url, function(status) {
         page.render(filename);
         includeJs(includeJsUrls, page, function() {
             page.evaluate(function(options, response) {
-                if(options.algorithm === "creating"){
-                    $(document).wireframeCreating(options);
-                }else{
-                    $(document).wireframeReplacing(options,response);
-                }
+                $(document).wireframeReplacing(options,response);
                 console.log(JSON.stringify(response));
             }, options, response);
 

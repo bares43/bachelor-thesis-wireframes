@@ -23,11 +23,6 @@
     </ul>
 </div>
 <div style="float: left; margin-left: 15px;">
-    <h3>Algortimus</h3>
-    <label><input type="radio" name="algorithm" value="replacing" checked /> nahrazeni</label><br />
-    <label><input type="radio" name="algorithm" value="creating" /> vytvoření</label>
-</div>
-<div style="float: left; margin-left: 15px;">
     <h3>Nastavení textů</h3>
     <label><input type="radio" name="textMode" value="lorem" checked /> lorem ipsum</label><br />
     <label><input type="radio" name="textMode" value="original" /> původní text</label><br />

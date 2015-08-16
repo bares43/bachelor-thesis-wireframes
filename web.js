@@ -42,7 +42,6 @@ function load(){
     options["viewportWidth"] = $("input[name=viewport_width]").val();
     options["viewportHeight"] = $("input[name=viewport_height]").val();
     options["viewportHeight"] = $("input[name=viewport_height]").val();
-    options["algorithm"] = $("input:radio[name=algorithm]:checked").val();
 
     $.post("wireframe.php",{url:url,options:options},function(response){
         try {
