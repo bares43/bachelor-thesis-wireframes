@@ -42,6 +42,7 @@ function load(){
     options["viewportWidth"] = $("input[name=viewport_width]").val();
     options["viewportHeight"] = $("input[name=viewport_height]").val();
     options["viewportHeight"] = $("input[name=viewport_height]").val();
+    options["userAgent"] = $("select[name=userAgent] option:selected").val();
 
     $.post("wireframe.php",{url:url,options:options},function(response){
         try {

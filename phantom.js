@@ -26,6 +26,13 @@ options.srvUrl = srvUrl;
 
 var response = {};
 
+
+switch(options.userAgent){
+    case "android":
+        page.settings.userAgent = "Mozilla/5.0 (Linux; Android 5.0.2; D5503 Build/14.5.A.0.270) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.133 Mobile Safari/537.36";
+        break;
+}
+
 page.viewportSize = {width:options.viewportWidth,height:options.viewportHeight};
 page.settings.localToRemoteUrlAccessEnabled = true;
 page.open(url, function(status) {

@@ -39,6 +39,11 @@
     <h3>Rozlišení</h3>
     <label><input type="text" name="viewport_width" value="<?= RESOLUTION_WIDTH;?>" style="width: 50px;" /> šířka</label><br />
     <label><input type="text" name="viewport_height" value="<?= RESOLUTION_HEIGHT;?>" style="width: 50px;" /> výška</label>
+    <h3>User agent</h3>
+    <select name="userAgent">
+        <option value="default">Default</option>
+        <option value="android">Android</option>
+    </select>
 </div>
 <div style="float: left; margin-left: 15px;" id="color-analysis">
     <h3>Analýza barev</h3>
