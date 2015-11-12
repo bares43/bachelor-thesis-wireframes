@@ -48,7 +48,19 @@ var WireframeReplacing = {
         for(var i = 0;i<length;++i){
             var type = WireframeReplacing.elementTypes[i];
             if($node.is(":is"+type)){
+                if(typeof WireframeReplacing["process"+type+"Before"] === "function"){
+                    WireframeReplacing["process"+type+"Before"]($node, nodeOptions);
+                }
+
                 var result = WireframeReplacing["process"+type]($node, nodeOptions);
+
+                if(typeof WireframeReplacing["process"+type+"After"] === "function"){
+                    var afterResult = WireframeReplacing["process"+type+"After"]($node, nodeOptions);
+                }
+
+                afterResult = typeof afterResult === "object" && afterResult !== null ? afterResult : {};
+                result = $.extend(result, afterResult);
+
                 walkChilds = result.walkChilds;
                 if(result.nodeOptions){
                     nodeOptions = result.nodeOptions;
@@ -71,6 +83,10 @@ var WireframeReplacing = {
 
         var container = $(element);
 
+        if(typeof WireframeReplacing.before === "function"){
+            container = WireframeReplacing.before(container, response);
+        }
+
         if (container.is(document)) {
             WireframeReplacing.container = container.find("body");
 
@@ -80,6 +96,10 @@ var WireframeReplacing = {
             $("html,body",container).css("background","none");
             $("html,body",container).css("background-color","white");
 
+        }
+
+        if(typeof WireframeReplacing.after === "function"){
+            container = WireframeReplacing.after(container, response);
         }
 
         return container;

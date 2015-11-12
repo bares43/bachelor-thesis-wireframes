@@ -45,6 +45,25 @@
         <option value="android">Android</option>
     </select>
 </div>
+<div style="float: left; margin-left: 15px;">
+    <h3>Vlastní pravidla</h3>
+    <?php
+    $files = scandir(__DIR__."/custom");
+    ?>
+    <select name="customRules">
+        <option value="">&nbsp;</option>
+        <?php
+        foreach($files as $file){
+            if($file !== "." && $file !== ".."){
+                $name = preg_replace("/.js$/","",$file);
+                ?>
+                <option value="<?= $name;?>"><?= $name;?></option>
+                <?php
+            }
+        }
+        ?>
+    </select>
+</div>
 <div style="float: left; margin-left: 15px;" id="color-analysis">
     <h3>Analýza barev</h3>
     <table>
