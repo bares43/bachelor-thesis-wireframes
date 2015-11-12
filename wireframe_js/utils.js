@@ -1,3 +1,9 @@
+/**
+ * @param node
+ * @param tags
+ * @returns {boolean}
+ * @deprecated
+ */
 function isElement(node,tags){
     for(var i = 0;i<tags.length;i++){
         if(node.is(tags[i])) return true;

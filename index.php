@@ -24,16 +24,16 @@
 </div>
 <div style="float: left; margin-left: 15px;">
     <h3>Nastavení textů</h3>
-    <label><input type="radio" name="textMode" value="lorem" checked /> lorem ipsum</label><br />
-    <label><input type="radio" name="textMode" value="original" /> původní text</label><br />
-    <label><input type="radio" name="textMode" value="box" /> šedý box</label>
+    <label><input type="radio" name="textMode" value="text_lorem" checked /> lorem ipsum</label><br />
+    <label><input type="radio" name="textMode" value="text_original" /> původní text</label><br />
+    <label><input type="radio" name="textMode" value="text_box" /> šedý box</label>
 </div>
 <div style="float: left; margin-left: 15px;">
     <h3>Nastavení obrázků</h3>
-    <label><input type="radio" name="imageMode" value="box" checked /> šedý box</label><br />
-    <label><input type="radio" name="imageMode" value="original" /> původní obrázek</label><br />
-    <label><input type="radio" name="imageMode" value="blur" /> rozmazání</label><br />
-    <label><input type="radio" name="imageMode" value="remove" /> odstranit</label>
+    <label><input type="radio" name="imageMode" value="image_box" checked /> šedý box</label><br />
+    <label><input type="radio" name="imageMode" value="image_original" /> původní obrázek</label><br />
+    <label><input type="radio" name="imageMode" value="image_blur" /> rozmazání</label><br />
+    <label><input type="radio" name="imageMode" value="image_remove" /> odstranit</label>
 </div>
 <div style="float: left; margin-left: 15px;">
     <h3>Rozlišení</h3>

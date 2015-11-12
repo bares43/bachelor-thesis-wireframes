@@ -1,4 +1,19 @@
-var WireframeReplacing = {
+var Wireframe = {
+
+    TEXT_LOREM : "text_lorem",
+    TEXT_ORIGINAL : "text_original",
+    TEXT_BOX : "text_box",
+
+    IMAGE_BOX : "image_box",
+    IMAGE_ORIGINAL : "image_original",
+    IMAGE_BLUR : "image_blur",
+    IMAGE_REMOVE : "image_remove",
+
+    GRAY_TEXT : "#dfdfdf",
+    GRAY_IMAGE : "#bfbfbf",
+    GRAY_INPUT : "#b0b0b0",
+    GRAY_OTHER : "#9d9d9d",
+
     elementTypes: ["DoNothing","Image","FormInputText","FormInputSubmit","FormTextarea" ,"Text",/*"BackgroundImage",*/"Iframe","Element"],
 
     defaultNodeOptions:{
@@ -19,7 +34,7 @@ var WireframeReplacing = {
     },
 
     append : function(element){
-        WireframeReplacing.container.append(element);
+        Wireframe.container.append(element);
     },
 
     copyCss: function(from, to, rule){
@@ -31,31 +46,33 @@ var WireframeReplacing = {
     },
 
     doBaseFormat : function(node){
-      $(node).css("color","black");
-      $(node).css("background","none");
-      $(node).css("text-decoration","none");
-      $(node).css("border","none");
-      $(node).css("box-shadow","none");
-      $(node).css("text-shadow","none");
+        node.css({
+            color : "black",
+            background : "none",
+            textDecoration : "none",
+            border : "none",
+            boxShadow : "none",
+            textShadow : "none"
+        });
     },
 
     walk: function (node, nodeOptions) {
         var $node = $(node);
         var walkChilds = true;
-        nodeOptions = $.extend({},WireframeReplacing.defaultNodeOptions, nodeOptions);
+        nodeOptions = $.extend({},Wireframe.defaultNodeOptions, nodeOptions);
 
-        var length = WireframeReplacing.elementTypes.length;
+        var length = Wireframe.elementTypes.length;
         for(var i = 0;i<length;++i){
-            var type = WireframeReplacing.elementTypes[i];
+            var type = Wireframe.elementTypes[i];
             if($node.is(":is"+type)){
-                if(typeof WireframeReplacing["process"+type+"Before"] === "function"){
-                    WireframeReplacing["process"+type+"Before"]($node, nodeOptions);
+                if(typeof Wireframe["process"+type+"Before"] === "function"){
+                    Wireframe["process"+type+"Before"]($node, nodeOptions);
                 }
 
-                var result = WireframeReplacing["process"+type]($node, nodeOptions);
+                var result = Wireframe["process"+type]($node, nodeOptions);
 
-                if(typeof WireframeReplacing["process"+type+"After"] === "function"){
-                    var afterResult = WireframeReplacing["process"+type+"After"]($node, nodeOptions);
+                if(typeof Wireframe["process"+type+"After"] === "function"){
+                    var afterResult = Wireframe["process"+type+"After"]($node, nodeOptions);
                 }
 
                 afterResult = typeof afterResult === "object" && afterResult !== null ? afterResult : {};
@@ -72,25 +89,25 @@ var WireframeReplacing = {
         if (walkChilds) {
             var childrens = $node.children();
             childrens.each(function (i, v) {
-                WireframeReplacing.walk(v, nodeOptions);
+                Wireframe.walk(v, nodeOptions);
             });
         }
     },
 
     run: function (element, options, response) {
 
-        WireframeReplacing.wireframeOptions = options;
+        Wireframe.wireframeOptions = options;
 
         var container = $(element);
 
-        if(typeof WireframeReplacing.before === "function"){
-            container = WireframeReplacing.before(container, response);
+        if(typeof Wireframe.before === "function"){
+            container = Wireframe.before(container, response);
         }
 
         if (container.is(document)) {
-            WireframeReplacing.container = container.find("body");
+            Wireframe.container = container.find("body");
 
-            this.walk(WireframeReplacing.container,{});
+            this.walk(Wireframe.container,{});
 
 
             $("html,body",container).css("background","none");
@@ -98,8 +115,8 @@ var WireframeReplacing = {
 
         }
 
-        if(typeof WireframeReplacing.after === "function"){
-            container = WireframeReplacing.after(container, response);
+        if(typeof Wireframe.after === "function"){
+            container = Wireframe.after(container, response);
         }
 
         return container;

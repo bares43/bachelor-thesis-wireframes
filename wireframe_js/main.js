@@ -2,10 +2,10 @@ $.fn.wireframeReplacing = function(options, response){
 
     var defaults = {
         srvUrl: "",
-        textMode: "lorem",
-        imageMode: "box"
+        textMode: Wireframe.TEXT_LOREM,
+        imageMode: Wireframe.IMAGE_BOX
     };
     var options = $.extend({},defaults, options);
 
-    return WireframeReplacing.run(this, options, response);
+    return Wireframe.run(this, options, response);
 };

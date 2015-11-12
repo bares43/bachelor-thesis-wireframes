@@ -62,10 +62,11 @@ page.open(url, function(status) {
 /**
  * Include more js and then call callback
  * @param urls
+ * @param page
  * @param callback
  */
 function includeJs(urls,page, callback){
-    if(urls.length == 0 && typeof callback === "function"){
+    if(urls.length === 0 && typeof callback === "function"){
         callback();
     }else if(typeof callback === "function"){
         var url = urls.shift();
