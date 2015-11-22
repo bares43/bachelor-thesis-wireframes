@@ -27,3 +27,13 @@ h1, h3 {
     display: block;
     border: 1px solid black;
 }
+#show-output, #output {
+    display: none;
+}
+#show-output {
+    cursor: pointer;
+}
+#output {
+    height: 250px;
+    overflow: scroll;
+}

@@ -104,6 +104,8 @@ if(file_exists(__DIR__."/custom")) {
     <?php endif;?>
 </div>
 <div id="status"></div>
+<span id="show-output">Zobazit výstup</span>
+<div id="output"></div>
 <div id="wf-container"></div>
 <?php if ($_GET["url"]): ?>
     <script type="text/javascript">

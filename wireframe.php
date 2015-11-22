@@ -39,7 +39,6 @@ try {
             /** @var array $response_from_phantom */
             $response_from_phantom = json_decode($output[count($output)-1], true);
 
-
 //        if(true){
             if (file_exists($filename_wf)) {
                 $response["state"] = "success";
@@ -67,6 +66,8 @@ try {
                 $response["msg"] = "Wireframe se nepodařilo vytvořit.";
             }
 
+
+            $response["output"] = $output;
 
         } else {
             // nedostupny web
