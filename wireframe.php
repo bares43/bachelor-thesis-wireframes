@@ -64,7 +64,7 @@ try {
 
             } else {
                 $response["state"] = "failed";
-                $response["msg"] = "WireframeCreating se nepodařilo vytvořit.";
+                $response["msg"] = "Wireframe se nepodařilo vytvořit.";
             }
 
 
