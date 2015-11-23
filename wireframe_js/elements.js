@@ -70,6 +70,7 @@ Wireframe.processImage = function(img, nodeOptions){
             img.css({
                 display : "inline-block",
                 backgroundColor : Wireframe.GRAY_IMAGE,
+                backgroundImage : "none",
                 color : Wireframe.GRAY_IMAGE,
                 width : img.width() + "px",
                 height : img.height() + "px"
@@ -80,7 +81,10 @@ Wireframe.processImage = function(img, nodeOptions){
             img.css("-webkit-filter","blur(10px)");
             break;
         case Wireframe.IMAGE_REMOVE:
-            img.css("opacity",0);
+            img.css({
+                opacity : 0,
+                backgroundImage : "none"
+            });
             break;
     }
 
