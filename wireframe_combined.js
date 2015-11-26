@@ -70,7 +70,8 @@ String.prototype.getAllOccurrences = function(char){
             textDecoration : "none",
             border : "none",
             boxShadow : "none",
-            textShadow : "none"
+            textShadow : "none",
+            overflow : "hidden"
         });
     },
 

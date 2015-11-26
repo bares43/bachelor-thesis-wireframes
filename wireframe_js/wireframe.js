@@ -52,7 +52,8 @@ var Wireframe = {
             textDecoration : "none",
             border : "none",
             boxShadow : "none",
-            textShadow : "none"
+            textShadow : "none",
+            overflow : "hidden"
         });
     },
 
