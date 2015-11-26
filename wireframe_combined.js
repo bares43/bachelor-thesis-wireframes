@@ -304,7 +304,7 @@ Wireframe.processFormInputText = function(node, nodeOptions){
               node.val(lorem_ipsum_generator({length : value.length, remove : true, addChars : [{char : " ", positions : value.getAllOccurrences(" ")}]}))
           }
           break;
-      case Wireframe.IMAGE_BLUR:
+      case Wireframe.TEXT_BOX:
         node.removeAttr("placeholder");
         node.css("color",Wireframe.GRAY_INPUT);
         break;
