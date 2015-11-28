@@ -308,6 +308,7 @@ Wireframe.processFormInputText = function(node, nodeOptions){
           break;
       case Wireframe.TEXT_BOX:
         node.removeAttr("placeholder");
+        node.removeAttr("value");
         node.css("color",Wireframe.GRAY_INPUT);
         break;
     }
