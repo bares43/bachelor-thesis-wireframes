@@ -335,7 +335,7 @@ Wireframe.processFormInputSubmit = function(node, nodeOptions){
             break;
     }
 
-    return {walkChilds : false};
+    return {walkChilds : true};
 };
 
 jQuery.expr[":"].isFormTextarea = function(node){
