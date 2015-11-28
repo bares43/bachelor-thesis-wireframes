@@ -188,6 +188,14 @@ Wireframe.processFormInputSubmit = function(node, nodeOptions){
             if(value !== undefined && value.length > 0){
                 node.val(lorem_ipsum_generator({length : value.length, remove : true, addChars : [{char : " ", positions : value.getAllOccurrences(" ")}]}));
             }
+
+            node.contents().each(function(i,v){
+                if(v.nodeType === 3 && v.nodeValue.trim().length > 0){
+                    var text = this.nodeValue;
+                    v.nodeValue = lorem_ipsum_generator({length : text.length, remove : true, addChars : [{char : " ", positions: text.getAllOccurrences(" ")}]});
+                }
+            });
+
             break;
         case Wireframe.TEXT_BOX:
             node.css("color",Wireframe.GRAY_INPUT);
