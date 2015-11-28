@@ -75,17 +75,19 @@ function load(){
             var link = $("<a></a>").text("Stáhnout wireframe").attr("href", "./"+json.filename).attr("target","_blank").addClass("wireframe-download").attr("download",json.filename);
             $("#links").append(link);
 
-            var colors = JSON.parse(json.colors);
-            $.each(colors,function(k,v){
-               var tr = $("<tr></tr>");
-               tr.append($("<td></td>").text("#"+k));
-               var span = $("<span></span>").css("background-color","#"+k);
-               tr.append($("<td></td>").append(span));
-               tr.append($("<td></td>").text(v+"%"));
+            if(json.colors !== undefined && json.colors !== null){
+                var colors = JSON.parse(json.colors);
+                $.each(colors,function(k,v){
+                   var tr = $("<tr></tr>");
+                   tr.append($("<td></td>").text("#"+k));
+                   var span = $("<span></span>").css("background-color","#"+k);
+                   tr.append($("<td></td>").append(span));
+                   tr.append($("<td></td>").text(v+"%"));
 
-                $("#color-analysis tbody").append(tr);
-            });
-            $("#color-analysis").show();
+                    $("#color-analysis tbody").append(tr);
+                });
+                $("#color-analysis").show();
+            }
         }else if(json.state === "failed"){
             $("#status").text(json.msg).addClass("error");
         }
