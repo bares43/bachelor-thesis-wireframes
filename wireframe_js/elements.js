@@ -213,9 +213,35 @@ Wireframe.processFormTextarea = function(node, nodeOptions){
             node.css("color","white");
     }
 
-    node.css("border","1px solid black");
+    node.css("border","1px solid "+Wireframe.GRAY_INPUT);
 
     return {walkChilds : false};
+};
+
+jQuery.expr[":"].isFormSelect = function(node){
+    return $(node).is("select");
+};
+
+Wireframe.processFormSelect = function(node, nodeOptions){
+    Wireframe.doBaseFormat(node);
+
+    switch(Wireframe.wireframeOptions.textMode){
+        case Wireframe.TEXT_LOREM:
+
+            node.find("option").each(function(i,v){
+                var option = $(v);
+                var text = option.text();
+                option.text(lorem_ipsum_generator({length : text.length, remove : true, addChars : [{char : " ", positions : text.getAllOccurrences(" ")}]}));
+            });
+
+            break;
+        case Wireframe.TEXT_BOX:
+            node.css("color","white");
+            node.css("border","1px solid "+Wireframe.GRAY_INPUT);
+            break;
+    }
+
+
 };
 
 jQuery.expr[":"].displayNone = function(elem) {
