@@ -71,7 +71,8 @@ String.prototype.getAllOccurrences = function(char){
             border : "none",
             boxShadow : "none",
             textShadow : "none",
-            overflow : "hidden"
+            overflow : "hidden",
+            transition : "none"
         });
     },
 
