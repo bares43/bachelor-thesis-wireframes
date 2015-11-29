@@ -57,7 +57,6 @@ function load(){
     options["imageMode"] = $("input:radio[name=imageMode]:checked").val();
     options["viewportWidth"] = $("input[name=viewport_width]").val();
     options["viewportHeight"] = $("input[name=viewport_height]").val();
-    options["viewportHeight"] = $("input[name=viewport_height]").val();
     options["userAgent"] = $("select[name=userAgent] option:selected").val();
     options["customRules"] = $("select[name=customRules] option:selected").val();
 
