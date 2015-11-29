@@ -215,10 +215,17 @@ Wireframe.processFormTextarea = function(node, nodeOptions){
     switch (Wireframe.wireframeOptions.textMode){
         case Wireframe.TEXT_LOREM:
             var text = node.text();
-            node.text(lorem_ipsum_generator({length : text.length, remove : true, addChars : [{char : " ", positions : text.getAllOccurrences(" ")}]}));
+            if(text !== undefined && text.length > 0){
+                node.text(lorem_ipsum_generator({length : text.length, remove : true, addChars : [{char : " ", positions : text.getAllOccurrences(" ")}]}));
+            }
+            text = node.attr("placeholder");
+            if(text !== undefined && text.length > 0){
+                node.attr("placeholder",lorem_ipsum_generator({length : text.length, remove : true, addChars : [{char : " ", positions : text.getAllOccurrences(" ")}]}));
+            }
             break;
         case Wireframe.TEXT_BOX:
             node.css("color","white");
+            node.removeAttr("placeholder");
     }
 
     node.css("border","1px solid "+Wireframe.GRAY_INPUT);
