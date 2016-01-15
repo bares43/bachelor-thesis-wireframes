@@ -1,4 +1,4 @@
-$.fn.wireframeReplacing = function(options, response){
+$.fn.wireframe = function(options, response){
 
     var defaults = {
         textMode: Wireframe.TEXT_LOREM,

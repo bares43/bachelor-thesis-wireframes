@@ -470,7 +470,7 @@ Wireframe.processFormSelect = function(node){
 
 jQuery.expr[":"].displayNone = function(elem) {
     return $(elem).css("display") === "none";
-};$.fn.wireframeReplacing = function(options, response){
+};$.fn.wireframe = function(options, response){
 
     var defaults = {
         textMode: Wireframe.TEXT_LOREM,

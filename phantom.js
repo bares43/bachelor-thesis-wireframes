@@ -45,7 +45,7 @@ page.open(url, function(status) {
         includeJs(includeJsUrls, page, function() {
             injectJs(injectJsFiles, page);
             page.evaluate(function(options, response) {
-                $(document).wireframeReplacing(options,response);
+                $(document).wireframe(options,response);
                 console.log(JSON.stringify(response));
             }, options, response);
 
