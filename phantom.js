@@ -3,7 +3,6 @@ var system = require('system');
 
 var url = system.args[1];
 var filename_wf = system.args[2];
-var srvUrl = system.args[3];
 
 page.onConsoleMessage = function(msg) {
     console.log(msg);
@@ -15,20 +14,20 @@ page.onResourceError = function(trace){
     console.log(JSON.stringify(trace));
 };
 
+console.log(JSON.stringify(window.location));
+
 var options = getOptions(system.args);
 
-var includeJsUrls = ["https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js",srvUrl+"lorem_ipsum_generator.min.js",srvUrl+"jss.min.js",srvUrl+"wireframe_combined.js"];
+var includeJsUrls = ["https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"];
+var injectJsFiles = ["./lorem_ipsum_generator.min.js","./jss.min.js","./wireframe_combined.js"];
 
 if(options.customRules !== undefined && options.customRules.length > 0){
-    includeJsUrls.push(srvUrl+"custom/"+options.customRules+".js");
+    injectJsFiles.push("./custom/"+options.customRules+".js");
 }
 
 console.log(JSON.stringify(options));
 
-options.srvUrl = srvUrl;
-
 var response = {};
-
 
 switch(options.userAgent){
     case "android":
@@ -44,6 +43,7 @@ page.open(url, function(status) {
             page.render(options.originalScreenName);
         }
         includeJs(includeJsUrls, page, function() {
+            injectJs(injectJsFiles, page);
             page.evaluate(function(options, response) {
                 $(document).wireframeReplacing(options,response);
                 console.log(JSON.stringify(response));
@@ -75,6 +75,18 @@ function includeJs(urls,page, callback){
         })
     }
 }
+
+/**
+ * Inject more js
+ * @param files
+ * @param page
+ */
+function injectJs(files, page){
+    for (var i in files) {
+        page.injectJs(files[i]);
+    }
+}
+
 
 function getOptions(args){
     var options = {};

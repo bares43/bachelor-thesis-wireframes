@@ -473,7 +473,6 @@ jQuery.expr[":"].displayNone = function(elem) {
 };$.fn.wireframeReplacing = function(options, response){
 
     var defaults = {
-        srvUrl: "",
         textMode: Wireframe.TEXT_LOREM,
         imageMode: Wireframe.IMAGE_BOX
     };
