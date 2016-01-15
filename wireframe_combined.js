@@ -76,32 +76,29 @@ String.prototype.getAllOccurrences = function(char){
         });
     },
 
-    walk: function (node, nodeOptions) {
+    walk: function (node) {
         var $node = $(node);
         var walkChilds = true;
-        nodeOptions = $.extend({},Wireframe.defaultNodeOptions, nodeOptions);
 
         var length = Wireframe.elementTypes.length;
         for(var i = 0;i<length;++i){
             var type = Wireframe.elementTypes[i];
             if($node.is(":is"+type)){
                 if(typeof Wireframe["process"+type+"Before"] === "function"){
-                    Wireframe["process"+type+"Before"]($node, nodeOptions);
+                    Wireframe["process"+type+"Before"]($node);
                 }
 
-                var result = Wireframe["process"+type]($node, nodeOptions);
+                var result = Wireframe["process"+type]($node);
 
                 if(typeof Wireframe["process"+type+"After"] === "function"){
-                    var afterResult = Wireframe["process"+type+"After"]($node, nodeOptions);
+                    var afterResult = Wireframe["process"+type+"After"]($node);
                 }
 
                 afterResult = typeof afterResult === "object" && afterResult !== null ? afterResult : {};
                 result = $.extend(result, afterResult);
 
                 walkChilds = result.walkChilds;
-                if(result.nodeOptions){
-                    nodeOptions = result.nodeOptions;
-                }
+
                 break;
             }
         }
@@ -109,7 +106,7 @@ String.prototype.getAllOccurrences = function(char){
         if (walkChilds) {
             var childrens = $node.children();
             childrens.each(function (i, v) {
-                Wireframe.walk(v, nodeOptions);
+                Wireframe.walk(v);
             });
         }
     },
@@ -146,7 +143,7 @@ jQuery.expr[":"].isElement = function(elem){
     return true;
 };
 
-Wireframe.processElement = function(node, nodeOptions){
+Wireframe.processElement = function(node){
     Wireframe.doBaseFormat(node);
     return {walkChilds:true};
 };
@@ -155,7 +152,7 @@ jQuery.expr[":"].isIframe = function(node){
   return $(node).is("iframe");
 };
 
-Wireframe.processIframe = function(node, nodeOptions){
+Wireframe.processIframe = function(node){
     var $node_wf = $("<div></div>").css({
         width : node.width()+"px",
         height : node.height()+"px",
@@ -179,7 +176,7 @@ jQuery.expr[":"].isBackgroundImage = function(elem){
    return $(elem).children().length === 0 && $(elem).text().length === 0 && $(elem).css("background-image") !== "" && $(elem).css("background-image") !== "none";
 };
 
-Wireframe.processBackgroundImage = function(node, nodeOptions){
+Wireframe.processBackgroundImage = function(node){
     switch (Wireframe.wireframeOptions.imageMode) {
         case Wireframe.IMAGE_BOX:
             node.css({
@@ -206,7 +203,7 @@ jQuery.expr[":"].isImage = function(elem) {
     return $(elem).is("img");
 };
 
-Wireframe.processImage = function(img, nodeOptions){
+Wireframe.processImage = function(img){
     img.css("border","none");
     switch (Wireframe.wireframeOptions.imageMode){
         case Wireframe.IMAGE_BOX:
@@ -249,7 +246,7 @@ jQuery.expr[":"].hasText = function(node){
     return hasText;
 };
 
-Wireframe.processText = function(node, nodeOptions){
+Wireframe.processText = function(node){
     var walkChilds = false;
     node.contents().each(function(i,v){
         if(v.nodeType === 3 && v.nodeValue.trim().length > 0){
@@ -285,7 +282,7 @@ jQuery.expr[":"].isFormInputText = function(node){
   return $(node).is("input") && !$(node).is("[type=submit]") && !$(node).is("[type=image]") && !$(node).is("[type=search]");
 };
 
-Wireframe.processFormInputText = function(node, nodeOptions){
+Wireframe.processFormInputText = function(node){
 
     Wireframe.doBaseFormat(node);
 
@@ -320,7 +317,7 @@ jQuery.expr[":"].isFormInputSubmit = function (node) {
     return $(node).is("input[type=submit]") || $(node).is("input[type=image]") || $(node).is("input[type=search]") || $(node).is("button");
 };
 
-Wireframe.processFormInputSubmit = function(node, nodeOptions){
+Wireframe.processFormInputSubmit = function(node){
     Wireframe.doBaseFormat(node);
     node.removeAttr("src");
     node.css("background-color",Wireframe.GRAY_INPUT);
@@ -352,7 +349,7 @@ jQuery.expr[":"].isFormTextarea = function(node){
     return $(node).is("textarea");
 };
 
-Wireframe.processFormTextarea = function(node, nodeOptions){
+Wireframe.processFormTextarea = function(node){
     Wireframe.doBaseFormat(node);
 
     switch (Wireframe.wireframeOptions.textMode){
@@ -380,7 +377,7 @@ jQuery.expr[":"].isFormSelect = function(node){
     return $(node).is("select");
 };
 
-Wireframe.processFormSelect = function(node, nodeOptions){
+Wireframe.processFormSelect = function(node){
     Wireframe.doBaseFormat(node);
 
     node.css("border","1px solid "+Wireframe.GRAY_INPUT);

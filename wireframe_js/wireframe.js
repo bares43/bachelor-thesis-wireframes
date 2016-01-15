@@ -58,32 +58,29 @@ var Wireframe = {
         });
     },
 
-    walk: function (node, nodeOptions) {
+    walk: function (node) {
         var $node = $(node);
         var walkChilds = true;
-        nodeOptions = $.extend({},Wireframe.defaultNodeOptions, nodeOptions);
 
         var length = Wireframe.elementTypes.length;
         for(var i = 0;i<length;++i){
             var type = Wireframe.elementTypes[i];
             if($node.is(":is"+type)){
                 if(typeof Wireframe["process"+type+"Before"] === "function"){
-                    Wireframe["process"+type+"Before"]($node, nodeOptions);
+                    Wireframe["process"+type+"Before"]($node);
                 }
 
-                var result = Wireframe["process"+type]($node, nodeOptions);
+                var result = Wireframe["process"+type]($node);
 
                 if(typeof Wireframe["process"+type+"After"] === "function"){
-                    var afterResult = Wireframe["process"+type+"After"]($node, nodeOptions);
+                    var afterResult = Wireframe["process"+type+"After"]($node);
                 }
 
                 afterResult = typeof afterResult === "object" && afterResult !== null ? afterResult : {};
                 result = $.extend(result, afterResult);
 
                 walkChilds = result.walkChilds;
-                if(result.nodeOptions){
-                    nodeOptions = result.nodeOptions;
-                }
+
                 break;
             }
         }
@@ -91,7 +88,7 @@ var Wireframe = {
         if (walkChilds) {
             var childrens = $node.children();
             childrens.each(function (i, v) {
-                Wireframe.walk(v, nodeOptions);
+                Wireframe.walk(v);
             });
         }
     },
