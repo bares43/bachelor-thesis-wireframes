@@ -24,7 +24,7 @@ Wireframe.processIframe = function(node){
 
 // dont process
 jQuery.expr[":"].isDoNothing = function(elem){
-    return $(elem).is(":displayNone") || /*$(elem).is(":toSmall") ||*/ $(elem).is("script");
+    return $(elem).is(":displayNone") || $(elem).is("script");
 };
 
 Wireframe.processDoNothing = function(){
@@ -262,7 +262,4 @@ Wireframe.processFormSelect = function(node){
 
 jQuery.expr[":"].displayNone = function(elem) {
     return $(elem).css("display") === "none";
-};
-jQuery.expr[":"].toSmall = function(elem) {
-    return $(elem).width() < 2 && $(elem).height() < 2;
 };

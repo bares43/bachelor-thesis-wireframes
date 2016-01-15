@@ -32,7 +32,7 @@ String.prototype.getAllOccurrences = function(char){
     GRAY_INPUT : "#b0b0b0",
     GRAY_OTHER : "#9d9d9d",
 
-    elementTypes: ["DoNothing","Image","FormInputText","FormInputSubmit","FormTextarea", "FormSelect" ,"Text",/*"BackgroundImage",*/"Iframe","Element"],
+    elementTypes: ["DoNothing","Image","FormInputText","FormInputSubmit","FormTextarea", "FormSelect" ,"Text","Iframe","Element"],
 
     defaultNodeOptions:{
         position:true,
@@ -42,14 +42,6 @@ String.prototype.getAllOccurrences = function(char){
 
     wireframeOptions:{},
     container : null,
-
-    basePosition: function(el, original,nodeOptions){
-        //el.css("position", "absolute");
-        //el.css("top", (original.offset().top + nodeOptions.positionTopAdd) + "px");
-        //el.css("left", (original.offset().left + nodeOptions.positionLeftAdd) + "px");
-        //el.css("width", original.width() + "px");
-        //el.css("height", original.height() + "px");
-    },
 
     append : function(element){
         Wireframe.container.append(element);
@@ -126,7 +118,6 @@ String.prototype.getAllOccurrences = function(char){
 
             this.walk(Wireframe.container,{});
 
-
             $("html,body",container).css("background","none");
             $("html,body",container).css("background-color","white");
 
@@ -164,7 +155,7 @@ Wireframe.processIframe = function(node){
 
 // dont process
 jQuery.expr[":"].isDoNothing = function(elem){
-    return $(elem).is(":displayNone") || /*$(elem).is(":toSmall") ||*/ $(elem).is("script");
+    return $(elem).is(":displayNone") || $(elem).is("script");
 };
 
 Wireframe.processDoNothing = function(){
@@ -402,9 +393,6 @@ Wireframe.processFormSelect = function(node){
 
 jQuery.expr[":"].displayNone = function(elem) {
     return $(elem).css("display") === "none";
-};
-jQuery.expr[":"].toSmall = function(elem) {
-    return $(elem).width() < 2 && $(elem).height() < 2;
 };$.fn.wireframeReplacing = function(options, response){
 
     var defaults = {

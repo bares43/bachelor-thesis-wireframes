@@ -14,7 +14,7 @@ var Wireframe = {
     GRAY_INPUT : "#b0b0b0",
     GRAY_OTHER : "#9d9d9d",
 
-    elementTypes: ["DoNothing","Image","FormInputText","FormInputSubmit","FormTextarea", "FormSelect" ,"Text",/*"BackgroundImage",*/"Iframe","Element"],
+    elementTypes: ["DoNothing","Image","FormInputText","FormInputSubmit","FormTextarea", "FormSelect" ,"Text","Iframe","Element"],
 
     defaultNodeOptions:{
         position:true,
@@ -24,14 +24,6 @@ var Wireframe = {
 
     wireframeOptions:{},
     container : null,
-
-    basePosition: function(el, original,nodeOptions){
-        //el.css("position", "absolute");
-        //el.css("top", (original.offset().top + nodeOptions.positionTopAdd) + "px");
-        //el.css("left", (original.offset().left + nodeOptions.positionLeftAdd) + "px");
-        //el.css("width", original.width() + "px");
-        //el.css("height", original.height() + "px");
-    },
 
     append : function(element){
         Wireframe.container.append(element);
@@ -107,7 +99,6 @@ var Wireframe = {
             Wireframe.container = container.find("body");
 
             this.walk(Wireframe.container,{});
-
 
             $("html,body",container).css("background","none");
             $("html,body",container).css("background-color","white");
