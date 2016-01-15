@@ -19,7 +19,7 @@ page.onResourceError = function(trace){
 var options = getOptions(system.args);
 
 
-var includeJsUrls = ["https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js",srvUrl+"lorem_ipsum_generator.min.js",srvUrl+"wireframe_combined.js"];
+var includeJsUrls = ["https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js",srvUrl+"lorem_ipsum_generator.min.js",srvUrl+"jss.min.js",srvUrl+"wireframe_combined.js"];
 
 if(options.customRules !== undefined && options.customRules.length > 0){
     includeJsUrls.push(srvUrl+"custom/"+options.customRules+".js");
