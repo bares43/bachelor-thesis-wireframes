@@ -30,9 +30,11 @@ try {
             $filename_wf = "screens/" . $match[2] . "_wf_" . time() . ".png";
             $filename = "screens/" . $match[2] . "_" . time() . ".png";
 
+//            $options["originalScreenName"] = $filename;
+
             $options_string = getOptions($options);
 
-            $exec = PHANTOM_PATH . " " . APP_PATH . "phantom.js $url " . APP_PATH . "$filename_wf $filename " . APP_URL . " $options_string";
+            $exec = PHANTOM_PATH . " " . APP_PATH . "phantom.js $url " . APP_PATH . "$filename_wf " . APP_URL . " $options_string";
 
             exec($exec, $output);
 

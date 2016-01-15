@@ -3,8 +3,7 @@ var system = require('system');
 
 var url = system.args[1];
 var filename_wf = system.args[2];
-var filename = system.args[3];
-var srvUrl = system.args[4];
+var srvUrl = system.args[3];
 
 page.onConsoleMessage = function(msg) {
     console.log(msg);
@@ -17,7 +16,6 @@ page.onResourceError = function(trace){
 };
 
 var options = getOptions(system.args);
-
 
 var includeJsUrls = ["https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js",srvUrl+"lorem_ipsum_generator.min.js",srvUrl+"jss.min.js",srvUrl+"wireframe_combined.js"];
 
@@ -42,7 +40,9 @@ page.viewportSize = {width:options.viewportWidth,height:options.viewportHeight};
 page.settings.localToRemoteUrlAccessEnabled = true;
 page.open(url, function(status) {
     if ( status === "success" ) {
-        page.render(filename);
+        if(options.originalScreenName){
+            page.render(options.originalScreenName);
+        }
         includeJs(includeJsUrls, page, function() {
             page.evaluate(function(options, response) {
                 $(document).wireframeReplacing(options,response);
@@ -78,12 +78,12 @@ function includeJs(urls,page, callback){
 
 function getOptions(args){
     var options = {};
-    var testPatternValue = /^-[a-zA-Z]+=\w+$/;
+    var testPatternValue = /^-[a-zA-Z]+=[a-zA-Z0-9_.\/\\]+$/;
     var testPatternBoolean = /^-[a-zA-Z]+$/;
     for(var i = 0;i<args.length;i++){
         if(testPatternValue.test(args[i])){
             var name = /^-([a-zA-Z]+)=/.exec(args[i])[1];
-            var value = /=(\w+)$/.exec(args[i])[1];
+            var value = /=([a-zA-Z0-9_.\/\\]+)$/.exec(args[i])[1];
             if(/^\d+$/.test(value)){
                 value = parseInt(value);
             }
