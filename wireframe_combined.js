@@ -70,7 +70,7 @@ String.prototype.getAllOccurrences = function(char){
     GRAY_INPUT : "#b0b0b0",
     GRAY_OTHER : "#9d9d9d",
 
-    elementTypes: ["DoNothing","Image","FormInputText","FormInputSubmit","FormTextarea", "FormSelect" ,"Text","Iframe","Element"],
+    elementTypes: ["DoNothing","Image","FormInputText","FormInputSubmit","FormTextarea", "FormSelect" ,"Text","Iframe","Svg","Element"],
 
     defaultNodeOptions:{
         position:true,
@@ -466,6 +466,34 @@ Wireframe.processFormSelect = function(node){
     }
 
 
+};
+
+jQuery.expr[":"].isSvg = function(node){
+    return $(node).is("svg");
+};
+
+Wireframe.processSvg = function(node){
+
+    switch(Wireframe.wireframeOptions.imageMode){
+        case Wireframe.IMAGE_BOX:
+            var $node_wf = $("<div></div>").css({
+                width : node.width()+"px",
+                height : node.height()+"px",
+                backgroundColor : Wireframe.GRAY_OTHER
+            });
+            node.replaceWith($node_wf);
+            break;
+        case Wireframe.IMAGE_BLUR:
+            node.css("-webkit-filter","blur(10px)");
+            break;
+        case Wireframe.IMAGE_REMOVE:
+            node.css({
+                opacity : 0
+            });
+            break;
+    }
+
+    return {walkChilds : false};
 };
 
 jQuery.expr[":"].displayNone = function(elem) {

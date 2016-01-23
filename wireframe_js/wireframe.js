@@ -14,7 +14,7 @@ var Wireframe = {
     GRAY_INPUT : "#b0b0b0",
     GRAY_OTHER : "#9d9d9d",
 
-    elementTypes: ["DoNothing","Image","FormInputText","FormInputSubmit","FormTextarea", "FormSelect" ,"Text","Iframe","Element"],
+    elementTypes: ["DoNothing","Image","FormInputText","FormInputSubmit","FormTextarea", "FormSelect" ,"Text","Iframe","Svg","Element"],
 
     defaultNodeOptions:{
         position:true,
