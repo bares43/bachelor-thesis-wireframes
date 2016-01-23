@@ -49,39 +49,39 @@ var Wireframe = {
             transition : "none"
         });
 
-        Wireframe.processPseudoClasses(node);
+        Wireframe.processPseudoElements(node);
     },
 
-    processPseudoClasses : function(node){
+    processPseudoElements : function(node){
         var selector = node.getSelector(true);
 
-        var pseudo_classes = ["before","after"];
+        var pseudo_elements = ["before","after"];
 
-        $.each(pseudo_classes, function(i,pseudo_class){
-            var properties_before = window.getComputedStyle(node.get(0), ':'+pseudo_class) ;
+        $.each(pseudo_elements, function(i,pseudo_element){
+            var properties_before = window.getComputedStyle(node.get(0), ':'+pseudo_element) ;
 
             if(properties_before.getPropertyValue("background-image") !== "none"){
                 switch (Wireframe.wireframeOptions.imageMode){
                     case Wireframe.IMAGE_BLUR:
-                        jss.set(selector+":"+pseudo_class,{
+                        jss.set(selector+":"+pseudo_element,{
                             "-webkit-filter" : "blur(10px)"
                         });
                         break;
                     case Wireframe.IMAGE_BOX:
-                        jss.set(selector+":"+pseudo_class,{
+                        jss.set(selector+":"+pseudo_element,{
                             "background-color" : Wireframe.GRAY_IMAGE,
                             "background-image" : "none"
                         });
                         break;
                     case Wireframe.IMAGE_REMOVE:
-                        jss.set(selector+":"+pseudo_class,{
+                        jss.set(selector+":"+pseudo_element,{
                             "display" : "none"
                         });
                         break;
                 }
             }
             else if(properties_before.getPropertyValue("content").length > 0){
-                jss.set(selector+":"+pseudo_class,{
+                jss.set(selector+":"+pseudo_element,{
                     "display" : "none"
                 });
             }
