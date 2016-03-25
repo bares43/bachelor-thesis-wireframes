@@ -58,7 +58,7 @@ function load(){
     options["userAgent"] = $("select[name=userAgent] option:selected").val();
     options["customRules"] = $("select[name=customRules] option:selected").val();
 
-    $.post("app/wireframe.php",{url:url,options:options},function(response){
+    $.post("gui/wireframe.php",{url:url,options:options},function(response){
         try {
             var json = JSON.parse(response);
         }catch(err){

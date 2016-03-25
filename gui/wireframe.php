@@ -37,7 +37,7 @@ try {
                 $phantom_path = PHANTOM_PATH;
             }
 
-            $exec = sprintf("%s \"%s\\phantom.js\" %s \"%s\" %s",$phantom_path,__DIR__,$url,__DIR__.$filename_wireframe,$options_string);
+            $exec = sprintf("%s \"%s\\phantom.js\" %s \"%s\" %s",$phantom_path,__DIR__."/../app/",$url,__DIR__.$filename_wireframe,$options_string);
 
             exec($exec, $output);
 
