@@ -6,8 +6,9 @@
  * Time: 13:28
  */
 
-require "config.php";
-require "colors.php";
+if(file_exists("config.php")){
+    require "config.php";
+}
 
 $url = $_POST["url"];
 $textMode = $_POST["textMode"];
@@ -27,42 +28,25 @@ try {
         if (checkUrl($url)) {
             preg_match("/^https?:\/\/(.+\.)?(.+)\.(.+)/", $url, $match);
 
-            $filename_wf = "screens/" . $match[2] . "_wf_" . time() . ".png";
-            $filename = "screens/" . $match[2] . "_" . time() . ".png";
-
-//            $options["originalScreenName"] = $filename;
+            $filename_wireframe = "/../screens/" . $match[2] . "_wf_" . time() . ".png";
 
             $options_string = getOptions($options);
 
-            $exec = PHANTOM_PATH . " " . APP_PATH . "phantom.js $url " . APP_PATH . "$filename_wf " . APP_URL . " $options_string";
+            $phantom_path = "phantomjs";
+            if(defined("PHANTOM_PATH")){
+                $phantom_path = PHANTOM_PATH;
+            }
+
+            $exec = sprintf("%s \"%s\\phantom.js\" %s \"%s\" %s",$phantom_path,__DIR__,$url,__DIR__.$filename_wireframe,$options_string);
 
             exec($exec, $output);
 
             /** @var array $response_from_phantom */
             $response_from_phantom = json_decode($output[count($output)-1], true);
 
-//        if(true){
-            if (file_exists($filename_wf)) {
+            if (file_exists(__DIR__.$filename_wireframe)) {
                 $response["state"] = "success";
-                $response["filename"] = $filename_wf;
-
-                if (file_exists($filename)) {
-//                echo $options["viewportWidth"];
-//                echo min(2*$options["viewportHeight"],2000);
-
-                    $width = min($options["viewportWidth"], 1280);
-                    $height = min(2 * $options["viewportHeight"], 720);
-
-                    $img = imagecreatetruecolor($width, $height);
-                    $org_img = imagecreatefrompng($filename);
-                    imagecopy($img, $org_img, 0, 0, 0, 0, $width, $height);
-                    imagepng($img, $filename, 9);
-                }
-
-                $colors = color_analysis($filename, 5);
-
-                $response["colors"] = json_encode($colors);
-
+                $response["filename"] = $filename_wireframe;
             } else {
                 $response["state"] = "failed";
                 $response["msg"] = "Wireframe se nepodařilo vytvořit.";

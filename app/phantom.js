@@ -14,12 +14,10 @@ page.onResourceError = function(trace){
     console.log(JSON.stringify(trace));
 };
 
-console.log(JSON.stringify(window.location));
-
 var options = getOptions(system.args);
 
 var includeJsUrls = ["https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"];
-var injectJsFiles = ["./lorem_ipsum_generator.min.js","./jss.min.js","./wireframe_combined.js"];
+var injectJsFiles = ["../libs/lorem_ipsum_generator.min.js","../libs/jss.min.js","./wireframe.js"];
 
 if(options.customRules !== undefined && options.customRules.length > 0){
     injectJsFiles.push("./custom/"+options.customRules+".js");
@@ -50,6 +48,7 @@ page.open(url, function(status) {
             }, options, response);
 
             setTimeout(function () {
+                console.log(filename_wf);
                     page.render(filename_wf);
                     phantom.exit();
             }, 0);

@@ -37,12 +37,10 @@ function load(){
     var wfContainer = $("#wf-container");
     wfContainer.html("");
     $(".wireframe-download").remove();
-    var img = $("<img />").attr("src","./ajax-loader.gif");
+    var img = $("<img />").attr("src","./gui/images/ajax-loader.gif");
     wfContainer.append(img);
     wfContainer.show();
 
-    $("#color-analysis").hide();
-    $("#color-analysis tbody").html("");
     $("#show-output, #output").hide();
     $("#output").html("");
 
@@ -60,7 +58,7 @@ function load(){
     options["userAgent"] = $("select[name=userAgent] option:selected").val();
     options["customRules"] = $("select[name=customRules] option:selected").val();
 
-    $.post("wireframe.php",{url:url,options:options},function(response){
+    $.post("app/wireframe.php",{url:url,options:options},function(response){
         try {
             var json = JSON.parse(response);
         }catch(err){
@@ -73,20 +71,6 @@ function load(){
             wfContainer.append(img);
             var link = $("<a></a>").text("Stáhnout wireframe").attr("href", "./"+json.filename).attr("target","_blank").addClass("wireframe-download").attr("download",json.filename);
             $("#links").append(link);
-
-            if(json.colors !== undefined && json.colors !== null){
-                var colors = JSON.parse(json.colors);
-                $.each(colors,function(k,v){
-                   var tr = $("<tr></tr>");
-                   tr.append($("<td></td>").text("#"+k));
-                   var span = $("<span></span>").css("background-color","#"+k);
-                   tr.append($("<td></td>").append(span));
-                   tr.append($("<td></td>").text(v+"%"));
-
-                    $("#color-analysis tbody").append(tr);
-                });
-                $("#color-analysis").show();
-            }
         }else if(json.state === "failed"){
             $("#status").text(json.msg).addClass("error");
         }
