@@ -28,9 +28,23 @@ console.log(JSON.stringify(options));
 var response = {};
 
 switch(options.userAgent){
+    case "win81_firefox":
+        page.settings.userAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0";
+        break;
+    case "win81_chrome":
+        page.settings.userAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36";
+        break;
+    case "win81_ie11":
+        page.settings.userAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko";
+        break;
     case "android":
         page.settings.userAgent = "Mozilla/5.0 (Linux; Android 5.0.2; D5503 Build/14.5.A.0.270) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.133 Mobile Safari/537.36";
         break;
+    default:
+        if(options.userAgent !== "default"){
+            page.settings.userAgent = options.userAgent;
+        }
+
 }
 
 page.viewportSize = {width:options.viewportWidth,height:options.viewportHeight};
@@ -89,19 +103,19 @@ function injectJs(files, page){
 
 function getOptions(args){
     var options = {};
-    var testPatternValue = /^-[a-zA-Z]+=[a-zA-Z0-9_.\/\\]+$/;
+    var testPatternValue = /^-[a-zA-Z]+=.+$/;
     var testPatternBoolean = /^-[a-zA-Z]+$/;
     for(var i = 0;i<args.length;i++){
-        if(testPatternValue.test(args[i])){
+        if(testPatternBoolean.test(args[i])){
+            var name = /^-([a-zA-Z]+)$/.exec(args[i])[1];
+            options[name] = true;
+        }else if(testPatternValue.test(args[i])){
             var name = /^-([a-zA-Z]+)=/.exec(args[i])[1];
-            var value = /=([a-zA-Z0-9_.\/\\]+)$/.exec(args[i])[1];
+            var value = /=(.+)$/.exec(args[i])[1];
             if(/^\d+$/.test(value)){
                 value = parseInt(value);
             }
             options[name] = value;
-        }else if(testPatternBoolean.test(args[i])){
-            var name = /^-([a-zA-Z]+)$/.exec(args[i])[1];
-            options[name] = true;
         }
     }
     return options;

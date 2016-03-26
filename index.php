@@ -30,6 +30,9 @@
     <h3>User agent</h3>
     <select name="userAgent">
         <option value="default">Default</option>
+        <option value="win81_firefox">Win 8.1 Firefox</option>
+        <option value="win81_chrome">Win 8.1 Chrome</option>
+        <option value="win81_ie11">Win 8.1 IE 11</option>
         <option value="android">Android</option>
     </select>
 </div>
