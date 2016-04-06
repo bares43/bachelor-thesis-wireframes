@@ -33,7 +33,7 @@ String.prototype.getAllOccurrences = function(char){
                     }
                 }
             }
-            if (element.id && !/\s/.test(element.id)) {
+            if (element.id && !/\s|\./.test(element.id)) {
                 pieces.unshift(element.id);
                 pieces.unshift('#');
             }
