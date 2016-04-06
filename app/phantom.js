@@ -23,8 +23,6 @@ if(options.customRules !== undefined && options.customRules.length > 0){
     injectJsFiles.push("./custom/"+options.customRules+".js");
 }
 
-console.log(JSON.stringify(options));
-
 var response = {};
 
 switch(options.userAgent){
@@ -58,11 +56,9 @@ page.open(url, function(status) {
             injectJs(injectJsFiles, page);
             page.evaluate(function(options, response) {
                 $(document).wireframe(options,response);
-                console.log(JSON.stringify(response));
             }, options, response);
 
             setTimeout(function () {
-                console.log(filename_wf);
                     page.render(filename_wf);
                     phantom.exit();
             }, 0);
