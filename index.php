@@ -61,7 +61,7 @@ if(file_exists(__DIR__."/custom")) {
 ?>
 <div style="float: left; margin-left: 15px; width: 200px;">
     <a href="https://github.com/bares43/bachelors_thesis_wireframes" target="_blank">GitHub</a>
-    <p>Zpracováno jako součást bakalářské práce na téma "<strong>Význam rozložení stránky pro identitu webu</strong>".</p>
+    <p>Zpracováno jako součást bakalářské práce na téma "<strong>Význam designu stránky pro identitu webu</strong>".</p>
     <a href="http://janbares.cz">Jan Bareš</a>, 2015-2016
 </div>
 <form style="clear: both;">
